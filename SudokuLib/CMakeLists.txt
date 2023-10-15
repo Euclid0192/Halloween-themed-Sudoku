@@ -20,6 +20,8 @@ set(SOURCE_FILES
         Xray.h
         Level.cpp
         Level.h
+        Container.cpp
+        Container.h
 )
 
 set(wxBUILD_PRECOMP OFF)
