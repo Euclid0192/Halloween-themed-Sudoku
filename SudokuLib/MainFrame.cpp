@@ -17,10 +17,10 @@ void MainFrame::Initialize()
     // one above each other
     auto sizer = new wxBoxSizer( wxHORIZONTAL );
 
-//    auto view = new GameView();
-//    view->Initialize(this);
-//
-//    sizer->Add(view, 1, wxEXPAND | wxALL );
+    auto view = new GameView();
+    view->Initialize(this);
+
+    sizer->Add(view, 1, wxEXPAND | wxALL );
 
     // Set the sizer for this frame
     SetSizer( sizer );

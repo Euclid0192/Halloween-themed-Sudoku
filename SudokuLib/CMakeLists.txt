@@ -26,6 +26,18 @@ set(SOURCE_FILES
         Solver.h
         ScoreBoard.cpp
         ScoreBoard.h
+        DigitDeclaration.cpp
+        DigitDeclaration.h
+        DeclarationVisitor.cpp
+        DeclarationVisitor.h
+        Declaration.cpp
+        Declaration.h
+        SetGivenVisitor.cpp
+        SetGivenVisitor.h
+        SpartyDeclaration.cpp
+        SpartyDeclaration.h
+        XrayDeclaration.cpp
+        XrayDeclaration.h
 )
 
 set(wxBUILD_PRECOMP OFF)

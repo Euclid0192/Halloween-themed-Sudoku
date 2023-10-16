@@ -8,9 +8,16 @@
 #include "pch.h"
 #include "Game.h"
 #include "Item.h"
+#include "Declaration.h"
 #include "Sparty.h"
 #include "Digit.h"
 #include "Xray.h"
+#include "SpartyDeclaration.h"
+#include "XrayDeclaration.h"
+#include "DigitDeclaration.h"
+
+#include "SetGivenVisitor.h"
+
 
 #include<iostream>
 
@@ -39,21 +46,61 @@ void Game::SetImagesDirectory(const wstring &dir) {
 /**  Draw the game
 * @param graphics The GDI+ graphics context to draw on
 */
-void Game::OnDraw(wxDC* graphics)
+void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int height)
 {
+    ///Handling Virtual Pixels
+    ///Whoever takes charge of implementing virtual pixels would continue on this...
+    // Determine the size of the playing area in pixels
+    // This is up to you...
+    int pixelWidth = 1440;
+    int pixelHeight = 960;
+
+    //
+    // Automatic Scaling
+    //
+    auto scaleX = double(width) / double(pixelWidth);
+    auto scaleY = double(height) / double(pixelHeight);
+    mScale = min(scaleX, scaleY);
+
+    mXOffset = (width - pixelWidth * mScale) / 2.0;
+    mYOffset = 0;
+    if (height > pixelHeight * mScale)
+    {
+        mYOffset = (double)((height - pixelHeight * mScale) / 2.0);
+    }
+
+    graphics->PushState();
+
+    graphics->Translate(mXOffset, mYOffset);
+    graphics->Scale(mScale, mScale);
+
+    //
+    // Drawing a rectangle that is the playing area size
+    //
+    wxBrush background(*wxYELLOW);
+
+    graphics->SetBrush(background);
+    graphics->DrawRectangle(0, 0, pixelWidth, pixelHeight);
+    //
+    // Draw in virtual pixels on the graphics context
+    //
     for (auto item : mItems)
     {
         item->Draw(graphics);
     }
+    graphics->PopState();
 }
 
 /**  Add an item to the game collections of declarations
 * @param item: new item to add
 */
-void Game::AddDeclaration(shared_ptr<Item> item)
+void Game::AddDeclaration(shared_ptr<Declaration> declaration)
 {
-    wstring id = item->GetId();
-    mDeclarations[id] = item;
+    wstring id = declaration->GetId();
+    mDeclarations[id] = declaration;
+    ///I have stored all the declarations loaded into a map, where key is id and value is the pointer to item
+    ///So that when we load the actual items in the game, we can just access its declaration without loading again
+
 }
 
 /**  Add an item to the game collections of actual items
@@ -101,6 +148,7 @@ void Game::MoveToFront(std::shared_ptr<Item> item)
 
 }
 
+///Needs implementation of this function
 ///**  Handle updates for animation
 //* @param elapsed The time since the last update
 //*/
@@ -137,6 +185,7 @@ void Game::Load(const wxString &filename)
     //
     // Traverse the children of the root
     // node of the XML document in memory!!!!
+    // The order of children tags in the xml file is declarations -> game -> items
     //
     auto node = root->GetChildren();
     ///Current node is at declarations
@@ -164,11 +213,52 @@ void Game::Load(const wxString &filename)
 void Game::XmlDeclaration(wxXmlNode *node)
 {
     // A pointer for the item we are loading
-    std::shared_ptr<Item> item;
+    std::shared_ptr<Declaration> declaration = nullptr;
 
     // We have an item. What type?
     auto name = node->GetName();
     if (name == L"given" || name == L"digit")
+    {
+        declaration = make_shared<DigitDeclaration>(this);
+        ///If given, set given to true
+        if (name == L"given")
+        {
+            SetGivenVisitor visitor;
+            declaration->Accept(&visitor);
+        }
+    }
+    else if (name == L"sparty")
+    {
+        declaration = make_shared<SpartyDeclaration>(this);
+    }
+    else if (name == L"xray")
+    {
+        declaration = make_shared<XrayDeclaration>(this);
+    }
+
+    if (declaration != nullptr)
+    {
+        declaration->XmlLoad(node);
+        AddDeclaration(declaration);
+    }
+}
+
+/**
+ * Handle an XML node for a game item.
+ * @param node
+*/
+void Game::XmlItem(wxXmlNode* node)
+{
+    // A pointer for the item and declaration we are loading
+    std::shared_ptr<Declaration> declaration = nullptr;
+    std::shared_ptr<Item> item = nullptr;
+
+    // We have an item. What type?
+    auto id = node->GetAttribute(L"id", L"").ToStdWstring();
+    declaration = mDeclarations[id];
+
+    auto name = node->GetName();
+    if (name == L"digit" || name == L"given")
     {
         item = make_shared<Digit>(this);
     }
@@ -180,28 +270,12 @@ void Game::XmlDeclaration(wxXmlNode *node)
     {
         item = make_shared<Xray>(this);
     }
-
     if (item != nullptr)
     {
-        item->XmlLoadDeclaration(node);
-        AddDeclaration(item);
+        item->SetDeclaration(declaration);
+        item->XmlLoad(node);
+        AddItem(item);
     }
-}
-
-/**
- * Handle an XML node for a game item.
- * @param node
-*/
-void Game::XmlItem(wxXmlNode* node)
-{
-    // A pointer for the item we are loading
-    std::shared_ptr<Item> item;
-
-    // We have an item. What type?
-    auto id = node->GetAttribute(L"id", L"").ToStdWstring();
-    item = mDeclarations[id];
-    item->XmlLoadItem(node);
-    AddItem(item);
 }
 
 /**
@@ -212,6 +286,18 @@ void Game::XmlItem(wxXmlNode* node)
 void Game::Clear()
 {
     mItems.clear();
+}
+
+///Whoever works on this class can continue this to handle mouse click
+/**
+* Handle a mouse click
+* @param x X location clicked on
+* @param y Y location clicked on
+*/
+void Game::OnLeftDown(int x, int y)
+{
+    double oX = (x - mXOffset) / mScale;
+    double oY = (y - mYOffset) / mScale;
 }
 
 

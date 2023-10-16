@@ -5,11 +5,13 @@
  * A base class for any items in the game
  */
 
-#ifndef TARTARUS_SUDOKULIB_ITEM_H
-#define TARTARUS_SUDOKULIB_ITEM_H
+#ifndef ACTIONSUDOKU_SUDOKULIB_ITEM_H
+#define ACTIONSUDOKU_SUDOKULIB_ITEM_H
 
 #include<string>
 #include<memory>
+
+#include "Declaration.h"
 
 class Game;
 /**
@@ -21,41 +23,40 @@ private:
     /// The game that this item belongs to
     Game   *mGame;
 
-    ///id of item
-    std::wstring mId;
     ///Location in the mainframe
     int mX, mY ;
 
-    ///Width and Height
-    int mWidth, mHeight;
-
     ///Row and column in the game
-    int mRow, mCol;
+    double mRow, mCol;
 
-    /// The image for this item
-    std::unique_ptr<wxImage> mItemImage;
+    /// The image for this Item
+    std::unique_ptr<wxImage> mImage;
 
-    /// The bitmap for this item
-    std::unique_ptr<wxBitmap> mItemBitmap;
+    /// The item bitmap
+    wxGraphicsBitmap mBitmap;
+
+    ///Corresponding declaration of this item
+    std::shared_ptr<Declaration> mDeclaration;
 
 public:
     Item(Game *game);
     Item() = delete;
     Item(const Item &) = delete;
     virtual ~Item();
-    virtual void SetImage(const std::wstring &path);
 
     /**
-     * Get id of item
+     * Get the id of item
      * @return id of item
      */
-    std::wstring GetId() { return mId; };
+    std::wstring GetId() { return mDeclaration->GetId(); };
     /**
      * Get the X location of the item
+     * @return X location of the item in the game
      */
     int GetX() { return mX;};
     /**
      * Get the Y location of the item
+     * @return Y location of the item in the game
      */
     int GetY() { return mY; };
     /**
@@ -64,30 +65,21 @@ public:
      * @param y : y coordinate
      */
     void SetLocation(int x, int y) { mX = x; mY = y;};
-
     /**
-     * Get the mRow of the item
+     * Get the declaration of an item
+     * @return declaration of the item
      */
-    int GetRow() { return mRow;};
+    std::shared_ptr<Declaration> GetDeclaration() { return mDeclaration; };
     /**
-     * Setter for mRow
-     * @param row : value to be set
+     * Set the declaration for an item
+     * @param declaration : declaration we want to set
      */
-    void SetRow(int row) { mRow = row; };
-    /**
-     * Get the mCol of the item
-     */
-    int GetCol() { return mCol; };
-    /**
-     * Setter for mCol
-     * @param col
-     */
-    void SetCol(int col) { mCol = col; };
+    virtual void SetDeclaration(std::shared_ptr<Declaration> declaration) { mDeclaration = declaration; };
+    std::wstring GetImagesDirectory();
 
     virtual bool HitTest(int x, int y);
-    virtual void Draw(wxDC *dc);
-    virtual void XmlLoadDeclaration(wxXmlNode *node);
-    void XmlLoadItem(wxXmlNode *node);
+    virtual void Draw(std::shared_ptr<wxGraphicsContext> graphics);
+    virtual void XmlLoad(wxXmlNode *node);
 };
 
-#endif //TARTARUS_SUDOKULIB_ITEM_H
+#endif //ACTIONSUDOKU_SUDOKULIB_ITEM_H

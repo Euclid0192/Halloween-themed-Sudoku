@@ -5,10 +5,11 @@
  * Class that implements a sudoku game
  */
 
-#ifndef TARTARUS_SUDOKULIB_GAME_H
-#define TARTARUS_SUDOKULIB_GAME_H
+#ifndef ACTIONSUDOKU_SUDOKULIB_GAME_H
+#define ACTIONSUDOKU_SUDOKULIB_GAME_H
 
 #include "Item.h"
+#include "Declaration.h"
 
 #include<string>
 #include<map>
@@ -19,13 +20,21 @@ class Game
 {
 private:
     ///All items in the Declarations
-    std::map<std::wstring, std::shared_ptr<Item>> mDeclarations;
+    std::map<std::wstring, std::shared_ptr<Declaration>> mDeclarations;
     ///All items that appear in the real game
     std::vector<std::shared_ptr<Item>> mItems;
     /// Directory containing the system images
     std::wstring mImagesDirectory;
     ///Directory containing the level xml files
     std::wstring mLevelsDirectory;
+    ///Scale for virtual pixel
+    double mScale;
+    /// X offset for virtual pixel
+    double mXOffset;
+    /// Y offset for virtual pixel
+    double mYOffset;
+
+    void OnLeftDown(int x, int y);
 public:
     Game();
     /**
@@ -33,12 +42,12 @@ public:
      */
     virtual ~Game() = default;
 
-    void AddDeclaration(std::shared_ptr<Item> item);
+    void AddDeclaration(std::shared_ptr<Declaration> declaration);
     void AddItem(std::shared_ptr<Item> item);
     std::shared_ptr<Item> HitTest(int x, int y);
     void MoveToFront(std::shared_ptr<Item> item);
 
-    void OnDraw(wxDC *graphics);
+    void OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int height);
 
     void Load(const wxString &filename);
     void XmlDeclaration(wxXmlNode *node);
@@ -56,4 +65,4 @@ public:
 
 };
 
-#endif //TARTARUS_SUDOKULIB_GAME_H
+#endif //ACTIONSUDOKU_SUDOKULIB_GAME_H

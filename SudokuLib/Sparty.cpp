@@ -26,7 +26,8 @@ const double HeadbuttTime = 0.5;
  */
 Sparty::Sparty(Game *game): Item(game)
 {
-    SetLocation(200, 200);
+    mSpeedX = MaxSpeed / 2;
+    mSpeedY = MaxSpeed / 2;
 }
 
 /**
@@ -34,82 +35,47 @@ Sparty::Sparty(Game *game): Item(game)
  * Overriden version of Draw inherited from Item
  * @param dc: device context to draw
  */
-void Sparty::Draw(wxDC *dc)
+void Sparty::Draw(shared_ptr<wxGraphicsContext> graphics)
 {
     if (mImage1 != nullptr && mImage2 != nullptr)
     {
+        mBitmap1 = graphics->CreateBitmapFromImage(*mImage1);
         int wid1 = mImage1->GetWidth();
         int hit1 = mImage1->GetHeight();
 
-        dc->DrawBitmap(*mBitmap1,
-                       int(GetX() - wid1 / 2),
-                       int(GetY() - hit1 / 2));
 
+        mBitmap2 = graphics->CreateBitmapFromImage(*mImage2);
         int wid2 = mImage2->GetWidth();
         int hit2 = mImage2->GetHeight();
 
-        dc->DrawBitmap(*mBitmap2,
-                       int(GetX() - wid1 / 2 ),
-                       int(GetY() - hit1 / 2 ));
+        graphics->DrawBitmap(mBitmap1, int(GetX()), int(GetY()), wid1, hit1);
+        graphics->DrawBitmap(mBitmap2, int(GetX()), int(GetY()), wid2, hit2);
     }
 }
 
 /**
- * Set the pivot value angle, x, and y
- * @param pivot: the pivot we need to set
- * @param angle: pivot angle
- * @param x: pivot x
- * @param y: pivot y
+ * Override version of XmlLoad for Sparty since it has two images
+ * @param node : xml node that we are loading from
  */
-void Sparty::SetPivot(Pivot &pivot, double angle, int x, int y)
+void Sparty::XmlLoad(wxXmlNode *node)
 {
-    pivot.angle = angle;
-    pivot.x = x;
-    pivot.y = y;
+    Item::XmlLoad(node);
+    shared_ptr<Declaration> declaration = GetDeclaration();
+    vector<wstring> imagePaths = declaration->GetImagePaths();
+    wstring imagePath1 = imagePaths[0], imagePath2 = imagePaths[1];
+
+    if (!imagePath1.empty() && !imagePath2.empty())
+    {
+        wstring filename1 = GetImagesDirectory() + L"/" + imagePath1;
+        mImage1 = std::make_unique<wxImage>(filename1, wxBITMAP_TYPE_ANY);
+        wstring filename2 = GetImagesDirectory() + L"/" + imagePath2;
+        mImage2 = std::make_unique<wxImage>(filename2, wxBITMAP_TYPE_ANY);
+    }
+    else
+    {
+        mImage1.release();
+        mImage2.release();
+    }
 }
 
-/**
- * Overriden version of XmlLoadDeclaration
- * @param node: node that we load attributes from
- */
-void Sparty::XmlLoadDeclaration(wxXmlNode *node)
-{
-    Item::XmlLoadDeclaration(node);
-    ///Load images' paths
-    wstring SpartyImage1 = node->GetAttribute(L"image1", L"").ToStdWstring();
-    wstring SpartyImage2 = node->GetAttribute(L"image2", L"").ToStdWstring();
-
-    SpartyImage1 = L"./images/" + SpartyImage1;
-    SpartyImage2 = L"./images/" + SpartyImage2;
-
-    mImage1 = make_unique<wxImage>(SpartyImage1, wxBITMAP_TYPE_ANY);
-    mImage2 = make_unique<wxImage>(SpartyImage2, wxBITMAP_TYPE_ANY);
-    mBitmap1 = make_unique<wxBitmap>(*mImage1);
-    mBitmap2 = make_unique<wxBitmap>(*mImage2);
-
-    ///Load front
-    long front;
-    node->GetAttribute(L"front", L"0").ToLong(&front);
-    mFront = (int)front;
-
-    ///Load mouth pivot
-    double angle;
-    long  x, y;
-    node->GetAttribute(L"mouth-pivot-angle", L"0").ToDouble(&angle);
-    node->GetAttribute(L"mouth-pivot-x", L"0").ToLong(&x);
-    node->GetAttribute(L"mouth-pivot-y", L"0").ToLong(&y);
-    SetPivot(mMouthPivot, angle, x, y);
-
-    ///Load Head pivot
-    node->GetAttribute(L"head-pivot-angle", L"0").ToDouble(&angle);
-    node->GetAttribute(L"head-pivot-x", L"0").ToLong(&x);
-    node->GetAttribute(L"head-pivot-y", L"0").ToLong(&y);
-    SetPivot(mHeadPivot, angle, x, y);
-
-    ///Load target x and y
-    node->GetAttribute(L"target-x", L"0").ToLong(&x);
-    node->GetAttribute(L"target-y", L"0").ToLong(&y);
-    mTargetX = (int)x;
-    mTargetY = (int)y;
-}
 

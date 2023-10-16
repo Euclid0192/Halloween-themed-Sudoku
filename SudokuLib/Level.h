@@ -5,8 +5,8 @@
  *
  */
 
-#ifndef TARTARUS_SUDOKULIB_LEVEL_H
-#define TARTARUS_SUDOKULIB_LEVEL_H
+#ifndef ACTIONSUDOKU_SUDOKULIB_LEVEL_H
+#define ACTIONSUDOKU_SUDOKULIB_LEVEL_H
 
 #include "SudokuGame.h"
 
@@ -42,4 +42,4 @@ public:
     //Need to calculate screen pixel size and pass to MainFrame
 };
 
-#endif //TARTARUS_SUDOKULIB_LEVEL_H
+#endif //ACTIONSUDOKU_SUDOKULIB_LEVEL_H

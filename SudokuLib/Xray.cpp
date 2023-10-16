@@ -17,15 +17,3 @@ Xray::Xray(Game *game): Item(game)
 {
 
 }
-
-/**
- * Override XmlLoadDeclaration in Item
- * @param node: node that we load attributes from
- */
-void Xray::XmlLoadDeclaration(wxXmlNode *node)
-{
-    Item::XmlLoadDeclaration(node);
-    long capacity;
-    node->GetAttribute(L"capacity", L"0").ToLong(&capacity);
-    mCapacity = (int) capacity;
-}

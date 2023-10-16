@@ -5,8 +5,8 @@
  *
  */
 
-#ifndef TARTARUS_SUDOKULIB_PCH_H
-#define TARTARUS_SUDOKULIB_PCH_H
+#ifndef ACTIONSUDOKU_SUDOKULIB_PCH_H
+#define ACTIONSUDOKU_SUDOKULIB_PCH_H
 
 #include <wx/wxprec.h>
 #ifndef WX_PRECOMP
@@ -14,5 +14,6 @@
 #endif
 
 #include <wx/xml/xml.h>
+#include<wx/graphics.h>
 
-#endif //TARTARUS_SUDOKULIB_PCH_H
+#endif //ACTIONSUDOKU_SUDOKULIB_PCH_H

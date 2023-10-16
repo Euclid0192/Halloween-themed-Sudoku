@@ -13,4 +13,6 @@
 #include <wx/wx.h>
 #endif
 
+#include<wx/graphics.h>
+
 #endif //TARTARUS__PCH_H
