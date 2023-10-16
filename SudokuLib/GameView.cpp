@@ -20,6 +20,11 @@ void GameView::Initialize(wxFrame* mainFrame)
     Create(mainFrame, wxID_ANY);
     SetBackgroundStyle(wxBG_STYLE_PAINT);
     Bind(wxEVT_PAINT, &GameView::OnPaint, this);
+
+    mClockTimer.Bind(wxEVT_TIMER, &GameView::OnScoreTimer, this);
+
+    //Initialize the scoreboard timer and start it so that it sends an event every 1000 millisecond = 1 second
+    mClockTimer.Start(1000);
 }
 
 /**
@@ -36,4 +41,16 @@ void GameView::OnPaint(wxPaintEvent &event)
 
     mGame.Load(L"../levels/level1.xml");
     mGame.OnDraw(&dc);
+
+    //Draw the scoreboard
+    //mClock.Draw(&dc);
+}
+
+/**
+ * ScoreBoard event, updates the clock and redraws
+ * @param event
+ */
+void GameView::OnScoreTimer(wxTimerEvent& event){
+    mClock.UpdateTime();
+    wxWindow::Refresh();
 }

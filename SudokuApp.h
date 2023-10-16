@@ -14,7 +14,7 @@
 class SudokuApp :public wxApp
 {
 public:
-    virtual bool OnInit();
+    bool OnInit() override;
 };
 
 #endif //TARTARUS__SUDOKUAPP_H

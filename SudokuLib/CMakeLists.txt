@@ -24,6 +24,8 @@ set(SOURCE_FILES
         Container.h
         Solver.cpp
         Solver.h
+        ScoreBoard.cpp
+        ScoreBoard.h
 )
 
 set(wxBUILD_PRECOMP OFF)
