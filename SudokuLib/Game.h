@@ -11,6 +11,7 @@
 #include "Item.h"
 #include "Declaration.h"
 
+#include "Level.h"
 #include<string>
 #include<map>
 #include<memory>
@@ -49,9 +50,9 @@ public:
 
     void OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int height);
 
-    void Load(const wxString &filename);
-    void XmlDeclaration(wxXmlNode *node);
-    void XmlItem(wxXmlNode *node);
+    //void Load(const wxString &filename);
+//    void XmlDeclaration(wxXmlNode *node);
+//    void XmlItem(wxXmlNode *node);
     void Clear();
 
     void Update(double elapsed);
@@ -63,6 +64,11 @@ public:
     const std::wstring &GetImagesDirectory() const { return mImagesDirectory; }
     void SetImagesDirectory(const std::wstring &dir);
 
+    /**
+     * Get the declaration of a certain ID
+     * @return declaration of item
+     */
+     std::shared_ptr<Declaration> GetDeclaration(std::wstring* id) { return mDeclarations[*id]; }
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_GAME_H

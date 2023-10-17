@@ -8,6 +8,7 @@
 #ifndef ACTIONSUDOKU_SUDOKULIB_LEVEL_H
 #define ACTIONSUDOKU_SUDOKULIB_LEVEL_H
 
+
 #include "SudokuGame.h"
 
 /**
@@ -16,6 +17,9 @@
 class Level
 {
 private:
+    /// Pointer to our game class
+    Game* mGame;
+
     /// Width of a tile in pixels
     int tileWidth = 0;
 
@@ -30,12 +34,16 @@ private:
 
 public:
     /// Default constructor (disabled)
-    Level() = delete;
+    //Level() = delete;
 
     ///Copy constructor (disabled)
-    Level(const Level &) = delete;
+    //Level(const Level &) = delete;
 
-    //when game starts load up level 0
+    void Load(const wxString &filename);
+    void XmlDeclaration(wxXmlNode *node);
+    void XmlItem(wxXmlNode *node);
+
+    void SetGame(Game* game) { mGame = game; }
 
     //when level change menu is pressed read the correct XML file
     // Should main load occur in the SudokuGame class since it know about all other classes

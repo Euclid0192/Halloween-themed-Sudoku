@@ -39,9 +39,8 @@ void GameView::OnPaint(wxPaintEvent &event)
     // Create a graphics context
     auto graphics = std::shared_ptr<wxGraphicsContext>(wxGraphicsContext::Create( dc ));
 
-    ///This load is just for developing purposes
-    ///After we have got the level class, this should be removed
-    mGame.Load(L"../levels/level1.xml");
+    mLevel.SetGame(&mGame);                                         //Makes sure that the level class knows what game class we are working with
+    mLevel.Load(L"../levels/level1.xml");                   //
     // Tell the game class to draw
     wxRect rect = GetRect();
     mGame.OnDraw(graphics, rect.GetWidth(), rect.GetHeight());
