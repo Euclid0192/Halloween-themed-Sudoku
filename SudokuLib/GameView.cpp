@@ -44,4 +44,7 @@ void GameView::OnPaint(wxPaintEvent &event)
     // Tell the game class to draw
     wxRect rect = GetRect();
     mGame.OnDraw(graphics, rect.GetWidth(), rect.GetHeight());
+
+    // Draw the scoreboard
+    mScoreBoard.Draw(graphics);
 }

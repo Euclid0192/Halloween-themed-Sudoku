@@ -1,34 +1,59 @@
 /**
  * @file ScoreBoard.cpp
  * @author anamo
+ * @author Yaxuan Tang
+ *
+ * The class for Scoreboard
  */
 
 #include "pch.h"
+#include <wx/graphics.h>
 #include "ScoreBoard.h"
+#include <sstream>
 
-/// Size of the scoreboard text in virtual pixels
-const int ScoreboardTextSize = 64;
+using namespace std;
 
-/// Top left corner of the scoreboard in virtual pixels
-const wxPoint ScoreboardTopLeft(10, 10);
-
+/**
+ * Constructor
+ */
 ScoreBoard::ScoreBoard(){
-    mMinutes = 0;
-    mSeconds = 0;
+
+    mTime = 0;
+    mTimer.SetOwner(this);
+    mTimer.Start(1000);
+
+    Bind(wxEVT_TIMER, &ScoreBoard::UpdateTime, this);
 }
 
-void ScoreBoard::UpdateTime() {
-    mSeconds++;
-    if (mSeconds >= 60) {
-        mSeconds = 0;
-        mMinutes++;
-    }
+/**
+ * Draw the timer
+ * @param graph reference to graph been draw
+ */
+void ScoreBoard::Draw(std::shared_ptr<wxGraphicsContext> graph) {
+
+    ///Set up the font
+    ///The color needs to changed to white when the background loads properly
+    wxGraphicsFont clock = graph ->CreateFont(ScoreboardTextSize, L"Timer", wxFONTFLAG_DEFAULT, *wxRED);
+    graph -> SetFont(clock);
+
+    ///Set up minutes and seconds
+    wstringstream minutes, seconds;
+    minutes << mTime/60 << ends;
+    seconds << mTime%60 << ends;
+
+    ///Draw the minutes and seconds
+    graph -> DrawText(minutes.str(), ScoreboardTopLeft.x + 64, ScoreboardTopLeft.y);
+    graph -> DrawText(L":", ScoreboardTopLeft.x + 50, ScoreboardTopLeft.y);
+    graph -> DrawText(seconds.str(),ScoreboardTopLeft.x,ScoreboardTopLeft.y);
+
+//    graphics->SetPen(wxColour(24, 69, 59));
+//    wxFont font(ScoreboardTextSize, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+//    graphics->SetFont(font);
+//    wxString timeStr = wxString::Format("%02d:%02d", mMinutes, mSeconds);
+//    graphics->DrawText(timeStr, ScoreboardTopLeft);
 }
 
-void ScoreBoard::Draw(wxDC* graphics) {
-    graphics->SetPen(wxColour(24, 69, 59));
-    wxFont font(ScoreboardTextSize, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-    graphics->SetFont(font);
-    wxString timeStr = wxString::Format("%02d:%02d", mMinutes, mSeconds);
-    graphics->DrawText(timeStr, ScoreboardTopLeft);
+void ScoreBoard::UpdateTime(wxTimerEvent& event)
+{
+    mTime++;
 }

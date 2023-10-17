@@ -9,6 +9,7 @@
 #define ACTIONSUDOKU_SUDOKULIB_GAMEVIEW_H
 
 #include "Game.h"
+#include "ScoreBoard.h"
 
 class GameView : public wxWindow
 {
@@ -17,6 +18,9 @@ private:
     Game mGame;
 
     Level mLevel;
+
+    ScoreBoard mScoreBoard;
+
 public:
     void Initialize(wxFrame *mainFrame);
     void OnPaint(wxPaintEvent &event);
