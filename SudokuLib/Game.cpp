@@ -78,10 +78,10 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
     //
     // Drawing a rectangle that is the playing area size
     //
-    wxBrush background(*wxYELLOW);
-
-    graphics->SetBrush(background);
-    graphics->DrawRectangle(0, 0, pixelWidth, pixelHeight);
+//    wxBrush background(*wxYELLOW);
+//
+//    graphics->SetBrush(background);
+//    graphics->DrawRectangle(0, 0, pixelWidth, pixelHeight);
     //
     // Draw in virtual pixels on the graphics context
     //

@@ -11,6 +11,7 @@
 class DigitDeclaration;
 class SpartyDeclaration;
 class XrayDeclaration;
+class BackgroundDeclaration;
 
 class DeclarationVisitor
 {
@@ -30,6 +31,10 @@ public:
      * Visit Xray
      */
     virtual void VisitXrayDeclaration(XrayDeclaration *xray) {}
+    /**
+     * Visit Background
+     */
+     virtual  void VisitBackgroundDeclaration(BackgroundDeclaration *background) {}
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_DECLARATIONVISITOR_H

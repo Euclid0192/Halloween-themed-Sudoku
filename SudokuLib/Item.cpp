@@ -93,12 +93,12 @@ void Item::XmlLoad(wxXmlNode *node)
     if (!imagePath.empty())
     {
         wstring filename = GetImagesDirectory() + L"/" + imagePath;
-        mImage = make_unique<wxImage>(filename, wxBITMAP_TYPE_ANY);
+        mImage = make_shared<wxImage>(filename, wxBITMAP_TYPE_ANY);
     }
-    else
-    {
-        mImage.release();
-    }
+//    else
+//    {
+//        mImage.release();   //
+//    }
     ///Get the row and col
     double row, col;
     node->GetAttribute(L"row", L"0").ToDouble(&row);

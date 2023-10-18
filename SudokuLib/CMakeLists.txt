@@ -38,6 +38,10 @@ set(SOURCE_FILES
         SpartyDeclaration.h
         XrayDeclaration.cpp
         XrayDeclaration.h
+        Background.cpp
+        Background.h
+        BackgroundDeclaration.cpp
+        BackgroundDeclaration.h
 )
 
 set(wxBUILD_PRECOMP OFF)

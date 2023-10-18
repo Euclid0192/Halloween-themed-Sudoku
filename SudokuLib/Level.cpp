@@ -15,6 +15,8 @@
 #include "XrayDeclaration.h"
 #include "DigitDeclaration.h"
 #include "SetGivenVisitor.h"
+#include "BackgroundDeclaration.h"
+#include "Background.h"
 
 #include<memory>
 #include<iostream>
@@ -42,6 +44,10 @@ void Level::Load(const wxString &filename)
 
     // Get the XML document root node
     auto root = xmlDoc.GetRoot();
+    root->GetAttribute(L"width").ToInt(&mScreenWidth);
+    root->GetAttribute(L"height").ToInt(&mScreenHeight);
+    root->GetAttribute(L"tilewidth").ToInt(&mTileWidth);
+    root->GetAttribute(L"tileheight").ToInt(&mTileHeight);
 
     //
     // Traverse the children of the root
@@ -96,6 +102,10 @@ void Level::XmlDeclaration(wxXmlNode *node)
     {
         declaration = make_shared<XrayDeclaration>(mGame);
     }
+    else if (name == L"background")
+    {
+        declaration = make_shared<BackgroundDeclaration>(mGame);
+    }
 
     if (declaration != nullptr)
     {
@@ -131,10 +141,46 @@ void Level::XmlItem(wxXmlNode* node)
     {
         item = make_shared<Xray>(mGame);
     }
+    else if (name == L"background")
+    {
+        item = make_shared<Background>(mGame);
+    }
     if (item != nullptr)
     {
         item->SetDeclaration(declaration);
         item->XmlLoad(node);
         mGame->AddItem(item);
     }
+}
+
+/**
+ * Save the level as a .xml XML file.
+ *
+ * Open an XML file and stream the game data to it.
+ *
+ * @param filename The filename of the file to save the level to
+ */
+void Level::Save(const wxString &filename)
+{
+    wxXmlDocument xmlDoc;
+
+    auto root = new wxXmlNode(wxXML_ELEMENT_NODE, L"level");
+    xmlDoc.SetRoot(root);
+
+    root->AddAttribute(L"width", wxString::FromDouble(mScreenWidth));
+    root->AddAttribute(L"height", wxString::FromDouble(mScreenHeight));
+    root->AddAttribute(L"tilewidth", wxString::FromDouble(mTileWidth));
+    root->AddAttribute(L"tileheight", wxString::FromDouble(mTileHeight));
+
+//    // Iterate over all items and save them
+//    for (auto item : mItems)
+//    {
+//        item->XmlSave(root);
+//    }
+//
+//    if(!xmlDoc.Save(filename, wxXML_NO_INDENTATION))
+//    {
+//        wxMessageBox(L"Write to XML failed");
+//        return;
+//    }
 }

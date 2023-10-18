@@ -30,7 +30,7 @@ private:
     double mRow, mCol;
 
     /// The image for this Item
-    std::unique_ptr<wxImage> mImage;
+    std::shared_ptr<wxImage> mImage;          //Had to change this from a unique_ptr to shared_prt let me know if it will be a problem
 
     /// The item bitmap
     wxGraphicsBitmap mBitmap;
@@ -80,6 +80,17 @@ public:
     virtual bool HitTest(int x, int y);
     virtual void Draw(std::shared_ptr<wxGraphicsContext> graphics);
     virtual void XmlLoad(wxXmlNode *node);
+
+    /**
+     * Get the bitmap of the item
+     * @return bitmap of the item
+     */
+    wxGraphicsBitmap GetBitmap() { return mBitmap; }
+    /**
+     * Get the image of the item
+     * @return image of the item
+     */
+    std::shared_ptr<wxImage> GetImage() { return mImage; }
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_ITEM_H
