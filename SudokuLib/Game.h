@@ -28,12 +28,13 @@ private:
     std::wstring mImagesDirectory;
     ///Directory containing the level xml files
     std::wstring mLevelsDirectory;
+
     ///Scale for virtual pixel
-    double mScale;
+    double mScale = 0;
     /// X offset for virtual pixel
-    double mXOffset;
+    double mXOffset = 0;
     /// Y offset for virtual pixel
-    double mYOffset;
+    double mYOffset = 0;
 
     void OnLeftDown(int x, int y);
 public:

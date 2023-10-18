@@ -48,3 +48,12 @@ void GameView::OnPaint(wxPaintEvent &event)
     // Draw the scoreboard
     mScoreBoard.Draw(graphics);
 }
+
+/**
+ * Be able to drag the sparty with the mouse
+ * @param event Mouse event object
+ */
+void GameView::OnLeftDown(wxMouseEvent &event)
+{
+
+}

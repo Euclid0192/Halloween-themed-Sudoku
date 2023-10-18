@@ -24,6 +24,7 @@ private:
 public:
     void Initialize(wxFrame *mainFrame);
     void OnPaint(wxPaintEvent &event);
+	void OnLeftDown(wxMouseEvent &event);
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_GAMEVIEW_H

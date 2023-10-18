@@ -53,8 +53,8 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
     ///Whoever takes charge of implementing virtual pixels would continue on this...
     // Determine the size of the playing area in pixels
     // This is up to you...
-    int pixelWidth = 1440;
-    int pixelHeight = 960;
+    int pixelWidth = 960;
+    int pixelHeight = 720;
 
     //
     // Automatic Scaling
@@ -65,6 +65,7 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
 
     mXOffset = (width - pixelWidth * mScale) / 2.0;
     mYOffset = 0;
+
     if (height > pixelHeight * mScale)
     {
         mYOffset = (double)((height - pixelHeight * mScale) / 2.0);
