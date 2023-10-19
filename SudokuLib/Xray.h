@@ -15,11 +15,19 @@
 class Xray : public Item
 {
 private:
-
+    ///Maximum number of digits hold
+    int mCapacity = 0;
 public:
     Xray(Game *game);
     Xray() = delete;
     Xray(const Xray &) = delete;
+
+    void XmlLoadDeclaration(wxXmlNode *node) override;
+    /**
+     * Accept a visitor
+     */
+    void Accept(ItemVisitor *visitor) { visitor->VisitXray(this); };
+    void Draw(std::shared_ptr<wxGraphicsContext> graphics);
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_XRAY_H

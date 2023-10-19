@@ -8,19 +8,15 @@
 #include "pch.h"
 #include "Game.h"
 #include "Item.h"
-#include "Declaration.h"
 #include "Sparty.h"
 #include "Digit.h"
 #include "Xray.h"
-#include "SpartyDeclaration.h"
-#include "XrayDeclaration.h"
-#include "DigitDeclaration.h"
-
-
-#include "SetGivenVisitor.h"
+#include "Background.h"
+#include "GetSpartyVisitor.h"
 
 
 #include<iostream>
+#include<cmath>
 
 using namespace std;
 
@@ -96,7 +92,7 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
 /**  Add an item to the game collections of declarations
 * @param item: new item to add
 */
-void Game::AddDeclaration(shared_ptr<Declaration> declaration)
+void Game::AddDeclaration(shared_ptr<Item> declaration)
 {
     wstring id = declaration->GetId();
     mDeclarations[id] = declaration;
@@ -151,16 +147,16 @@ void Game::MoveToFront(std::shared_ptr<Item> item)
 }
 
 ///Needs implementation of this function
-///**  Handle updates for animation
-//* @param elapsed The time since the last update
-//*/
-//void Game::Update(double elapsed)
-//{
-//    for (auto item : mItems)
-//    {
-//        item->Update(elapsed);
-//    }
-//}
+/**  Handle updates for animation
+* @param elapsed The time since the last update
+*/
+void Game::Update(double elapsed)
+{
+    for (auto item : mItems)
+    {
+        item->Update(elapsed);
+    }
+}
 
 /**
 *  Clear the game data.
@@ -169,7 +165,8 @@ void Game::MoveToFront(std::shared_ptr<Item> item)
 */
 void Game::Clear()
 {
-    mItems.clear();
+    if (!mItems.empty())
+        mItems.clear();
 }
 
 ///Whoever works on this class can continue this to handle mouse click
@@ -178,10 +175,40 @@ void Game::Clear()
 * @param x X location clicked on
 * @param y Y location clicked on
 */
-void Game::OnLeftDown(int x, int y)
+void Game::OnLeftDown(double x, double y)
 {
+    if (mSparty == nullptr)
+        return;
+
+    ///Set the distance Sparty has traveled to 0
+    mSparty->SetTraveled(0);
+
     double oX = (x - mXOffset) / mScale;
     double oY = (y - mYOffset) / mScale;
+
+    double distanceX = oX - mSparty->GetX() - mSparty->GetTargetX();
+    double distanceY = oY - mSparty->GetY() - mSparty->GetTargetY();
+    ///Calculate total distance we need to move
+    double distance = distanceX * distanceX + distanceY * distanceY;
+    distance = sqrt(distance);
+    mSparty->SetDistance(distance);
+
+    double speed = mSparty->GetMaxSpeed();
+    double speedX = speed * distanceX / distance;
+    double speedY = speed * distanceY / distance;
+
+    mSparty->SetSpeedX(speedX);
+    mSparty->SetSpeedY(speedY);
+    mSparty->SetUpdateState(true);
 }
 
+/**
+ * Accept a visitor
+ * @param visitor
+ */
+void Game::Accept(ItemVisitor *visitor)
+{
+    for (auto item: mItems)
+        item->Accept(visitor);
+}
 

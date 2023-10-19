@@ -24,6 +24,20 @@ Item::Item(Game *game): mGame(game)
 }
 
 /**
+ * Copy constructor
+ * @param item
+ */
+Item::Item(const Item &item)
+{
+    mGame = item.mGame;
+    mId = item.mId;
+    mWidth = item.mWidth;
+    mHeight = item.mHeight;
+    mImage = item.mImage;
+    mBitmap = item.mBitmap;
+}
+
+/**
  * Destructor
  */
 Item::~Item()
@@ -77,28 +91,36 @@ wstring Item::GetImagesDirectory()
 }
 
 /**
- * Load the attributes for the real item in the board
- *
- * This is the  base class version that loads the attributes
- * common to all items. Override this to load custom attributes
- * for specific items.
- *
- * @param node The Xml node we are loading the item from
+ * Load the declarations from xml node
+ * @param node : node that we are loading from
  */
-void Item::XmlLoad(wxXmlNode *node)
+void Item::XmlLoadDeclaration(wxXmlNode *node)
 {
-    ///Get image path from declaration and load image
-    vector<wstring> imagePaths = mDeclaration->GetImagePaths();
-    wstring imagePath = imagePaths[0];
+    ///Load id
+    mId = node->GetAttribute(L"id", L"").ToStdWstring();
+
+    ///Load width and height
+    long width, height;
+    node->GetAttribute(L"width", L"0").ToLong(&width);
+    node->GetAttribute(L"height", L"0").ToLong(&height);
+
+    mWidth = (int)width;
+    mHeight = (int)height;
+    ///Load image path
+    wstring imagePath = node->GetAttribute(L"image", L"").ToStdWstring();
     if (!imagePath.empty())
     {
         wstring filename = GetImagesDirectory() + L"/" + imagePath;
-        mImage = make_shared<wxImage>(filename, wxBITMAP_TYPE_ANY);
+        mImage = make_unique<wxImage>(filename, wxBITMAP_TYPE_ANY);
     }
-//    else
-//    {
-//        mImage.release();   //
-//    }
+}
+
+/**
+ * Load the actual items from the xml node
+ * @param node : node we are loading from
+ */
+void Item::XmlLoadItem(wxXmlNode *node)
+{
     ///Get the row and col
     double row, col;
     node->GetAttribute(L"row", L"0").ToDouble(&row);
@@ -106,7 +128,7 @@ void Item::XmlLoad(wxXmlNode *node)
     mRow = (double)row;
     mCol = (double)col;
     ///Calculate the correct location (lower-left corner of item)
-    int x = (int)(col * 48);
-    int y = (int)((row - 1) * 48);
+    int x = (int)(col * mGame->GetTileWidth());
+    int y = (int)((row - 1) * mGame->GetTileHeight());
     SetLocation(x, y);
 }

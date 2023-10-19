@@ -11,17 +11,17 @@
 #include "Game.h"
 #include "ScoreBoard.h"
 #include "IntroPage.h"
+#include "Level.h"
 
 class GameView : public wxWindow
 {
 private:
     ///The main game
     Game mGame;
-
+    ///The current level
     Level mLevel;
-
+    ///The score board
     ScoreBoard mScoreBoard;
-
 
     /// The timer that allows for animation
     wxTimer mTimer;

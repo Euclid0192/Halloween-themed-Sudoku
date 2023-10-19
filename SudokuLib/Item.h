@@ -8,10 +8,10 @@
 #ifndef ACTIONSUDOKU_SUDOKULIB_ITEM_H
 #define ACTIONSUDOKU_SUDOKULIB_ITEM_H
 
+#include "ItemVisitor.h"
 #include<string>
 #include<memory>
 
-#include "Declaration.h"
 
 class Game;
 /**
@@ -23,6 +23,12 @@ private:
     /// The game that this item belongs to
     Game   *mGame;
 
+    ///id of Declaration
+    std::wstring mId;
+
+    ///Width and Height
+    int mWidth, mHeight;
+
     ///Location in the mainframe
     int mX, mY ;
 
@@ -30,25 +36,32 @@ private:
     double mRow, mCol;
 
     /// The image for this Item
-    std::shared_ptr<wxImage> mImage;          //Had to change this from a unique_ptr to shared_prt let me know if it will be a problem
+    std::shared_ptr<wxImage> mImage;
 
     /// The item bitmap
     wxGraphicsBitmap mBitmap;
 
-    ///Corresponding declaration of this item
-    std::shared_ptr<Declaration> mDeclaration;
-
 public:
     Item(Game *game);
     Item() = delete;
-    Item(const Item &) = delete;
+    Item(const Item &);
     virtual ~Item();
 
     /**
      * Get the id of item
      * @return id of item
      */
-    std::wstring GetId() { return mDeclaration->GetId(); };
+    std::wstring GetId() { return mId; };
+    /**
+     * Get the width of the item
+     * @return width of item
+     */
+    int GetWidth() { return mWidth; };
+    /**
+     * Get the height of the item
+     * @return height of item
+     */
+    int GetHeight() { return mHeight;};
     /**
      * Get the X location of the item
      * @return X location of the item in the game
@@ -65,21 +78,22 @@ public:
      * @param y : y coordinate
      */
     void SetLocation(int x, int y) { mX = x; mY = y;};
-    /**
-     * Get the declaration of an item
-     * @return declaration of the item
-     */
-    std::shared_ptr<Declaration> GetDeclaration() { return mDeclaration; };
-    /**
-     * Set the declaration for an item
-     * @param declaration : declaration we want to set
-     */
-    virtual void SetDeclaration(std::shared_ptr<Declaration> declaration) { mDeclaration = declaration; };
     std::wstring GetImagesDirectory();
 
     virtual bool HitTest(int x, int y);
     virtual void Draw(std::shared_ptr<wxGraphicsContext> graphics);
-    virtual void XmlLoad(wxXmlNode *node);
+
+    virtual void Update(double elapsed) {};
+
+    virtual void XmlLoadDeclaration(wxXmlNode *node);
+    virtual void XmlLoadItem(wxXmlNode *node);
+
+    virtual std::shared_ptr<Item> Clone() { return nullptr; };
+    /**
+     * Accept a visitor
+     * @param visitor
+     */
+    virtual void Accept(ItemVisitor *visitor) { };
 
     /**
      * Get the bitmap of the item

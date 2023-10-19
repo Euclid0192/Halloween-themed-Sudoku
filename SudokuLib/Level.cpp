@@ -7,16 +7,11 @@
 #include "Game.h"
 #include "Level.h"
 #include "Item.h"
-#include "Declaration.h"
 #include "Sparty.h"
 #include "Digit.h"
 #include "Xray.h"
-#include "SpartyDeclaration.h"
-#include "XrayDeclaration.h"
-#include "DigitDeclaration.h"
-#include "SetGivenVisitor.h"
-#include "BackgroundDeclaration.h"
 #include "Background.h"
+#include "GetSpartyVisitor.h"
 
 #include<memory>
 #include<iostream>
@@ -48,6 +43,8 @@ void Level::Load(const wxString &filename)
     root->GetAttribute(L"height").ToInt(&mScreenHeight);
     root->GetAttribute(L"tilewidth").ToInt(&mTileWidth);
     root->GetAttribute(L"tileheight").ToInt(&mTileHeight);
+    mGame->SetTileDimension(mTileWidth, mTileHeight);
+    mGame->SetGameDimension(mScreenWidth, mScreenHeight);
 
     //
     // Traverse the children of the root
@@ -71,6 +68,11 @@ void Level::Load(const wxString &filename)
     {
         XmlItem(item);
     }
+
+    GetSpartyVisitor visitor;
+    mGame->Accept(&visitor);
+    Sparty *sparty = visitor.GetSparty();
+    mGame->SetSparty(sparty);
 }
 
 /**
@@ -80,36 +82,30 @@ void Level::Load(const wxString &filename)
 void Level::XmlDeclaration(wxXmlNode *node)
 {
     // A pointer for the item we are loading
-    std::shared_ptr<Declaration> declaration = nullptr;
+    std::shared_ptr<Item> declaration = nullptr;
 
     // We have an item. What type?
     auto name = node->GetName();
     if (name == L"given" || name == L"digit")
     {
-        declaration = std::make_shared<DigitDeclaration>(mGame);
-        ///If given, set given to true
-        if (name == L"given")
-        {
-            SetGivenVisitor visitor;
-            declaration->Accept(&visitor);
-        }
+        declaration = make_shared<Digit>(mGame);
     }
     else if (name == L"sparty")
     {
-        declaration = make_shared<SpartyDeclaration>(mGame);
+        declaration = make_shared<Sparty>(mGame);
     }
     else if (name == L"xray")
     {
-        declaration = make_shared<XrayDeclaration>(mGame);
+        declaration = make_shared<Xray>(mGame);
     }
     else if (name == L"background")
     {
-        declaration = make_shared<BackgroundDeclaration>(mGame);
+        declaration = make_shared<Background>(mGame);
     }
 
     if (declaration != nullptr)
     {
-        declaration->XmlLoad(node);
+        declaration->XmlLoadDeclaration(node);
         mGame->AddDeclaration(declaration);
     }
 }
@@ -120,35 +116,19 @@ void Level::XmlDeclaration(wxXmlNode *node)
 */
 void Level::XmlItem(wxXmlNode* node)
 {
-    // A pointer for the item and declaration we are loading
-    std::shared_ptr<Declaration> declaration = nullptr;
-    std::shared_ptr<Item> item = nullptr;
-
-    // We have an item. What type?
     auto id = node->GetAttribute(L"id", L"").ToStdWstring();
-    declaration = mGame->GetDeclaration(&id);
-
+    auto declaration = mGame->GetDeclaration(id);
+    shared_ptr<Item> item = declaration;
     auto name = node->GetName();
-    if (name == L"digit" || name == L"given")
+
+    if (declaration != nullptr)
     {
-        item = make_shared<Digit>(mGame);
-    }
-    else if (name == L"sparty")
-    {
-        item = make_shared<Sparty>(mGame);
-    }
-    else if (name == L"xray")
-    {
-        item = make_shared<Xray>(mGame);
-    }
-    else if (name == L"background")
-    {
-        item = make_shared<Background>(mGame);
-    }
-    if (item != nullptr)
-    {
-        item->SetDeclaration(declaration);
-        item->XmlLoad(node);
+        ///If digit, have to make a clone
+        if (name == L"digit" || name ==L"given")
+        {
+            item = declaration->Clone();
+        }
+        item->XmlLoadItem(node);
         mGame->AddItem(item);
     }
 }

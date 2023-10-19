@@ -9,10 +9,10 @@
 #define ACTIONSUDOKU_SUDOKULIB_GAME_H
 
 #include "Item.h"
-#include "Declaration.h"
-
-
+#include "Sparty.h"
+#include "ItemVisitor.h"
 #include "Level.h"
+
 #include<string>
 #include<map>
 #include<memory>
@@ -22,7 +22,7 @@ class Game
 {
 private:
     ///All items in the Declarations
-    std::map<std::wstring, std::shared_ptr<Declaration>> mDeclarations;
+    std::map<std::wstring, std::shared_ptr<Item>> mDeclarations;
     ///All items that appear in the real game
     std::vector<std::shared_ptr<Item>> mItems;
     /// Directory containing the system images
@@ -36,8 +36,15 @@ private:
     double mXOffset = 0;
     /// Y offset for virtual pixel
     double mYOffset = 0;
+    ///Sparty
+    Sparty *mSparty;
+    ///Tile width and height
+    int mTileWidth;
+    int mTileHeight;
+    ///width and height of the game
+    int mWidth;
+    int mHeight;
 
-    void OnLeftDown(int x, int y);
 public:
     Game();
     /**
@@ -45,16 +52,13 @@ public:
      */
     virtual ~Game() = default;
 
-    void AddDeclaration(std::shared_ptr<Declaration> declaration);
+    void AddDeclaration(std::shared_ptr<Item> declaration);
     void AddItem(std::shared_ptr<Item> item);
     std::shared_ptr<Item> HitTest(int x, int y);
     void MoveToFront(std::shared_ptr<Item> item);
 
     void OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int height);
-
-    //void Load(const wxString &filename);
-//    void XmlDeclaration(wxXmlNode *node);
-//    void XmlItem(wxXmlNode *node);
+    void OnLeftDown(double x, double y);
     void Clear();
 
     void Update(double elapsed);
@@ -65,12 +69,40 @@ public:
      */
     const std::wstring &GetImagesDirectory() const { return mImagesDirectory; }
     void SetImagesDirectory(const std::wstring &dir);
+    void Accept(ItemVisitor *visitor);
+    std::shared_ptr<Item> GetDeclaration(std::wstring id) { return mDeclarations[id]; }
+    void SetSparty(Sparty *sparty) { mSparty = sparty; }
 
     /**
-     * Get the declaration of a certain ID
-     * @return declaration of item
+     * Get the tile Width
      */
-     std::shared_ptr<Declaration> GetDeclaration(std::wstring* id) { return mDeclarations[*id]; }
+    int GetTileWidth() { return mTileWidth; }
+    /**
+     * Get the tile height
+     */
+    int GetTileHeight() { return mTileHeight; }
+    /**
+     * Set the tile width and height
+     * @param width
+     * @param height
+     */
+    void SetTileDimension(int width, int height) { mTileWidth = width, mTileHeight = height;}
+    /**
+     * Get the width of the game
+     * @return width of the game
+     */
+    int GetWidth() { return mWidth; }
+    /**
+     * Get the height of the game
+     * @return height of the game
+     */
+    int GetHeight() { return mHeight; }
+    /**
+     * Set the width and height of the game
+     * @param width
+     * @param height
+     */
+    void SetGameDimension(int width, int height) { mWidth = width; mHeight = height; }
 
      /**
       * Getter functino of its scale

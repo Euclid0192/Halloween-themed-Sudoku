@@ -10,6 +10,8 @@
 #include "Game.h"
 
 #include<string>
+#include<cmath>
+
 using namespace std;
 
 /// Character speed in pixels per second
@@ -26,13 +28,22 @@ const double HeadbuttTime = 0.5;
  */
 Sparty::Sparty(Game *game): Item(game)
 {
-    mSpeedX = MaxSpeed / 2;
-    mSpeedY = MaxSpeed / 2;
+    SetSpeedX(MaxSpeed / 4);
+    SetSpeedY(MaxSpeed / 4);
+}
+
+/**
+ * Get the max speed of the Sparty
+ * @return max speed of Sparty
+ */
+double Sparty::GetMaxSpeed()
+{
+    return MaxSpeed;
 }
 
 /**
  * Draw the Sparty
- * Overriden version of Draw inherited from Item
+ * Override version of Draw inherited from Item
  * @param dc: device context to draw
  */
 void Sparty::Draw(shared_ptr<wxGraphicsContext> graphics)
@@ -48,8 +59,16 @@ void Sparty::Draw(shared_ptr<wxGraphicsContext> graphics)
         int wid2 = mImage2->GetWidth();
         int hit2 = mImage2->GetHeight();
 
-        graphics->DrawBitmap(mBitmap1, int(GetX()), int(GetY()), wid1, hit1);
-        graphics->DrawBitmap(mBitmap2, int(GetX()), int(GetY()), wid2, hit2);
+        if (mFront == 1)
+        {
+            graphics->DrawBitmap(mBitmap1, int(GetX()), int(GetY() - hit1 / 2), wid1, hit1);
+            graphics->DrawBitmap(mBitmap2, int(GetX()), int(GetY() - hit2 / 2), wid2, hit2);
+        }
+        else if (mFront == 2)
+        {
+            graphics->DrawBitmap(mBitmap2, int(GetX()), int(GetY() - hit2 / 2), wid2, hit2);
+            graphics->DrawBitmap(mBitmap1, int(GetX()), int(GetY() - hit1 / 2), wid1, hit1);
+        }
     }
 }
 
@@ -57,12 +76,41 @@ void Sparty::Draw(shared_ptr<wxGraphicsContext> graphics)
  * Override version of XmlLoad for Sparty since it has two images
  * @param node : xml node that we are loading from
  */
-void Sparty::XmlLoad(wxXmlNode *node)
+void Sparty::XmlLoadDeclaration(wxXmlNode *node)
 {
-    Item::XmlLoad(node);
-    shared_ptr<Declaration> declaration = GetDeclaration();
-    vector<wstring> imagePaths = declaration->GetImagePaths();
-    wstring imagePath1 = imagePaths[0], imagePath2 = imagePaths[1];
+    Item::XmlLoadDeclaration(node);
+    ///Load front
+    long front;
+    node->GetAttribute(L"front", L"0").ToLong(&front);
+    mFront = (int)front;
+
+    ///Load mouth pivot
+    double angle;
+    long  x, y;
+    node->GetAttribute(L"mouth-pivot-angle", L"0").ToDouble(&angle);
+    node->GetAttribute(L"mouth-pivot-x", L"0").ToLong(&x);
+    node->GetAttribute(L"mouth-pivot-y", L"0").ToLong(&y);
+    mMouthAngle = angle;
+    mMouthPivot.x = x;
+    mMouthPivot.y = y;
+
+    ///Load Head pivot
+    node->GetAttribute(L"head-pivot-angle", L"0").ToDouble(&angle);
+    node->GetAttribute(L"head-pivot-x", L"0").ToLong(&x);
+    node->GetAttribute(L"head-pivot-y", L"0").ToLong(&y);
+    mHeadAngle = angle;
+    mHeadPivot.x = x;
+    mHeadPivot.y = y;
+
+    ///Load target x and y
+    node->GetAttribute(L"target-x", L"0").ToLong(&x);
+    node->GetAttribute(L"target-y", L"0").ToLong(&y);
+    mTargetX = (int)x;
+    mTargetY = (int)y;
+
+    ///Load image paths
+    wstring imagePath1 = node->GetAttribute(L"image1", L"").ToStdWstring();
+    wstring imagePath2 = node->GetAttribute(L"image2", L"").ToStdWstring();
 
     if (!imagePath1.empty() && !imagePath2.empty())
     {
@@ -77,5 +125,19 @@ void Sparty::XmlLoad(wxXmlNode *node)
         mImage2.release();
     }
 }
+
+void Sparty::Update(double elapsed)
+{
+    if (!mUpdate)
+        return;
+    double traveledX = mSpeedX * elapsed;
+    double traveledY = mSpeedY * elapsed;
+    double traveled = sqrt(traveledX * traveledX + traveledY * traveledY);
+    SetLocation(GetX() + (int)traveledX, GetY() + (int)traveledY);
+    mTraveled += traveled;
+    if (mTraveled >= mDistance)
+        SetUpdateState(false);
+}
+
 
 
