@@ -7,9 +7,8 @@
  */
 
 #include "pch.h"
-#include <wx/graphics.h>
 #include "ScoreBoard.h"
-#include <sstream>
+
 
 using namespace std;
 
@@ -23,37 +22,41 @@ ScoreBoard::ScoreBoard(){
     mTimer.Start(1000);
 
     Bind(wxEVT_TIMER, &ScoreBoard::UpdateTime, this);
+
 }
 
 /**
  * Draw the timer
  * @param graph reference to graph been draw
  */
-void ScoreBoard::Draw(std::shared_ptr<wxGraphicsContext> graph) {
+void ScoreBoard::Draw(std::shared_ptr<wxGraphicsContext> graphics, double scale,
+                      double XOffset, double YOffset) {
 
-    ///Set up the font
-    ///The color needs to changed to white when the background loads properly
-    wxGraphicsFont clock = graph ->CreateFont(ScoreboardTextSize, L"Timer", wxFONTFLAG_DEFAULT, *wxRED);
-    graph -> SetFont(clock);
+    //Set the font
+    wxFont font(ScoreboardTextSize,
+                wxFONTFAMILY_SWISS,
+                wxFONTSTYLE_NORMAL,
+                wxFONTWEIGHT_BOLD);
+    graphics->SetFont(font, *wxWHITE);
 
-    ///Set up minutes and seconds
-    wstringstream minutes, seconds;
-    minutes << mTime/60 << ends;
-    seconds << mTime%60 << ends;
+    // set the content of the text
+    wxString TimeStr = wxString::Format("%2d:%02d",mTime/60,mTime%60);
 
-    ///Draw the minutes and seconds
-    graph -> DrawText(minutes.str(), ScoreboardTopLeft.x + 64, ScoreboardTopLeft.y);
-    graph -> DrawText(L":", ScoreboardTopLeft.x + 50, ScoreboardTopLeft.y);
-    graph -> DrawText(seconds.str(),ScoreboardTopLeft.x,ScoreboardTopLeft.y);
+    //Draw the content with virtual pixel
+    //Not working very well
+    graphics->PushState();
+    graphics->Translate(XOffset, YOffset);
+    graphics->Scale(scale, scale);
+    graphics->DrawText(TimeStr, XOffset, YOffset);
+    graphics->PopState();
 
-//    graphics->SetPen(wxColour(24, 69, 59));
-//    wxFont font(ScoreboardTextSize, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-//    graphics->SetFont(font);
-//    wxString timeStr = wxString::Format("%02d:%02d", mMinutes, mSeconds);
-//    graphics->DrawText(timeStr, ScoreboardTopLeft);
 }
 
-void ScoreBoard::UpdateTime(wxTimerEvent& event)
+void ScoreBoard::UpdateTime(wxTimerEvent &event)
 {
     mTime++;
 }
+
+
+
+

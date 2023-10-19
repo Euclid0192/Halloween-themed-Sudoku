@@ -11,6 +11,7 @@
 #include "Item.h"
 #include "Declaration.h"
 
+
 #include "Level.h"
 #include<string>
 #include<map>
@@ -70,6 +71,21 @@ public:
      * @return declaration of item
      */
      std::shared_ptr<Declaration> GetDeclaration(std::wstring* id) { return mDeclarations[*id]; }
+
+     /**
+      * Getter functino of its scale
+      */
+      const double getScale() {return mScale;}
+
+     /**
+     * Getter functino of XOffset
+     */
+      double getXOffset() {return mXOffset;}
+
+     /**
+      * Getter functino of YOffset
+      */
+      double getYOffset() {return mYOffset;}
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_GAME_H

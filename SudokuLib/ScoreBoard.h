@@ -10,6 +10,11 @@
 #ifndef TARTARUS_SUDOKULIB_SCOREBOARD_H
 #define TARTARUS_SUDOKULIB_SCOREBOARD_H
 
+#include "Item.h"
+#include "Game.h"
+
+#include <memory>
+
 /// Size of the scoreboard text in virtual pixels
 const int ScoreboardTextSize = 64;
 
@@ -22,16 +27,24 @@ const wxPoint ScoreboardTopLeft(10, 10);
 class ScoreBoard : public wxWindow
 {
 private:
-    ///set up for time
-    int mTime;
+    /// The timer that allows for animation
     wxTimer mTimer;
+
+    /// Stopwatch used to measure elapsed time
+    wxStopWatch mStopWatch;
+
+    /// The last stopwatch time
+    int mTime = 0;
+
 public:
     ///
     ScoreBoard();
 
     void UpdateTime(wxTimerEvent &event);
 
-    void Draw(std::shared_ptr<wxGraphicsContext> graph);
+    void Draw(std::shared_ptr<wxGraphicsContext> graphics, double scale,
+              double XOffset, double YOffset);
+
 
 };
 

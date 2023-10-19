@@ -22,6 +22,11 @@ void GameView::Initialize(wxFrame* mainFrame)
            wxFULL_REPAINT_ON_RESIZE);
     SetBackgroundStyle(wxBG_STYLE_PAINT);
     Bind(wxEVT_PAINT, &GameView::OnPaint, this);
+    Bind(wxEVT_TIMER, &GameView::OnTimer, this);
+
+    mTimer.SetOwner(this);
+    mTimer.Start(30);
+    mStopWatch.Start();
 }
 
 /**
@@ -46,7 +51,8 @@ void GameView::OnPaint(wxPaintEvent &event)
     mGame.OnDraw(graphics, rect.GetWidth(), rect.GetHeight());
 
     // Draw the scoreboard
-    mScoreBoard.Draw(graphics);
+    mScoreBoard.Draw(graphics, mGame.getScale(),mGame.getXOffset(), mGame.getYOffset());
+
 }
 
 /**
@@ -56,4 +62,13 @@ void GameView::OnPaint(wxPaintEvent &event)
 void GameView::OnLeftDown(wxMouseEvent &event)
 {
 
+}
+
+/**
+ * Handle the timer event
+ * @param event
+ */
+void GameView::OnTimer(wxTimerEvent &event)
+{
+    Refresh();
 }

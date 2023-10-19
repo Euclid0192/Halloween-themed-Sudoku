@@ -10,6 +10,7 @@
 
 #include "Game.h"
 #include "ScoreBoard.h"
+#include "IntroPage.h"
 
 class GameView : public wxWindow
 {
@@ -21,10 +22,21 @@ private:
 
     ScoreBoard mScoreBoard;
 
+
+    /// The timer that allows for animation
+    wxTimer mTimer;
+
+    /// Stopwatch used to measure elapsed time
+    wxStopWatch mStopWatch;
+
+    /// The last stopwatch time
+    long mTime = 0;
+
 public:
     void Initialize(wxFrame *mainFrame);
     void OnPaint(wxPaintEvent &event);
 	void OnLeftDown(wxMouseEvent &event);
+    void OnTimer(wxTimerEvent &event);
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_GAMEVIEW_H
