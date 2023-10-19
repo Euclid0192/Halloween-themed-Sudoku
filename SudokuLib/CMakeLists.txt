@@ -42,6 +42,8 @@ set(SOURCE_FILES
         Background.h
         BackgroundDeclaration.cpp
         BackgroundDeclaration.h
+        IntroPage.cpp
+        IntroPage.h
 )
 
 set(wxBUILD_PRECOMP OFF)
