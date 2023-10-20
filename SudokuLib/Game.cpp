@@ -203,6 +203,35 @@ void Game::OnLeftDown(double x, double y)
 }
 
 /**
+ * Save declarations into XML file
+ * @param node
+ */
+void Game::SaveDeclarations(wxXmlNode *node){
+    for (auto i = mDeclarations.begin(); i != mDeclarations.end(); i++){
+        i->second->SaveDeclaration(node);
+    }
+}
+
+/**
+ * Save items into XML file
+ * @param node
+ */
+void Game::SaveItems(wxXmlNode *node){
+    for (auto i = mItems.begin(); i != mItems.end(); i++)
+    {
+        (*i)->SaveItem(node);
+    }
+}
+
+/**
+ * Save declarations into XML file
+ * @param node
+ */
+void Game::SaveSolver(wxXmlNode *node){
+
+}
+
+/**
  * Accept a visitor
  * @param visitor
  */

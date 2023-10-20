@@ -7,7 +7,6 @@
 #include "Game.h"
 #include "Level.h"
 #include "Item.h"
-#include "Sparty.h"
 #include "Digit.h"
 #include "Xray.h"
 #include "Background.h"
@@ -60,7 +59,9 @@ void Level::Load(const wxString &filename)
     }
     node = node->GetNext();
     ///Current node is at game solution
-    ///do something...
+
+
+
     node = node->GetNext();
     ///Current node at items
     auto item = node->GetChildren();
@@ -152,15 +153,24 @@ void Level::Save(const wxString &filename)
     root->AddAttribute(L"tilewidth", wxString::FromDouble(mTileWidth));
     root->AddAttribute(L"tileheight", wxString::FromDouble(mTileHeight));
 
-//    // Iterate over all items and save them
-//    for (auto item : mItems)
-//    {
-//        item->XmlSave(root);
-//    }
-//
-//    if(!xmlDoc.Save(filename, wxXML_NO_INDENTATION))
-//    {
-//        wxMessageBox(L"Write to XML failed");
-//        return;
-//    }
+    auto declarationNode = new wxXmlNode(wxXML_ELEMENT_NODE, L"declarations");
+    root->AddChild(declarationNode);
+
+    mGame->SaveDeclarations(declarationNode);
+
+    auto gameNode = new wxXmlNode(wxXML_ELEMENT_NODE, L"game");
+    root->AddChild(gameNode);
+
+    mGame->SaveSolver(gameNode);
+
+    auto itemNode = new wxXmlNode(wxXML_ELEMENT_NODE, L"items");
+    root->AddChild(itemNode);
+
+    mGame->SaveItems(itemNode);
+
+    if(!xmlDoc.Save(filename, wxXML_NO_INDENTATION))
+    {
+        wxMessageBox(L"Write to XML failed");
+        return;
+    }
 }

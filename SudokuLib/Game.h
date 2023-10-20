@@ -12,6 +12,7 @@
 #include "Sparty.h"
 #include "ItemVisitor.h"
 #include "Level.h"
+#include "Solver.h"
 
 #include<string>
 #include<map>
@@ -44,6 +45,8 @@ private:
     ///width and height of the game
     int mWidth;
     int mHeight;
+    ///Solver class
+    Solver mSolution;
 
 public:
     Game();
@@ -118,6 +121,10 @@ public:
       * Getter functino of YOffset
       */
       double getYOffset() {return mYOffset;}
+
+      void SaveDeclarations(wxXmlNode *node);
+      void SaveItems(wxXmlNode *node);
+      void SaveSolver(wxXmlNode *node);
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_GAME_H

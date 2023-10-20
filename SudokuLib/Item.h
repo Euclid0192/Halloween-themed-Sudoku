@@ -85,6 +85,8 @@ public:
 
     virtual void Update(double elapsed) {};
 
+    virtual void SaveDeclaration(wxXmlNode *node) {};
+    virtual void SaveItem(wxXmlNode *node) {};
     virtual void XmlLoadDeclaration(wxXmlNode *node);
     virtual void XmlLoadItem(wxXmlNode *node);
 

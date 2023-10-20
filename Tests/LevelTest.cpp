@@ -57,7 +57,7 @@ protected:
          cout << xml << endl;
 
          //Ensure declarations, game and items are there
-        ASSERT_TRUE(regex_search(xml, wregex(L"<level.*<declarations>.*<game.*<items.*</level>")));
+        ASSERT_TRUE(regex_search(xml, wregex(L"<level.*<declarations.*<game.*<items.*</level>")));
      }
 };
 
@@ -80,5 +80,28 @@ TEST_F(LevelTest, Save){
 
     level.Save(file1);
 
+    TestLevel(file1);
+}
+
+TEST_F(LevelTest, Load){
+    // Create a path to temporary files
+    auto path = TempPath();
+
+    //create the level class
+    Game game;
+    Game game2;
+    Level level;
+
+    level.SetGame(&game);
+    level.Load(L"../levels/level1.xml");
+
+    auto file1 = path + L"/test.xml";
+    //save the level
+
+    level.Save(file1);
+
+    level.SetGame(&game2);
+    level.Load(file1);
+    level.Save(file1);
     TestLevel(file1);
 }
