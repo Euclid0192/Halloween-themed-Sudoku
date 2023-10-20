@@ -20,6 +20,7 @@ void MainFrame::Initialize()
 
     auto view = new GameView();
     view->Initialize(this);
+    mGameView = view;
 
     sizer->Add(view, 1, wxEXPAND | wxALL );
 
@@ -50,6 +51,7 @@ void MainFrame::Initialize()
 
 	Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnExit, this, wxID_EXIT);
 	Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnAbout, this, wxID_ABOUT);
+    Bind(wxEVT_CLOSE_WINDOW, &MainFrame::OnClose, this);
 
 	SetMenuBar( menuBar );
 }
@@ -73,4 +75,14 @@ void MainFrame::OnAbout(wxCommandEvent& event)
 				 L"About Action Sudoku",
 				 wxOK,
 				 this);
+}
+
+/**
+ * Handle a close event. Stop the animation and destroy this window.
+ * @param event The Close event
+ */
+void MainFrame::OnClose(wxCloseEvent& event)
+{
+    mGameView->Stop();
+    Destroy();
 }

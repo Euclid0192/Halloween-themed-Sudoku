@@ -37,6 +37,10 @@ public:
     void OnPaint(wxPaintEvent &event);
 	void OnLeftDown(wxMouseEvent &event);
     void OnTimer(wxTimerEvent &event);
+    /**
+     * Stop the timer so the window can close
+     */
+    void Stop() {mTimer.Stop();}
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_GAMEVIEW_H

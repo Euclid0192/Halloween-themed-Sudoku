@@ -11,6 +11,7 @@
 #include "ItemVisitor.h"
 #include<string>
 #include<memory>
+#include <wx/xml/xml.h>
 
 
 class Game;
