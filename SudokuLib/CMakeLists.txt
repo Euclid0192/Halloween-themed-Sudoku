@@ -34,6 +34,7 @@ set(SOURCE_FILES
         ItemVisitor.h
         GetSpartyVisitor.cpp
         GetSpartyVisitor.h
+        ids.h
 )
 
 set(wxBUILD_PRECOMP OFF)
