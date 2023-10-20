@@ -27,4 +27,15 @@ void MainFrame::Initialize()
 
     // Layout (place) the child windows.
     Layout();
+
+	auto menuBar = new wxMenuBar( );
+	auto fileMenu = new wxMenu();
+	auto helpMenu = new wxMenu();
+	auto levelMenu = new wxMenu();
+
+	menuBar->Append(fileMenu, L"&File" );
+	menuBar->Append(levelMenu, L"&Level");
+	menuBar->Append(helpMenu, L"&Help");
+
+	SetMenuBar( menuBar );
 }
