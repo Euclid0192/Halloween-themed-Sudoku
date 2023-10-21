@@ -13,6 +13,7 @@
 #include "ItemVisitor.h"
 #include "Level.h"
 #include "Solver.h"
+#include "ScoreBoard.h"
 
 #include<string>
 #include<map>
@@ -47,6 +48,9 @@ private:
     int mHeight;
     ///Solver class
     Solver mSolution;
+
+    ///Scoreboard
+    ScoreBoard mScoreBoard;
 
 public:
     Game();
@@ -125,6 +129,7 @@ public:
       void SaveDeclarations(wxXmlNode *node);
       void SaveItems(wxXmlNode *node);
       void SaveSolver(wxXmlNode *node);
+      void DrawIntroPage();
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_GAME_H

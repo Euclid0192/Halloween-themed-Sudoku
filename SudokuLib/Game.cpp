@@ -67,7 +67,7 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
         mYOffset = (double)((height - pixelHeight * mScale) / 2.0);
     }
 
-    graphics->PushState();
+   graphics->PushState();
 
     graphics->Translate(mXOffset, mYOffset);
     graphics->Scale(mScale, mScale);
@@ -86,6 +86,7 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
     {
         item->Draw(graphics);
     }
+    mScoreBoard.Draw(graphics);
     graphics->PopState();
 }
 
@@ -152,6 +153,8 @@ void Game::MoveToFront(std::shared_ptr<Item> item)
 */
 void Game::Update(double elapsed)
 {
+
+    mScoreBoard.UpdateTime(elapsed);
     for (auto item : mItems)
     {
         item->Update(elapsed);
@@ -239,5 +242,9 @@ void Game::Accept(ItemVisitor *visitor)
 {
     for (auto item: mItems)
         item->Accept(visitor);
+}
+
+void Game::DrawIntroPage(){
+
 }
 

@@ -48,7 +48,6 @@ void GameView::OnPaint(wxPaintEvent &event)
     auto elapsed = (double)(newTime - mTime) * 0.001;
     mTime = newTime;
     mGame.Update(elapsed);
-
     ///Drawing objects
 
     wxAutoBufferedPaintDC dc(this);
@@ -64,8 +63,8 @@ void GameView::OnPaint(wxPaintEvent &event)
     wxRect rect = GetRect();
     mGame.OnDraw(graphics, rect.GetWidth(), rect.GetHeight());
 
-    // Draw the scoreboard
-    mScoreBoard.Draw(graphics, mGame.getScale(),mGame.getXOffset(), mGame.getYOffset());
+//    // Draw the scoreboard
+//    mScoreBoard.Draw(graphics);
 
 }
 
