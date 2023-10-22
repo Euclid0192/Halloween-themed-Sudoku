@@ -19,56 +19,27 @@ const int ScoreboardTextSize = 64;
 /// Top left corner of the scoreboard in virtual pixels
 const wxPoint ScoreboardTopLeft(10, 10);
 
-
-///**
-// * Draw the timer
-// * @param graph reference to graph been draw
-// */
-//void ScoreBoard::Draw(std::shared_ptr<wxGraphicsContext> graphics, double scale,
-//                      double XOffset, double YOffset) {
-//
-//    //Set the font
-//    wxFont font(ScoreboardTextSize,
-//                wxFONTFAMILY_SWISS,
-//                wxFONTSTYLE_NORMAL,
-//                wxFONTWEIGHT_BOLD);
-//    graphics->SetFont(font, *wxWHITE);
-//
-//    // set the content of the text
-//    wxString TimeStr = wxString::Format("%2d:%02d",mTime/60,mTime%60);
-//
-//
-//    //Draw the content with virtual pixel
-//    //Not working very well
-//    graphics->PushState();
-//    graphics->Translate(XOffset, YOffset);
-//    graphics->Scale(scale, scale);
-//    graphics->DrawText(TimeStr, XOffset - ScoreboardTopLeft.x, YOffset - ScoreboardTopLeft.y);
-//    graphics->PopState();
-//
-//}
-
-
-//    ///Check if the bitmap is null
-//    if(bitmap.IsNull())
-//    {
-//        bitmap = graphics->CreateBitmapFromImage(*image);
-//    }
-//
-//    ///Draw the background
-//    graphics->DrawBitmap(bitmap, 0, 0, image->GetWidth(), image->GetHeight());
-
-
+/**
+ * Constrcutor
+ */
 ScoreBoard::ScoreBoard() {
 
 }
 
+/**
+ * Update time for scoreboard
+ * @param elapsed a double to track on time
+ */
 void ScoreBoard::UpdateTime(double elapsed)
 {
     mTime += elapsed;
 
 }
 
+/**
+ * Draw the scoreboard
+ * @param graphics a wxGraphicsContext to draw
+ */
 void ScoreBoard::Draw(std::shared_ptr<wxGraphicsContext> graphics)
 {
     if (mTime == 0)

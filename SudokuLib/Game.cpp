@@ -24,6 +24,9 @@ using namespace std;
 /// relative to the resources directory.
 const wstring ImagesDirectory = L"/images";
 
+///Keep on track the duration of introduction page
+double introDuration = 0;
+
 /**
  * Constructor
  */
@@ -86,7 +89,17 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
     {
         item->Draw(graphics);
     }
-    mScoreBoard.Draw(graphics);
+
+    ///Draw the introduction page
+    ///and scoarboard
+    if (IntroOn(introDuration)){
+        DrawIntroPage(graphics);
+    }
+
+    if (!IntroOn(introDuration)){
+        mScoreBoard.Draw(graphics);
+    }
+
     graphics->PopState();
 }
 
@@ -154,7 +167,15 @@ void Game::MoveToFront(std::shared_ptr<Item> item)
 void Game::Update(double elapsed)
 {
 
-    mScoreBoard.UpdateTime(elapsed);
+    ///update time for scoreboard after
+    /// instruction page disappear
+    if (!IntroOn(introDuration)){
+        mScoreBoard.UpdateTime(elapsed);
+    }
+
+    ///update time for instruction page
+    introDuration += elapsed;
+
     for (auto item : mItems)
     {
         item->Update(elapsed);
@@ -240,10 +261,6 @@ void Game::Accept(ItemVisitor *visitor)
         item->Accept(visitor);
 }
 
-void Game::DrawIntroPage(){
-
-}
-
 /**
  * Key Press Handler
  * @param event: a key event
@@ -257,5 +274,36 @@ void Game::OnKeyDown(wxKeyEvent &event)
     }
 
     event.Skip();
+}
+
+/**
+ * Control the time of introduction page displays
+ * @param introDuration a double to store the seconds already displayed
+ * @return True if the page displayed less than 3 seconds
+ */
+bool Game::IntroOn(double introDuration){
+
+    int shown = (int)introDuration % 60;
+
+    if (shown <= 3){
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
+/**
+ * Draw the introduction page
+ * @param graphics a wxGraphicsContext to draw
+ */
+void Game::DrawIntroPage(std::shared_ptr<wxGraphicsContext> graphics){
+    //
+    // Draw a filled rectangle
+    //
+    wxBrush rectBrush(*wxCYAN);
+    graphics->SetBrush(rectBrush);
+    graphics->SetPen(*wxTRANSPARENT_PEN);
+    graphics->DrawRectangle(150, 198, 700, 350);
+
 }
 

@@ -112,25 +112,12 @@ public:
      */
     void SetGameDimension(int width, int height) { mWidth = width; mHeight = height; }
 
-     /**
-      * Getter functino of its scale
-      */
-      const double getScale() {return mScale;}
 
-     /**
-     * Getter functino of XOffset
-     */
-      double getXOffset() {return mXOffset;}
-
-     /**
-      * Getter functino of YOffset
-      */
-      double getYOffset() {return mYOffset;}
-
-      void SaveDeclarations(wxXmlNode *node);
-      void SaveItems(wxXmlNode *node);
-      void SaveSolver(wxXmlNode *node);
-      void DrawIntroPage();
+    void SaveDeclarations(wxXmlNode *node);
+    void SaveItems(wxXmlNode *node);
+    void SaveSolver(wxXmlNode *node);
+    bool IntroOn(double introDuration);
+    void DrawIntroPage(std::shared_ptr<wxGraphicsContext> graphics);
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_GAME_H
