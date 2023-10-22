@@ -28,18 +28,9 @@ const double HeadbuttTime = 0.5;
  */
 Sparty::Sparty(Game *game): Item(game)
 {
-    SetSpeedX(MaxSpeed / 4);
-    SetSpeedY(MaxSpeed / 4);
+
 }
 
-/**
- * Get the max speed of the Sparty
- * @return max speed of Sparty
- */
-double Sparty::GetMaxSpeed()
-{
-    return MaxSpeed;
-}
 
 /**
  * Draw the Sparty
@@ -50,11 +41,12 @@ void Sparty::Draw(shared_ptr<wxGraphicsContext> graphics)
 {
     if (mImage1 != nullptr && mImage2 != nullptr)
     {
+        ///image for the head
         mBitmap1 = graphics->CreateBitmapFromImage(*mImage1);
         int wid1 = mImage1->GetWidth();
         int hit1 = mImage1->GetHeight();
 
-
+        ///image for the mouth
         mBitmap2 = graphics->CreateBitmapFromImage(*mImage2);
         int wid2 = mImage2->GetWidth();
         int hit2 = mImage2->GetHeight();
@@ -68,6 +60,20 @@ void Sparty::Draw(shared_ptr<wxGraphicsContext> graphics)
         {
             graphics->DrawBitmap(mBitmap2, int(GetX()), int(GetY() - hit2 / 2), wid2, hit2);
             graphics->DrawBitmap(mBitmap1, int(GetX()), int(GetY() - hit1 / 2), wid1, hit1);
+        }
+
+        ///Rotate the mouth when eat
+        if (mEat)
+        {
+            graphics->PushState();
+
+            graphics->Translate(mMouthPivot.x, mMouthPivot.y);
+            graphics->Rotate(mMouthAngle);
+            graphics->Translate(-mMouthPivot.x, -mMouthPivot.y);
+
+            graphics->DrawBitmap(mBitmap2, int(GetX()), int(GetY() - hit2 / 2), wid2, hit2);
+
+            graphics->PopState();
         }
     }
 }
@@ -133,15 +139,15 @@ void Sparty::XmlLoadDeclaration(wxXmlNode *node)
 void Sparty::Update(double elapsed)
 {
     ///Movement
-    if (!mUpdate)
+    if (!mMove)
         return;
-    double traveledX = mSpeedX * elapsed;
-    double traveledY = mSpeedY * elapsed;
-    double traveled = sqrt(traveledX * traveledX + traveledY * traveledY);
-    SetLocation(GetX() + (int)traveledX, GetY() + (int)traveledY);
+
+    auto d = mSpeed * MaxSpeed * elapsed;
+    double traveled = d.GetVectorLength();
+    SetLocation(GetX() + (int)d.m_x, GetY() + (int)d.m_y);
     mTraveled += traveled;
     if (mTraveled > mDistance)
-        SetUpdateState(false);
+        SetMoveState(false);
 
     ///Eating
 

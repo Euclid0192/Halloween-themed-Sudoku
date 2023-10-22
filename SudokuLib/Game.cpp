@@ -189,20 +189,16 @@ void Game::OnLeftDown(double x, double y)
     double oX = (x - mXOffset) / mScale;
     double oY = (y - mYOffset) / mScale;
 
-    double distanceX = oX - mSparty->GetX() - mSparty->GetTargetX();
-    double distanceY = oY - mSparty->GetY() - mSparty->GetTargetY();
+    wxPoint2DDouble target(oX - mSparty->GetTargetX(), oY - mSparty->GetTargetY());
+    wxPoint2DDouble location(mSparty->GetX(), mSparty->GetY());
+    auto d = target - location;
     ///Calculate total distance we need to move
-    double distance = distanceX * distanceX + distanceY * distanceY;
-    distance = sqrt(distance);
+    double distance = d.GetVectorLength();
     mSparty->SetDistance(distance);
 
-    double speed = mSparty->GetMaxSpeed();
-    double speedX = speed * distanceX / distance;
-    double speedY = speed * distanceY / distance;
-
-    mSparty->SetSpeedX(speedX);
-    mSparty->SetSpeedY(speedY);
-    mSparty->SetUpdateState(true);
+    d.Normalize();
+    mSparty->SetSpeed(d);
+    mSparty->SetMoveState(true);
 }
 
 /**
@@ -255,7 +251,11 @@ void Game::DrawIntroPage(){
 void Game::OnKeyDown(wxKeyEvent &event)
 {
     if (event.GetKeyCode() == WXK_SPACE)
-        wxMessageBox(wxString::Format("KeyDown: %i\n", (int)event.GetKeyCode()));
+    {
+//        wxMessageBox(wxString::Format("KeyDown: %i\n", (int)event.GetKeyCode()));
+        mSparty->SetEatState(true);
+    }
+
     event.Skip();
 }
 
