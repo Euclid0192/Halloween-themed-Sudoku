@@ -248,3 +248,14 @@ void Game::DrawIntroPage(){
 
 }
 
+/**
+ * Key Press Handler
+ * @param event: a key event
+ */
+void Game::OnKeyDown(wxKeyEvent &event)
+{
+    if (event.GetKeyCode() == WXK_SPACE)
+        wxMessageBox(wxString::Format("KeyDown: %i\n", (int)event.GetKeyCode()));
+    event.Skip();
+}
+

@@ -45,17 +45,6 @@ Item::~Item()
 }
 
 /**
- * Test if we clicked on this item
- * @param x: X location of the click
- * @param y: Y location of the click
- * @return: true if we click on this item; false otherwise
- */
-bool Item::HitTest(int x, int y)
-{
-    return false;
-}
-
-/**
  * Draw the item
  * @param graphics: the graphic context we use to draw
  */

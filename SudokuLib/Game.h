@@ -66,6 +66,7 @@ public:
 
     void OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int height);
     void OnLeftDown(double x, double y);
+    void OnKeyDown(wxKeyEvent &event);
     void Clear();
 
     void Update(double elapsed);

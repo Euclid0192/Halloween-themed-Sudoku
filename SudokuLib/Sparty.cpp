@@ -126,8 +126,13 @@ void Sparty::XmlLoadDeclaration(wxXmlNode *node)
     }
 }
 
+/**
+ * Update the state of Spary
+ * @param elapsed : time has elapsed since the last update
+ */
 void Sparty::Update(double elapsed)
 {
+    ///Movement
     if (!mUpdate)
         return;
     double traveledX = mSpeedX * elapsed;
@@ -135,8 +140,11 @@ void Sparty::Update(double elapsed)
     double traveled = sqrt(traveledX * traveledX + traveledY * traveledY);
     SetLocation(GetX() + (int)traveledX, GetY() + (int)traveledY);
     mTraveled += traveled;
-    if (mTraveled >= mDistance)
+    if (mTraveled > mDistance)
         SetUpdateState(false);
+
+    ///Eating
+
 }
 
 
