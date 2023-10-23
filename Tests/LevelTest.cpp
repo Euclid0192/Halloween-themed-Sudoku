@@ -19,12 +19,12 @@ using namespace std;
 class LevelTest : public ::testing::Test {
 protected:
     /**
-    * Create a path to a place to put temporary files
+    * Create a path to a place to put temporary files0
     */
     wxString TempPath()
     {
         // Create a temporary filename we can use
-        auto path = wxFileName::GetTempDir() + L"/aquarium";
+        auto path = wxFileName::GetTempDir() + L"/actionSudoku";
         if(!wxFileName::DirExists(path))
         {
             wxFileName::Mkdir(path);

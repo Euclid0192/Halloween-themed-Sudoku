@@ -35,6 +35,7 @@ public:
 	void OnLeftDown(wxMouseEvent &event);
     void OnKeyDown(wxKeyEvent &event);
     void OnTimer(wxTimerEvent &event);
+
     /**
      * Stop the timer so the window can close
      */

@@ -273,6 +273,12 @@ void Game::OnKeyDown(wxKeyEvent &event)
         mSparty->SetEatState(true);
     }
 
+	if (event.GetKeyCode() == 'B' || event.GetKeyCode() == 'b')
+	{
+		mSparty->SetHeadButtState(true);
+		mSparty->StartHeadButtTimer(0.5);
+	}
+
     event.Skip();
 }
 

@@ -51,6 +51,15 @@ void Sparty::Draw(shared_ptr<wxGraphicsContext> graphics)
         int wid2 = mImage2->GetWidth();
         int hit2 = mImage2->GetHeight();
 
+		if (mHeadButt)
+		{
+			graphics->PushState();
+
+			graphics->Translate(GetX() + mHeadPivot.x, GetY() + mHeadPivot.y);
+			graphics->Rotate(mHeadAngle);
+			graphics->Translate(-(GetX() + mHeadPivot.x), -(GetY() + mHeadPivot.y));
+		}
+
         if (mFront == 1)
         {
             graphics->DrawBitmap(mBitmap1, int(GetX()), int(GetY() - hit1 / 2), wid1, hit1);
@@ -61,6 +70,11 @@ void Sparty::Draw(shared_ptr<wxGraphicsContext> graphics)
             graphics->DrawBitmap(mBitmap2, int(GetX()), int(GetY() - hit2 / 2), wid2, hit2);
             graphics->DrawBitmap(mBitmap1, int(GetX()), int(GetY() - hit1 / 2), wid1, hit1);
         }
+
+		if (mHeadButt)
+		{
+			graphics->PopState(); // Restore the state
+		}
 
         ///Rotate the mouth when eat
         if (mEat)
@@ -133,7 +147,7 @@ void Sparty::XmlLoadDeclaration(wxXmlNode *node)
 }
 
 /**
- * Update the state of Spary
+ * Update the state of Sparty
  * @param elapsed : time has elapsed since the last update
  */
 void Sparty::Update(double elapsed)
@@ -147,10 +161,39 @@ void Sparty::Update(double elapsed)
     SetLocation(GetX() + (int)d.m_x, GetY() + (int)d.m_y);
     mTraveled += traveled;
     if (mTraveled > mDistance)
-        SetMoveState(false);
+	{
+		SetMoveState(false);
+	}
 
     ///Eating
 
+	/// Headbutting
+	if (mHeadButtTimeUpdate > 0)
+	{
+		mHeadButtTimeUpdate -= elapsed;
+
+		if (mHeadButtTimeUpdate < 0)
+		{
+			mHeadButtTimeUpdate = 0;
+			mHeadButt = false;
+		}
+
+		else
+		{
+			//check for containers
+		}
+	}
+
+}
+
+/**
+ * Update the time of Sparty HeadButt
+ * @param time : time of the event initializing
+ */
+void Sparty::StartHeadButtTimer(double time)
+{
+	// Set the headbutt timer to the specified time
+	mHeadButtTimeUpdate = time;
 }
 
 

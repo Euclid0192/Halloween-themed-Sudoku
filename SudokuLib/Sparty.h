@@ -39,6 +39,10 @@ private:
     double mHeadAngle;
     ///Head Pivot of Sparty
     wxPoint mHeadPivot;
+	/// Determine if sparty headbutt
+	bool mHeadButt = false;
+	/// Use to calculate the headbutt time
+	double mHeadButtTimeUpdate = 0;
     ///X-offset when moving Sparty
     double mTargetX;
     ///Y-offset when moving Sparty
@@ -61,11 +65,18 @@ public:
      * @param state : state to be set
      */
     void SetMoveState(bool state) { mMove = state;};
+
     /**
      * Set the eat state
      * @param state : state to be set
      */
     void SetEatState(bool state) { mEat = state;};
+
+	/**
+	 * Set the headbutt state
+	 * @param state : state to be set
+	 */
+	void SetHeadButtState(bool state ) {mHeadButt = state;}
     /**
      * Get the offset to the target in X direction
      * @return offset in X direction
@@ -88,10 +99,12 @@ public:
      */
     void SetDistance(double distance) { mDistance = distance; };
     void SetTraveled(double traveled) { mTraveled = traveled; };
+	void StartHeadButtTimer(double time);
 
     void Draw(std::shared_ptr<wxGraphicsContext> graphics) override;
     void XmlLoadDeclaration(wxXmlNode *node) override;
     void Update(double elapsed) override;
+
     /**
      * Accept a visitor
      */
