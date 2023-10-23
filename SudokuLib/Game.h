@@ -112,12 +112,17 @@ public:
      */
     void SetGameDimension(int width, int height) { mWidth = width; mHeight = height; }
 
+    /**
+    * Get the solver class object
+    * @return Solver class
+    */
+    Solver* GetSolution() { return &mSolution; }
 
     void SaveDeclarations(wxXmlNode *node);
     void SaveItems(wxXmlNode *node);
-    void SaveSolver(wxXmlNode *node);
     bool IntroOn(double introDuration);
     void DrawIntroPage(std::shared_ptr<wxGraphicsContext> graphics);
+
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_GAME_H

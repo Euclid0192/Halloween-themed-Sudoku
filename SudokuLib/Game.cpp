@@ -244,14 +244,6 @@ void Game::SaveItems(wxXmlNode *node){
 }
 
 /**
- * Save declarations into XML file
- * @param node
- */
-void Game::SaveSolver(wxXmlNode *node){
-
-}
-
-/**
  * Accept a visitor
  * @param visitor
  */
