@@ -38,7 +38,7 @@ public:
     //Level() = delete;
 
     ///Copy constructor (disabled)
-    //Level(const Level &) = delete;
+    //Level (const Level &) = delete;
 
     void Load(const wxString &filename);
     void XmlDeclaration(wxXmlNode *node);

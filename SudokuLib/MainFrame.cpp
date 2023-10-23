@@ -1,6 +1,6 @@
 /**
  * @file MainFrame.cpp
- * @author Nam Hai Nguyen, Joanna Rodriguez Zamarron
+ * @author Nam Hai Nguyen, Joanna Rodriguez Zamarron, Olivia Pal
  */
 
 #include "pch.h"
@@ -49,6 +49,14 @@ void MainFrame::Initialize()
 	levelMenu->Append(IDM_LEVELTWO, "Level 2", "Level 2 gameplay");
 	levelMenu->Append(IDM_LEVELTHREE, "Level 3", "Level 3 gameplay");
 
+    Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnLevelZero, this, IDM_LEVELZERO);
+    Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnLevelOne, this, IDM_LEVELONE);
+    Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnLevelTwo, this, IDM_LEVELTWO);
+    Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnLevelThree, this, IDM_LEVELTHREE);
+    //Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::Loadlevel1, this, IDM_LEVELONE);
+    //Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::Loadlevel2, this, IDM_LEVELTWO);
+   // Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::Loadlevel3, this, IDM_LEVELTHREE);
+
 	Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnExit, this, wxID_EXIT);
 	Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnAbout, this, wxID_ABOUT);
     Bind(wxEVT_CLOSE_WINDOW, &MainFrame::OnClose, this);
@@ -85,4 +93,24 @@ void MainFrame::OnClose(wxCloseEvent& event)
 {
     mGameView->Stop();
     Destroy();
+}
+void MainFrame::OnLevelZero(wxCommandEvent& event)
+{
+
+    mGameView->LoadLevel0();
+}
+void MainFrame::OnLevelOne(wxCommandEvent& event)
+{
+
+    mGameView->LoadLevel1();
+}
+void MainFrame::OnLevelTwo(wxCommandEvent& event)
+{
+
+    mGameView->LoadLevel2();
+}
+
+void MainFrame::OnLevelThree(wxCommandEvent& event)
+{
+    mGameView->LoadLevel3();
 }

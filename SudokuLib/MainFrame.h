@@ -14,6 +14,7 @@
 #include <wx/config.h>
 
 /**
+ *
  * The top-level (main) frame of the application
  */
 class MainFrame : public wxFrame
@@ -26,6 +27,10 @@ public:
 	void OnExit(wxCommandEvent& event);
 	void OnAbout(wxCommandEvent &event);
     void OnClose(wxCloseEvent &event);
+    void OnLevelZero(wxCommandEvent& event);
+    void OnLevelOne(wxCommandEvent& event);
+    void OnLevelTwo(wxCommandEvent& event);
+    void OnLevelThree(wxCommandEvent& event);
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_MAINFRAME_H

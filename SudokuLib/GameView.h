@@ -1,6 +1,6 @@
 /**
  * @file GameView.h
- * @author Nam Hai Nguyen
+ * @author Nam Hai Nguyen, Olivia Pal
  *
  * Class that implements the child window our program draws in.
  */
@@ -35,6 +35,11 @@ public:
 	void OnLeftDown(wxMouseEvent &event);
     void OnKeyDown(wxKeyEvent &event);
     void OnTimer(wxTimerEvent &event);
+    void LoadLevel0();
+    void LoadLevel1();
+    void LoadLevel2();
+    void LoadLevel3();
+
 
     /**
      * Stop the timer so the window can close

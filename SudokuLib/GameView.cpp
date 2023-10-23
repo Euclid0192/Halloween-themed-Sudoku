@@ -1,6 +1,6 @@
 /**
  * @file GameView.cpp
- * @author DELL
+ * @author Olivia Pal
  */
 
 #include "pch.h"
@@ -31,6 +31,9 @@ void GameView::Initialize(wxFrame* mainFrame)
     Bind(wxEVT_TIMER, &GameView::OnTimer, this);
     ///Bind the key event handlers to the events
     mainFrame->Bind(wxEVT_CHAR_HOOK, &GameView::OnKeyDown, this);
+
+
+
 
     mTimer.SetOwner(this);
     mTimer.Start(FrameDuration);
@@ -96,4 +99,20 @@ void GameView::OnTimer(wxTimerEvent &event)
 void GameView::OnKeyDown(wxKeyEvent &event)
 {
     mGame.OnKeyDown(event);
+}
+void GameView::LoadLevel0()
+{
+   mLevel.Load(L"../levels/level0.xml");
+}
+void GameView::LoadLevel1()
+{
+    mLevel.Load(L"../levels/level1.xml");
+}
+void GameView::LoadLevel2()
+{
+    mLevel.Load(L"../levels/level2.xml");
+}
+void GameView::LoadLevel3()
+{
+    mLevel.Load(L"../levels/level3.xml");
 }
