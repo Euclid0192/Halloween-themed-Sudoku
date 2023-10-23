@@ -96,6 +96,7 @@ public:
     void SetDistance(double distance) { mDistance = distance; };
     void SetTraveled(double traveled) { mTraveled = traveled; };
 	void StartHeadButtTimer(double time);
+	void HeadButtAction(double elapsed);
 
     void Draw(std::shared_ptr<wxGraphicsContext> graphics) override;
     void XmlLoadDeclaration(wxXmlNode *node) override;
@@ -105,6 +106,7 @@ public:
      * Accept a visitor
      */
     void Accept(ItemVisitor *visitor) { visitor->VisitSparty(this); };
+
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_SPARTY_H
