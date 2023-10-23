@@ -71,7 +71,6 @@ void GameView::OnPaint(wxPaintEvent &event)
 
 //    // Draw the scoreboard
 //    mScoreBoard.Draw(graphics);
-
 }
 
 /**

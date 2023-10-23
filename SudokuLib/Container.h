@@ -13,7 +13,13 @@
 class Container : public Item
 {
 private:
-
+    ///Front image of Container
+    std::unique_ptr<wxImage> mFrontImage;
+    ///Bitmap of front image
+    wxGraphicsBitmap mFrontBitmap;
+    ///Digits in the container
+    std::vector<std::shared_ptr<Item>> mDigits;
+public:
     ///Default constructor (disabled)
     Container() = delete;
 
@@ -23,8 +29,10 @@ private:
     /// Assignment operator
     void operator=(const Container &) = delete;
 
-public:
-
+    Container(Game *game);
+    void XmlLoadDeclaration(wxXmlNode *node) override;
+    void XmlLoadItem(wxXmlNode *node) override;
+    void Draw(std::shared_ptr<wxGraphicsContext> graphics) override;
 };
 
 #endif //TARTARUS_SUDOKULIB_CONTAINER_H

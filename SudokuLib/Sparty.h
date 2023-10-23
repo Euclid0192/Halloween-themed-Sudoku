@@ -23,10 +23,6 @@ private:
     std::unique_ptr<wxImage> mImage1, mImage2;
     ///Bitmaps of Sparty
     wxGraphicsBitmap mBitmap1, mBitmap2;
-    ///Speed in X direction
-    double mSpeedX;
-    ///Speed in Y direction
-    double mSpeedY;
     ///Speed
     wxPoint2DDouble mSpeed;
     ///Determine which one is drawn first

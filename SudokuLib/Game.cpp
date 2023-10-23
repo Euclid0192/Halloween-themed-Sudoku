@@ -78,10 +78,10 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
     //
     // Drawing a rectangle that is the playing area size
     //
-//    wxBrush background(*wxYELLOW);
-//
-//    graphics->SetBrush(background);
-//    graphics->DrawRectangle(0, 0, pixelWidth, pixelHeight);
+    wxBrush background(*wxWHITE);
+
+    graphics->SetBrush(background);
+    graphics->DrawRectangle(0, 0, pixelWidth, pixelHeight);
     //
     // Draw in virtual pixels on the graphics context
     //
@@ -191,6 +191,7 @@ void Game::Clear()
 {
     if (!mItems.empty())
         mItems.clear();
+    mDeclarations.clear();
 }
 
 ///Whoever works on this class can continue this to handle mouse click

@@ -10,6 +10,7 @@
 #include "Digit.h"
 #include "Xray.h"
 #include "Background.h"
+#include "Container.h"
 #include "GetSpartyVisitor.h"
 
 #include<memory>
@@ -60,7 +61,7 @@ void Level::Load(const wxString &filename)
     node = node->GetNext();
     ///Current node is at game solution
 
-    ///Calling load fucntion in Solver class
+    ///Calling load function in Solver class
     Solver* solution = mGame->GetSolution();
     solution->XmlLoad(node);
 
@@ -104,6 +105,10 @@ void Level::XmlDeclaration(wxXmlNode *node)
     else if (name == L"background")
     {
         declaration = make_shared<Background>(mGame);
+    }
+    else if (name == L"container")
+    {
+        declaration =  make_shared<Container>(mGame);
     }
 
     if (declaration != nullptr)

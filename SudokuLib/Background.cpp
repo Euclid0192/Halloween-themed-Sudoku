@@ -33,5 +33,5 @@ void Background::Draw(std::shared_ptr<wxGraphicsContext> graphics)
     }
 
     ///Draw the background
-    graphics->DrawBitmap(bitmap, 0, 0, image->GetWidth(), image->GetHeight());
+    graphics->DrawBitmap(bitmap, GetX(), 0, image->GetWidth(), image->GetHeight());
 }
