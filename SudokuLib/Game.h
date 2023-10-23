@@ -13,6 +13,7 @@
 #include "ItemVisitor.h"
 #include "Level.h"
 #include "Solver.h"
+#include "ScoreBoard.h"
 
 #include<string>
 #include<map>
@@ -48,6 +49,9 @@ private:
     ///Solver class
     Solver mSolution;
 
+    ///Scoreboard
+    ScoreBoard mScoreBoard;
+
 public:
     Game();
     /**
@@ -62,6 +66,7 @@ public:
 
     void OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int height);
     void OnLeftDown(double x, double y);
+    void OnKeyDown(wxKeyEvent &event);
     void Clear();
 
     void Update(double elapsed);
@@ -107,24 +112,17 @@ public:
      */
     void SetGameDimension(int width, int height) { mWidth = width; mHeight = height; }
 
-     /**
-      * Getter functino of its scale
-      */
-      const double getScale() {return mScale;}
+    /**
+    * Get the solver class object
+    * @return Solver class
+    */
+    Solver* GetSolution() { return &mSolution; }
 
-     /**
-     * Getter functino of XOffset
-     */
-      double getXOffset() {return mXOffset;}
+    void SaveDeclarations(wxXmlNode *node);
+    void SaveItems(wxXmlNode *node);
+    bool IntroOn(double introDuration);
+    void DrawIntroPage(std::shared_ptr<wxGraphicsContext> graphics);
 
-     /**
-      * Getter functino of YOffset
-      */
-      double getYOffset() {return mYOffset;}
-
-      void SaveDeclarations(wxXmlNode *node);
-      void SaveItems(wxXmlNode *node);
-      void SaveSolver(wxXmlNode *node);
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_GAME_H
