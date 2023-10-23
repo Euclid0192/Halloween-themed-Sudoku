@@ -60,7 +60,9 @@ void Level::Load(const wxString &filename)
     node = node->GetNext();
     ///Current node is at game solution
 
-
+    ///Calling load fucntion in Solver class
+    Solver* solution = mGame->GetSolution();
+    solution->XmlLoad(node);
 
     node = node->GetNext();
     ///Current node at items
@@ -161,7 +163,8 @@ void Level::Save(const wxString &filename)
     auto gameNode = new wxXmlNode(wxXML_ELEMENT_NODE, L"game");
     root->AddChild(gameNode);
 
-    mGame->SaveSolver(gameNode);
+    Solver* solution = mGame->GetSolution();
+    solution->XmlSave(gameNode);
 
     auto itemNode = new wxXmlNode(wxXML_ELEMENT_NODE, L"items");
     root->AddChild(itemNode);
