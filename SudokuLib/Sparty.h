@@ -27,6 +27,8 @@ private:
     double mSpeedX;
     ///Speed in Y direction
     double mSpeedY;
+    ///Speed
+    wxPoint2DDouble mSpeed;
     ///Determine which one is drawn first
     int mFront = 1;
     ///Mouth pivot angle
@@ -45,18 +47,25 @@ private:
     double mDistance;
     ///Distance that we have travel
     double mTraveled = 0;
-    ///Determine when to update
-    bool mUpdate = false;
+    ///Determine when to move
+    bool mMove = false;
+    ///Determine when to open mouth
+    bool mEat = false;
 public:
     Sparty() = delete;
     Sparty(const Sparty &) = delete;
     Sparty(Game *game);
 
     /**
-     * Set the update state
+     * Set the move state
      * @param state : state to be set
      */
-    void SetUpdateState(bool state) { mUpdate = state;};
+    void SetMoveState(bool state) { mMove = state;};
+    /**
+     * Set the eat state
+     * @param state : state to be set
+     */
+    void SetEatState(bool state) { mEat = state;};
     /**
      * Get the offset to the target in X direction
      * @return offset in X direction
@@ -68,19 +77,10 @@ public:
      */
     double GetTargetY() { return mTargetY; };
     /**
-     * Get the maximum speed
+     * Set the moving speed
+     * @param speed : speed to be set
      */
-    double GetMaxSpeed();
-    /**
-     * Set the speed in X direction
-     * @param x : speed in X direction
-     */
-    void SetSpeedX(double x) { mSpeedX = x; };
-    /**
-     * Set the speed in Y direction
-     * @param y : speed in Y direction
-     */
-    void SetSpeedY(double y) { mSpeedY = y; };
+    void SetSpeed(wxPoint2DDouble speed) { mSpeed = speed;};
     /**
      * Set the distance left needed to move
      * @param x : distance in X direction

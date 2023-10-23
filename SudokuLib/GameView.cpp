@@ -27,7 +27,10 @@ void GameView::Initialize(wxFrame* mainFrame)
     Bind(wxEVT_PAINT, &GameView::OnPaint, this);
     ///Bind the mouse event handlers to the events
     Bind(wxEVT_LEFT_DOWN, &GameView::OnLeftDown, this);
+    ///Bind timer event handlers to the events
     Bind(wxEVT_TIMER, &GameView::OnTimer, this);
+    ///Bind the key event handlers to the events
+    mainFrame->Bind(wxEVT_CHAR_HOOK, &GameView::OnKeyDown, this);
 
     mTimer.SetOwner(this);
     mTimer.Start(FrameDuration);
@@ -48,7 +51,6 @@ void GameView::OnPaint(wxPaintEvent &event)
     auto elapsed = (double)(newTime - mTime) * 0.001;
     mTime = newTime;
     mGame.Update(elapsed);
-
     ///Drawing objects
 
     wxAutoBufferedPaintDC dc(this);
@@ -64,8 +66,8 @@ void GameView::OnPaint(wxPaintEvent &event)
     wxRect rect = GetRect();
     mGame.OnDraw(graphics, rect.GetWidth(), rect.GetHeight());
 
-    // Draw the scoreboard
-    mScoreBoard.Draw(graphics, mGame.getScale(),mGame.getXOffset(), mGame.getYOffset());
+//    // Draw the scoreboard
+//    mScoreBoard.Draw(graphics);
 
 }
 
@@ -85,4 +87,13 @@ void GameView::OnLeftDown(wxMouseEvent &event)
 void GameView::OnTimer(wxTimerEvent &event)
 {
     Refresh();
+}
+
+/**
+ * Key Press handler
+ * @param event : key event
+ */
+void GameView::OnKeyDown(wxKeyEvent &event)
+{
+    mGame.OnKeyDown(event);
 }

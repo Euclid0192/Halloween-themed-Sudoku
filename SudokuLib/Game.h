@@ -11,6 +11,7 @@
 #include "Item.h"
 #include "Sparty.h"
 #include "ItemVisitor.h"
+#include "Level.h"
 #include "Solver.h"
 
 #include<string>
@@ -121,14 +122,9 @@ public:
       */
       double getYOffset() {return mYOffset;}
 
-      /**
-       * Get the solver class object
-       * @return Solver class
-       */
-      Solver* GetSolution() { return &mSolution; }
-
       void SaveDeclarations(wxXmlNode *node);
       void SaveItems(wxXmlNode *node);
+      void SaveSolver(wxXmlNode *node);
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_GAME_H

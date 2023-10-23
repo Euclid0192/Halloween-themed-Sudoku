@@ -28,8 +28,6 @@ set(SOURCE_FILES
         ScoreBoard.h
         Background.cpp
         Background.h
-        IntroPage.cpp
-        IntroPage.h
         ItemVisitor.cpp
         ItemVisitor.h
         GetSpartyVisitor.cpp

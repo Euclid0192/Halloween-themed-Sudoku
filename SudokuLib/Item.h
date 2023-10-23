@@ -31,7 +31,7 @@ private:
     int mWidth, mHeight;
 
     ///Location in the mainframe
-    int mX, mY ;
+    int mX, mY;
 
     ///Row and column in the game
     double mRow, mCol;
@@ -81,7 +81,13 @@ public:
     void SetLocation(int x, int y) { mX = x; mY = y;};
     std::wstring GetImagesDirectory();
 
-    virtual bool HitTest(int x, int y);
+    /**
+     * Test if this item is at location x, y
+     * @param x: X location
+     * @param y: Y location
+     * @return: true if this item is at (x, y); false otherwise
+     */
+    virtual bool HitTest(int x, int y) { return false; };
     virtual void Draw(std::shared_ptr<wxGraphicsContext> graphics);
 
     virtual void Update(double elapsed) {};
@@ -108,6 +114,11 @@ public:
      * @return image of the item
      */
     std::shared_ptr<wxImage> GetImage() { return mImage; }
+    /**
+     * Getter for the game this item belongs to
+     * @return pointer to the game
+     */
+    Game *GetGame() { return mGame; };
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_ITEM_H
