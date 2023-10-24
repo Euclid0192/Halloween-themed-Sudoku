@@ -261,8 +261,8 @@ void Game::OnKeyDown(wxKeyEvent &event)
 {
     if (event.GetKeyCode() == WXK_SPACE)
     {
-//        wxMessageBox(wxString::Format("KeyDown: %i\n", (int)event.GetKeyCode()));
         mSparty->SetEatState(true);
+        mSparty->StartEatTimer();
     }
 
 	if (event.GetKeyCode() == 'B' || event.GetKeyCode() == 'b')

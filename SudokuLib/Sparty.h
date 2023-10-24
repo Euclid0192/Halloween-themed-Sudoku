@@ -51,6 +51,8 @@ private:
     bool mMove = false;
     ///Determine when to open mouth
     bool mEat = false;
+    ///Eating time
+    double mEatTime = 0;
 public:
     Sparty() = delete;
     Sparty(const Sparty &) = delete;
@@ -94,9 +96,17 @@ public:
      * @param y : distance in Y direction
      */
     void SetDistance(double distance) { mDistance = distance; };
+    /**
+     * Set the distance we have travelled
+     * @param traveled : distance we have traveled
+     */
     void SetTraveled(double traveled) { mTraveled = traveled; };
+    void MoveAction(double elapsed);
+    void EatAction(double elapsed);
+    void StartEatTimer();
 	void StartHeadButtTimer(double time);
 	void HeadButtAction(double elapsed);
+
 
     void Draw(std::shared_ptr<wxGraphicsContext> graphics) override;
     void XmlLoadDeclaration(wxXmlNode *node) override;

@@ -61,35 +61,45 @@ void Sparty::Draw(shared_ptr<wxGraphicsContext> graphics)
 			graphics->Translate(-(GetX() + mHeadPivot.x), -(GetY() + mHeadPivot.y));
 		}
 
+//        if (mEat)
+//        {
+//            graphics->PushState();
+//
+//            graphics->Translate(GetX() + mMouthPivot.x, GetY() + mMouthPivot.y);
+//            graphics->Rotate(mMouthAngle);
+//            graphics->Translate(-(GetX() + mMouthPivot.x), -(GetY() + mMouthPivot.y));
+//
+//            graphics->DrawBitmap(mBitmap2, GetX(), GetY() , wid2, hit2);
+//            graphics->PopState();
+//        }
+
         if (mFront == 1)
         {
-            graphics->DrawBitmap(mBitmap1, int(GetX()), int(GetY() - hit1 / 2), wid1, hit1);
-            graphics->DrawBitmap(mBitmap2, int(GetX()), int(GetY() - hit2 / 2), wid2, hit2);
+            graphics->DrawBitmap(mBitmap1, GetX(), GetY() - hit1 / 2, wid1, hit1);
+            graphics->DrawBitmap(mBitmap2, GetX(), GetY() - hit2 / 2, wid2, hit2);
         }
         else if (mFront == 2)
         {
-            graphics->DrawBitmap(mBitmap2, int(GetX()), int(GetY() - hit2 / 2), wid2, hit2);
-            graphics->DrawBitmap(mBitmap1, int(GetX()), int(GetY() - hit1 / 2), wid1, hit1);
+            if (mEat)
+            {
+                graphics->PushState();
+
+                graphics->Translate(GetX() - wid2 + mMouthPivot.x, GetY() + mMouthPivot.y);
+                graphics->Rotate(mMouthAngle);
+                graphics->Translate(-(GetX()  + mMouthPivot.x), -(GetY() + mMouthPivot.y));
+
+                graphics->DrawBitmap(mBitmap2, GetX(), GetY() , wid2, hit2);
+                graphics->PopState();
+            }
+            else
+                graphics->DrawBitmap(mBitmap2, GetX(), GetY() - hit2 / 2, wid2, hit2);
+            graphics->DrawBitmap(mBitmap1, GetX(), GetY() - hit1 / 2, wid1, hit1);
         }
         ///Update drawing when headbutting
 		if (mHeadButt)
 		{
 			graphics->PopState(); // Restore the state
 		}
-
-        ///Rotate the mouth when eat
-        if (mEat)
-        {
-            graphics->PushState();
-
-            graphics->Translate(mMouthPivot.x, mMouthPivot.y);
-            graphics->Rotate(mMouthAngle);
-            graphics->Translate(-mMouthPivot.x, -mMouthPivot.y);
-
-            graphics->DrawBitmap(mBitmap2, int(GetX()), int(GetY() - hit2 / 2), wid2, hit2);
-
-            graphics->PopState();
-        }
     }
 }
 
@@ -157,6 +167,18 @@ void Sparty::Update(double elapsed)
 	HeadButtAction(elapsed);
 
     ///Movement
+    MoveAction(elapsed);
+
+    ///Eating
+    EatAction(elapsed);
+}
+
+/**
+ * The movement of Sparty
+ * @param elapsed: time since last call to this function
+ */
+void Sparty::MoveAction(double elapsed)
+{
     if (!mMove)
         return;
 
@@ -165,13 +187,41 @@ void Sparty::Update(double elapsed)
     SetLocation(GetX() + d.m_x, GetY() + d.m_y);
     mTraveled += traveled;
     if (mTraveled > mDistance)
-	{
-		SetMoveState(false);
-	}
+    {
+        SetMoveState(false);
+    }
+}
 
-    ///Eating
+/**
+ * Start the eating timer
+ */
+void Sparty::StartEatTimer()
+{
+    mEatTime = EatingTime;
+}
+/**
+ * Eating action of Sparty
+ * @param elapsed : time since last called
+ */
+void Sparty::EatAction(double elapsed)
+{
+    if (!mEat)
+        return;
 
+    if (mEatTime > 0)
+    {
+        mEatTime -= elapsed;
 
+        if (mEatTime <= 0)
+        {
+            mEatTime = 0;
+            mEat = false;
+        }
+        else
+        {
+            ///Handling digits
+        }
+    }
 }
 
 /**
@@ -186,7 +236,7 @@ void Sparty::StartHeadButtTimer(double time)
 
 /**
  * The action of Sparty HeadButt
- * @param time : time of the event initializing
+ * @param elapsed : time of the event initializing
  */
 void Sparty::HeadButtAction(double elapsed)
 {
