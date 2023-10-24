@@ -8,11 +8,7 @@
 #include "pch.h"
 #include "Game.h"
 #include "Item.h"
-#include "Sparty.h"
 #include "Digit.h"
-#include "Xray.h"
-#include "Background.h"
-#include "GetSpartyVisitor.h"
 
 
 #include<iostream>

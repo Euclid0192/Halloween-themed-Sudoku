@@ -12,6 +12,7 @@
 #include "Background.h"
 #include "Container.h"
 #include "GetSpartyVisitor.h"
+#include "GetXrayVisitor.h"
 
 #include<memory>
 #include<iostream>
@@ -73,10 +74,19 @@ void Level::Load(const wxString &filename)
         XmlItem(item);
     }
 
-    GetSpartyVisitor visitor;
-    mGame->Accept(&visitor);
-    Sparty *sparty = visitor.GetSparty();
-    mGame->SetSparty(sparty);
+    GetSpartyVisitor SpartyVisitor;
+    mGame->Accept(&SpartyVisitor);
+    Sparty *sparty = SpartyVisitor.GetSparty();
+
+    GetXrayVisitor XrayVisitor;
+    mGame->Accept(&XrayVisitor);
+    Xray *xray = XrayVisitor.GetXray();
+
+    if (sparty != nullptr)
+    {
+        sparty->SetXray(xray);
+        mGame->SetSparty(sparty);
+    }
 }
 
 /**

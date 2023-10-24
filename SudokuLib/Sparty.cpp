@@ -61,22 +61,22 @@ void Sparty::Draw(shared_ptr<wxGraphicsContext> graphics)
 			graphics->Translate(-(GetX() + mHeadPivot.x), -(GetY() + mHeadPivot.y));
 		}
 
-//        if (mEat)
-//        {
-//            graphics->PushState();
-//
-//            graphics->Translate(GetX() + mMouthPivot.x, GetY() + mMouthPivot.y);
-//            graphics->Rotate(mMouthAngle);
-//            graphics->Translate(-(GetX() + mMouthPivot.x), -(GetY() + mMouthPivot.y));
-//
-//            graphics->DrawBitmap(mBitmap2, GetX(), GetY() , wid2, hit2);
-//            graphics->PopState();
-//        }
-
         if (mFront == 1)
         {
             graphics->DrawBitmap(mBitmap1, GetX(), GetY() - hit1 / 2, wid1, hit1);
-            graphics->DrawBitmap(mBitmap2, GetX(), GetY() - hit2 / 2, wid2, hit2);
+            if (mEat)
+            {
+                graphics->PushState();
+
+                graphics->Translate(GetX() + mMouthPivot.x, GetY() - hit2 / 2 + mMouthPivot.y);
+                graphics->Rotate(mMouthAngle);
+                graphics->Translate(-(GetX()  + mMouthPivot.x), -(GetY() + mMouthPivot.y));
+
+                graphics->DrawBitmap(mBitmap2, GetX(), GetY() , wid2, hit2);
+                graphics->PopState();
+            }
+            else
+                graphics->DrawBitmap(mBitmap2, GetX(), GetY() - hit2 / 2, wid2, hit2);
         }
         else if (mFront == 2)
         {
@@ -84,7 +84,7 @@ void Sparty::Draw(shared_ptr<wxGraphicsContext> graphics)
             {
                 graphics->PushState();
 
-                graphics->Translate(GetX() - wid2 + mMouthPivot.x, GetY() + mMouthPivot.y);
+                graphics->Translate(GetX() + mMouthPivot.x, GetY() - hit2 / 2 + mMouthPivot.y);
                 graphics->Rotate(mMouthAngle);
                 graphics->Translate(-(GetX()  + mMouthPivot.x), -(GetY() + mMouthPivot.y));
 

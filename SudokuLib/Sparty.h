@@ -9,6 +9,7 @@
 #define ACTIONSUDOKU_SUDOKULIB_SPARTY_H
 
 #include "Item.h"
+#include "Xray.h"
 
 #include<string>
 #include<memory>
@@ -53,6 +54,8 @@ private:
     bool mEat = false;
     ///Eating time
     double mEatTime = 0;
+    ///The Xray of the game to handle eating
+    Xray *mXray = nullptr;
 public:
     Sparty() = delete;
     Sparty(const Sparty &) = delete;
@@ -104,6 +107,11 @@ public:
     void MoveAction(double elapsed);
     void EatAction(double elapsed);
     void StartEatTimer();
+    /**
+     * Set the xray of this sparty
+     * @param xray : the associated Xray
+     */
+    void SetXray(Xray *xray) { mXray = xray; };
 	void StartHeadButtTimer(double time);
 	void HeadButtAction(double elapsed);
 
