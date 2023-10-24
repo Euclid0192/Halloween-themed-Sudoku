@@ -117,7 +117,7 @@ void Item::XmlLoadItem(wxXmlNode *node)
     mRow = (double)row;
     mCol = (double)col;
     ///Calculate the correct location (lower-left corner of item)
-    int x = (int)(col * mGame->GetTileWidth());
-    int y = (int)((row - 1) * mGame->GetTileHeight());
+    double x = col * mGame->GetTileWidth();
+    double y = (row - 1) * mGame->GetTileHeight();
     SetLocation(x, y);
 }

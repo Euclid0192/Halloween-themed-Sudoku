@@ -158,7 +158,7 @@ void Sparty::Update(double elapsed)
 
     auto d = mSpeed * MaxSpeed * elapsed;
     double traveled = d.GetVectorLength();
-    SetLocation(GetX() + (int)d.m_x, GetY() + (int)d.m_y);
+    SetLocation(GetX() + d.m_x, GetY() + d.m_y);
     mTraveled += traveled;
     if (mTraveled > mDistance)
 	{

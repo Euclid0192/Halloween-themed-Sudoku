@@ -31,7 +31,7 @@ private:
     int mWidth, mHeight;
 
     ///Location in the mainframe
-    int mX, mY;
+    double mX, mY;
 
     ///Row and column in the game
     double mRow, mCol;
@@ -78,7 +78,7 @@ public:
      * @param x : x coordinate
      * @param y : y coordinate
      */
-    void SetLocation(int x, int y) { mX = x; mY = y;};
+    void SetLocation(double x, double y) { mX = x; mY = y;};
     std::wstring GetImagesDirectory();
 
     /**
