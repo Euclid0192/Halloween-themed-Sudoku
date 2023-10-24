@@ -60,12 +60,14 @@ shared_ptr<Item> Digit::Clone()
  * @param y : y location
  * @return true/false whether the item is near (x, y)
  */
-bool Digit::HitTest(int x, int y)
+bool Digit::HitTest(double x, double y)
 {
-    int distX = (int)x - GetX();
-    int distY = (int)y - GetY();
+    if (mGiven)
+        return false;
     Game *game = GetGame();
-    if (distX <= game->GetTileWidth() && abs(distY) <= game->GetHeight() / 4)
+    int distX = (int)(GetX() - x);
+    int distY = (int)(GetY() - y + game->GetTileHeight());
+    if (distX > 0 && distX <= game->GetTileWidth() + 20 && abs(distY) < game->GetTileHeight() / 4)
         return true;
     return false;
 }

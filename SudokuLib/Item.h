@@ -67,12 +67,23 @@ public:
      * Get the X location of the item
      * @return X location of the item in the game
      */
-    int GetX() { return mLocation.m_x;};
+
+    /**
+     * Getter for row
+     * @return row of item
+     */
+    double GetRow() { return mRow; };
+    /**
+     * Getter for column
+     * @return column of item
+     */
+    double GetCol() { return mCol; };
+    double GetX() { return mLocation.m_x;};
     /**
      * Get the Y location of the item
      * @return Y location of the item in the game
      */
-    int GetY() { return mLocation.m_y; };
+    double GetY() { return mLocation.m_y; };
     /**
      * Get the location of the item
      * @return location of item in wxPoint2DDouble
@@ -92,7 +103,7 @@ public:
      * @param y: Y location
      * @return: true if this item is at (x, y); false otherwise
      */
-    virtual bool HitTest(int x, int y) { return false; };
+    virtual bool HitTest(double x, double y) { return false; };
     virtual void Draw(std::shared_ptr<wxGraphicsContext> graphics);
 
     virtual void Update(double elapsed) {};

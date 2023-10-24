@@ -217,11 +217,14 @@ void Sparty::EatAction(double elapsed)
             mEatTime = 0;
             mEat = false;
         }
-        else
-        {
-            ///Handling digits
-        }
     }
+    ///Handling real eating
+    auto game = GetGame();
+    auto digit = game->HitTest(GetX(), GetY());
+    if (digit == nullptr)
+        return;
+    ///If there is a digit in eating range
+    digit->SetLocation(mXray->GetX(), mXray->GetY());
 }
 
 /**

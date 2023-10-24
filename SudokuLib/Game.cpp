@@ -125,7 +125,7 @@ void Game::AddItem(shared_ptr<Item> item)
 * @param y Y location
 * @return Pointer to item we clicked on or nullptr if none.
 */
-shared_ptr<Item> Game::HitTest(int x, int y)
+shared_ptr<Item> Game::HitTest(double x, double y)
 {
     for (auto i = mItems.rbegin(); i != mItems.rend(); i++)
     {
@@ -134,7 +134,6 @@ shared_ptr<Item> Game::HitTest(int x, int y)
             return *i;
         }
     }
-
     return  nullptr;
 }
 
