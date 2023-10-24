@@ -1,6 +1,7 @@
 /**
  * @file Sparty.cpp
  * @author Nam Hai Nguyen
+ * @author Joanna Rodriguez Zamarron
  *
  * Implementation of Sparty
  */
@@ -152,6 +153,9 @@ void Sparty::XmlLoadDeclaration(wxXmlNode *node)
  */
 void Sparty::Update(double elapsed)
 {
+	/// Headbutting
+	HeadButtAction(elapsed);
+
     ///Movement
     if (!mMove)
         return;
@@ -167,22 +171,6 @@ void Sparty::Update(double elapsed)
 
     ///Eating
 
-	/// Headbutting
-	if (mHeadButtTimeUpdate > 0)
-	{
-		mHeadButtTimeUpdate -= elapsed;
-
-		if (mHeadButtTimeUpdate < 0)
-		{
-			mHeadButtTimeUpdate = 0;
-			mHeadButt = false;
-		}
-
-		else
-		{
-			//check for containers
-		}
-	}
 
 }
 
@@ -196,5 +184,28 @@ void Sparty::StartHeadButtTimer(double time)
 	mHeadButtTimeUpdate = time;
 }
 
+/**
+ * The action of Sparty HeadButt
+ * @param time : time of the event initializing
+ */
+void Sparty::HeadButtAction(double elapsed)
+{
+	if (mHeadButtTimeUpdate > 0)
+	{
+		mHeadButtTimeUpdate -= elapsed;
+
+		if (mHeadButtTimeUpdate <= 0)
+		{
+			mHeadButtTimeUpdate = 0;
+			mHeadButt = false;
+//			mHeadAngle = 0;
+		}
+
+		else
+		{
+			//check for containers
+		}
+	}
+}
 
 
