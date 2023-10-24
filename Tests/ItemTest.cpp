@@ -52,6 +52,19 @@ TEST(ItemTest, SetLocation)
     item.SetLocation(17, 23);
     ASSERT_EQ(17, item.GetX());
     ASSERT_EQ(23, item.GetY());
+
+    item.SetLocation(100, 100);
+    ASSERT_EQ(100, item.GetX());
+    ASSERT_EQ(100, item.GetY());
+}
+
+TEST(ItemTest, GameGetter)
+{
+    Game game;
+    ItemMock item(&game);
+
+    Game *testGame = item.GetGame();
+    ASSERT_EQ(testGame, &game);
 }
 
 
