@@ -5,6 +5,7 @@ set(TEST_FILES
     EmptyTest.cpp
         LevelTest.cpp
         ItemTest.cpp
+        ScoreBoardTest.cpp
 )
 
 # Get Google Tests
