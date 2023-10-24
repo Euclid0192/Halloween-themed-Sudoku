@@ -9,6 +9,7 @@
 #define ACTIONSUDOKU_SUDOKULIB_SPARTY_H
 
 #include "Item.h"
+#include "Xray.h"
 
 #include<string>
 #include<memory>
@@ -51,6 +52,10 @@ private:
     bool mMove = false;
     ///Determine when to open mouth
     bool mEat = false;
+    ///Eating time
+    double mEatTime = 0;
+    ///The Xray of the game to handle eating
+    Xray *mXray = nullptr;
 public:
     Sparty() = delete;
     Sparty(const Sparty &) = delete;
@@ -94,9 +99,22 @@ public:
      * @param y : distance in Y direction
      */
     void SetDistance(double distance) { mDistance = distance; };
+    /**
+     * Set the distance we have travelled
+     * @param traveled : distance we have traveled
+     */
     void SetTraveled(double traveled) { mTraveled = traveled; };
+    void MoveAction(double elapsed);
+    void EatAction(double elapsed);
+    void StartEatTimer();
+    /**
+     * Set the xray of this sparty
+     * @param xray : the associated Xray
+     */
+    void SetXray(Xray *xray) { mXray = xray; };
 	void StartHeadButtTimer(double time);
 	void HeadButtAction(double elapsed);
+
 
     void Draw(std::shared_ptr<wxGraphicsContext> graphics) override;
     void XmlLoadDeclaration(wxXmlNode *node) override;

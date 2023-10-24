@@ -33,6 +33,8 @@ set(SOURCE_FILES
         GetSpartyVisitor.cpp
         GetSpartyVisitor.h
         ids.h
+        GetXrayVisitor.cpp
+        GetXrayVisitor.h
         DigitVisitor.cpp
         DigitVisitor.h
         GetGridItemVisitor.cpp

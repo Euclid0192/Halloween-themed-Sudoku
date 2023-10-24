@@ -61,7 +61,7 @@ public:
 
     void AddDeclaration(std::shared_ptr<Item> declaration);
     void AddItem(std::shared_ptr<Item> item);
-    std::shared_ptr<Item> HitTest(int x, int y);
+    std::shared_ptr<Item> HitTest(double x, double y);
     void MoveToFront(std::shared_ptr<Item> item);
 
     void OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int height);

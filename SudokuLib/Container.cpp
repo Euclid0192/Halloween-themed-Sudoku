@@ -46,13 +46,8 @@ void Container::Draw(shared_ptr<wxGraphicsContext> graphics)
     {
         bitmap = graphics->CreateBitmapFromImage(*image);
     }
-//    ///Draw the digits inside
-//    for (auto digit: mDigits)
-//    {
-//        digit->Draw(graphics);
-//    }
 
-    ///Draw the background
+    ///Draw the back image
     graphics->DrawBitmap(bitmap,
                          GetX(),
                          GetY() - hit,
@@ -64,12 +59,18 @@ void Container::Draw(shared_ptr<wxGraphicsContext> graphics)
         mFrontBitmap = graphics->CreateBitmapFromImage(*mFrontImage);
     }
 
+    ///Draw the digits inside
+    for (auto digit: mDigits)
+    {
+        digit->Draw(graphics);
+    }
+
     //
-    // Draw a bitmap
+    // Draw the front image
     //
     graphics->DrawBitmap(mFrontBitmap,
-                         int(GetX()),
-                         int(GetY() - hit),
+                         GetX(),
+                         GetY() - hit,
                          wid,
                          hit);
 }
@@ -101,8 +102,8 @@ void Container::XmlLoadItem(wxXmlNode *node)
         auto id = child->GetAttribute(L"id", L"").ToStdWstring();
         auto declaration = game->GetDeclaration(id);
         auto item = declaration->Clone();
-        item->XmlLoadItem(node);
-        game->AddItem(item);
+        item->XmlLoadItem(child);
+        item->SetLocation(item->GetX(), item->GetY() - 2 * item->GetHeight());
         mDigits.push_back(item);
     }
 }

@@ -31,7 +31,7 @@ private:
     int mWidth, mHeight;
 
     ///Location in the mainframe
-    int mX, mY;
+    wxPoint2DDouble mLocation;
 
     ///Row and column in the game
     double mRow, mCol;
@@ -67,12 +67,28 @@ public:
      * Get the X location of the item
      * @return X location of the item in the game
      */
-    int GetX() { return mX;};
+
+    /**
+     * Getter for row
+     * @return row of item
+     */
+    double GetRow() { return mRow; };
+    /**
+     * Getter for column
+     * @return column of item
+     */
+    double GetCol() { return mCol; };
+    double GetX() { return mLocation.m_x;};
     /**
      * Get the Y location of the item
      * @return Y location of the item in the game
      */
-    int GetY() { return mY; };
+    double GetY() { return mLocation.m_y; };
+    /**
+     * Get the location of the item
+     * @return location of item in wxPoint2DDouble
+     */
+    wxPoint2DDouble GetLocation() { return mLocation; };
     /**
     * Get the row location of the item
      * @return row location of the item in the game
@@ -88,7 +104,7 @@ public:
      * @param x : x coordinate
      * @param y : y coordinate
      */
-    void SetLocation(int x, int y) { mX = x; mY = y;};
+    void SetLocation(double x, double y) { mLocation.m_x = x; mLocation.m_y = y;};
     std::wstring GetImagesDirectory();
 
     /**
@@ -97,7 +113,7 @@ public:
      * @param y: Y location
      * @return: true if this item is at (x, y); false otherwise
      */
-    virtual bool HitTest(int x, int y) { return false; };
+    virtual bool HitTest(double x, double y) { return false; };
     virtual void Draw(std::shared_ptr<wxGraphicsContext> graphics);
 
     virtual void Update(double elapsed) {};

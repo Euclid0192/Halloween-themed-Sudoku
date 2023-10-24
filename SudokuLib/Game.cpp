@@ -8,7 +8,6 @@
 #include "pch.h"
 #include "Game.h"
 #include "Item.h"
-#include "Sparty.h"
 #include "Digit.h"
 #include "Xray.h"
 #include "Background.h"
@@ -131,7 +130,7 @@ void Game::AddItem(shared_ptr<Item> item)
 * @param y Y location
 * @return Pointer to item we clicked on or nullptr if none.
 */
-shared_ptr<Item> Game::HitTest(int x, int y)
+shared_ptr<Item> Game::HitTest(double x, double y)
 {
     for (auto i = mItems.rbegin(); i != mItems.rend(); i++)
     {
@@ -140,7 +139,6 @@ shared_ptr<Item> Game::HitTest(int x, int y)
             return *i;
         }
     }
-
     return  nullptr;
 }
 
@@ -214,8 +212,7 @@ void Game::OnLeftDown(double x, double y)
     double oY = (y - mYOffset) / mScale;
 
     wxPoint2DDouble target(oX - mSparty->GetTargetX(), oY - mSparty->GetTargetY());
-    wxPoint2DDouble location(mSparty->GetX(), mSparty->GetY());
-    auto d = target - location;
+    auto d = target - mSparty->GetLocation();
     ///Calculate total distance we need to move
     double distance = d.GetVectorLength();
     mSparty->SetDistance(distance);
@@ -264,8 +261,8 @@ void Game::OnKeyDown(wxKeyEvent &event)
 {
     if (event.GetKeyCode() == WXK_SPACE)
     {
-//        wxMessageBox(wxString::Format("KeyDown: %i\n", (int)event.GetKeyCode()));
         mSparty->SetEatState(true);
+        mSparty->StartEatTimer();
     }
 
 	if (event.GetKeyCode() == 'B' || event.GetKeyCode() == 'b')
@@ -284,9 +281,10 @@ void Game::OnKeyDown(wxKeyEvent &event)
  */
 bool Game::IntroOn(double introDuration){
 
-    int shown = (int)introDuration % 60;
+    int shownSeconds = (int)introDuration % 60;
+    int shownMinutes = (int)introDuration / 60;
 
-    if (shown <= 3){
+    if (shownSeconds <= 3 && shownMinutes == 0){
         return TRUE;
     }
 
@@ -301,10 +299,34 @@ void Game::DrawIntroPage(std::shared_ptr<wxGraphicsContext> graphics){
     //
     // Draw a filled rectangle
     //
-    wxBrush rectBrush(*wxCYAN);
+    wxBrush rectBrush(*wxWHITE);
     graphics->SetBrush(rectBrush);
-    graphics->SetPen(*wxTRANSPARENT_PEN);
-    graphics->DrawRectangle(150, 198, 700, 350);
+    graphics->SetPen(*wxBLACK);
+    graphics->DrawRectangle(150, 170, 600, 350);
+
+
+    wxFont bigFont(wxSize(0, 80),
+                   wxFONTFAMILY_SWISS,
+                   wxFONTSTYLE_NORMAL,
+                   wxFONTWEIGHT_BOLD);
+    graphics->SetFont(bigFont, wxColour(0, 500, 0));
+
+    double wid, hit;
+    graphics->GetTextExtent(L"Centered Text", &wid, &hit);
+    graphics->DrawText(L"Level 1 Begin", 200,200);
+
+    wxFont smallFont(wxSize(0, 40),
+                   wxFONTFAMILY_SWISS,
+                   wxFONTSTYLE_NORMAL,
+                   wxFONTWEIGHT_BOLD);
+    graphics->SetFont(smallFont, wxColour(0,0,500));
+
+    graphics->GetTextExtent(L"Centered Text", &wid, &hit);
+    graphics->DrawText(L"space: Eat", 320,300);
+    graphics->DrawText(L"0-8: Regurgitate", 320,375);
+    graphics->DrawText(L"B: Headbutt", 320,450);
+
+
 
 }
 

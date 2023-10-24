@@ -51,7 +51,7 @@ public:
      * Accept a visitor
      */
     void Accept(ItemVisitor *visitor) override { visitor->VisitDigit(this); };
-    bool HitTest(int x, int y) override;
+    bool HitTest(double x, double y) override;
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_DIGIT_H
