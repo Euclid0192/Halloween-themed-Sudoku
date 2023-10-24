@@ -105,7 +105,7 @@ public:
     /**
      * Accept a visitor
      */
-    void Accept(ItemVisitor *visitor) { visitor->VisitSparty(this); };
+    void Accept(ItemVisitor *visitor) override { visitor->VisitSparty(this); };
 
 };
 

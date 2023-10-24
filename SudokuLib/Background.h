@@ -25,6 +25,10 @@ public:
     Background(const Background &) = delete;
 
     void Draw(std::shared_ptr<wxGraphicsContext> graphics) override;
+    /**
+    * Accept a visitor
+    */
+    void Accept(ItemVisitor *visitor) override { visitor->VisitBackground(this); };
 };
 
 #endif //TARTARUS_SUDOKULIB_BACKGROUND_H

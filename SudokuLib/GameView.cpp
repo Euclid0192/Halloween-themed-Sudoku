@@ -99,19 +99,43 @@ void GameView::OnKeyDown(wxKeyEvent &event)
 {
     mGame.OnKeyDown(event);
 }
+/**
+ * Level load handler for level 0
+ * @param event
+ */
 void GameView::LoadLevel0()
 {
    mLevel.Load(L"../levels/level0.xml");
 }
+/**
+ * Level load handler for level 1
+ * @param event
+ */
 void GameView::LoadLevel1()
 {
     mLevel.Load(L"../levels/level1.xml");
 }
+/**
+ * Level load handler for level 2
+ * @param event
+ */
 void GameView::LoadLevel2()
 {
     mLevel.Load(L"../levels/level2.xml");
 }
+/**
+ * Level load handler for level 3
+ * @param event
+ */
 void GameView::LoadLevel3()
 {
     mLevel.Load(L"../levels/level3.xml");
+}
+/**
+ * Solve game handler
+ * @param event
+ */
+void GameView::Solve()
+{
+ mGame.Solve();
 }

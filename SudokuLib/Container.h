@@ -33,6 +33,11 @@ public:
     void XmlLoadDeclaration(wxXmlNode *node) override;
     void XmlLoadItem(wxXmlNode *node) override;
     void Draw(std::shared_ptr<wxGraphicsContext> graphics) override;
+
+    /**
+    * Accept a visitor
+    */
+    void Accept(ItemVisitor *visitor) override { visitor->VisitContainer(this); };
 };
 
 #endif //TARTARUS_SUDOKULIB_CONTAINER_H

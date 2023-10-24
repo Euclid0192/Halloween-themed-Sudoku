@@ -33,6 +33,10 @@ set(SOURCE_FILES
         GetSpartyVisitor.cpp
         GetSpartyVisitor.h
         ids.h
+        DigitVisitor.cpp
+        DigitVisitor.h
+        GetGridItemVisitor.cpp
+        GetGridItemVisitor.h
 )
 
 set(wxBUILD_PRECOMP OFF)

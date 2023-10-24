@@ -74,6 +74,16 @@ public:
      */
     int GetY() { return mY; };
     /**
+    * Get the row location of the item
+     * @return row location of the item in the game
+    */
+    int GetRow() { return mRow; };
+    /**
+    * Get the col location of the item
+    * @return col location of the item in the game
+    */
+    int GetCol() { return mCol; };
+    /**
      * Set the location of the item
      * @param x : x coordinate
      * @param y : y coordinate
@@ -102,7 +112,7 @@ public:
      * Accept a visitor
      * @param visitor
      */
-    virtual void Accept(ItemVisitor *visitor) { };
+    virtual void Accept(ItemVisitor *visitor) = 0;
 
     /**
      * Get the bitmap of the item

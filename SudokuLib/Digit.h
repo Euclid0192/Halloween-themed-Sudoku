@@ -28,9 +28,29 @@ public:
     void XmlLoadDeclaration(wxXmlNode *node) override;
     std::shared_ptr<Item> Clone() override;
     /**
+     * Get the value of this digit
+     * @return int value of digit
+     */
+    int GetValue() { return mValue; }
+    /**
+     * Gets the mGiven value whether this is a given or not
+     *  @return bool
+     */
+     bool GetGiven() { return mGiven; }
+    /**
+    * Get the row location of the digit
+    * @return row location of the digit in the game
+    */
+     int GetRow() { return Item::GetRow(); }
+    /**
+    * Get the col location of the digit
+    * @return col location of the digit in the game
+    */
+     int GetCol() { return Item::GetCol(); }
+    /**
      * Accept a visitor
      */
-    void Accept(ItemVisitor *visitor) { visitor->VisitDigit(this); };
+    void Accept(ItemVisitor *visitor) override { visitor->VisitDigit(this); };
     bool HitTest(int x, int y) override;
 };
 

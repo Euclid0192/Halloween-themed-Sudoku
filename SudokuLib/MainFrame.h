@@ -27,6 +27,7 @@ public:
 	void OnExit(wxCommandEvent& event);
 	void OnAbout(wxCommandEvent &event);
     void OnClose(wxCloseEvent &event);
+    void OnSolve(wxCommandEvent& event);
     void OnLevelZero(wxCommandEvent& event);
     void OnLevelOne(wxCommandEvent& event);
     void OnLevelTwo(wxCommandEvent& event);

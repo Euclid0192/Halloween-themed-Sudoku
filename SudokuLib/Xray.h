@@ -26,7 +26,7 @@ public:
     /**
      * Accept a visitor
      */
-    void Accept(ItemVisitor *visitor) { visitor->VisitXray(this); };
+    void Accept(ItemVisitor *visitor) override { visitor->VisitXray(this); };
     void Draw(std::shared_ptr<wxGraphicsContext> graphics);
 };
 

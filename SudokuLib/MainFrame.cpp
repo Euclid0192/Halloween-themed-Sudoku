@@ -53,6 +53,7 @@ void MainFrame::Initialize()
     Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnLevelOne, this, IDM_LEVELONE);
     Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnLevelTwo, this, IDM_LEVELTWO);
     Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnLevelThree, this, IDM_LEVELTHREE);
+    Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnSolve, this, IDM_SOLVE);
     //Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::Loadlevel1, this, IDM_LEVELONE);
     //Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::Loadlevel2, this, IDM_LEVELTWO);
    // Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::Loadlevel3, this, IDM_LEVELTHREE);
@@ -113,4 +114,9 @@ void MainFrame::OnLevelTwo(wxCommandEvent& event)
 void MainFrame::OnLevelThree(wxCommandEvent& event)
 {
     mGameView->LoadLevel3();
+}
+
+void MainFrame::OnSolve(wxCommandEvent &event)
+{
+    mGameView->Solve();
 }
