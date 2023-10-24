@@ -67,6 +67,11 @@ TEST(ItemTest, GameGetter)
     ASSERT_EQ(testGame, &game);
 }
 
+TEST(ItemTest, Solve)
+{
+
+}
+
 
 
 
