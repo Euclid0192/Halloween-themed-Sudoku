@@ -23,7 +23,7 @@ private:
 public:
     Digit() = delete;
     Digit(const Digit &);
-    Digit(Game *game);
+    Digit(SudokuGame *game);
 
     void XmlLoadDeclaration(wxXmlNode *node) override;
     std::shared_ptr<Item> Clone() override;

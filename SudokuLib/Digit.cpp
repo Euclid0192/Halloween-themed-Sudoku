@@ -7,14 +7,14 @@
 
 #include "pch.h"
 #include "Digit.h"
-#include "Game.h"
+#include "SudokuGame.h"
 
 using namespace std;
 
 /**
  * Constructor
  */
-Digit::Digit(Game *game): Item(game)
+Digit::Digit(SudokuGame *game): Item(game)
 {
 
 }
@@ -64,7 +64,7 @@ bool Digit::HitTest(double x, double y)
 {
     if (mGiven)
         return false;
-    Game *game = GetGame();
+    SudokuGame *game = GetGame();
     int distX = (int)(GetX() - x);
     int distY = (int)(GetY() - y + game->GetTileHeight());
     if (distX > 0 && distX <= game->GetTileWidth() + 20 && abs(distY) < game->GetTileHeight() / 4)

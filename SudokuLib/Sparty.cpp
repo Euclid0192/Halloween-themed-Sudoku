@@ -8,7 +8,7 @@
 
 #include "pch.h"
 #include "Sparty.h"
-#include "Game.h"
+#include "SudokuGame.h"
 
 #include<string>
 #include<cmath>
@@ -27,7 +27,7 @@ const double HeadbuttTime = 0.5;
 /**
  * Constructor of Sparty
  */
-Sparty::Sparty(Game *game): Item(game)
+Sparty::Sparty(SudokuGame *game): Item(game)
 {
 
 }

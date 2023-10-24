@@ -11,7 +11,7 @@
 #include <streambuf>
 #include <wx/filename.h>
 
-#include <Game.h>
+#include <SudokuGame.h>
 #include <Level.h>
 
 using namespace std;
@@ -72,7 +72,7 @@ TEST_F(LevelTest, Save){
     auto path = TempPath();
 
     //create the level class
-    Game game;
+    SudokuGame game;
     Level level;
 
     level.SetGame(&game);
@@ -91,8 +91,8 @@ TEST_F(LevelTest, Load){
     auto path = TempPath();
 
     //create the level class
-    Game game;
-    Game game2;
+    SudokuGame game;
+    SudokuGame game2;
     Level level;
 
     level.SetGame(&game);

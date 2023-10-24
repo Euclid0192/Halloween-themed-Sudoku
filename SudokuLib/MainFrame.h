@@ -8,7 +8,7 @@
 #ifndef ACTIONSUDOKU_SUDOKULIB_MAINFRAME_H
 #define ACTIONSUDOKU_SUDOKULIB_MAINFRAME_H
 
-#include "GameView.h"
+#include "SudokuGameView.h"
 
 #include <wx/filehistory.h>
 #include <wx/config.h>
@@ -20,7 +20,7 @@
 class MainFrame : public wxFrame
 {
 private:
-    GameView *mGameView = nullptr;
+    SudokuGameView *mGameView = nullptr;
 public:
     void Initialize();
 

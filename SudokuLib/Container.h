@@ -29,7 +29,7 @@ public:
     /// Assignment operator
     void operator=(const Container &) = delete;
 
-    Container(Game *game);
+    Container(SudokuGame *game);
     void XmlLoadDeclaration(wxXmlNode *node) override;
     void XmlLoadItem(wxXmlNode *node) override;
     void Draw(std::shared_ptr<wxGraphicsContext> graphics) override;

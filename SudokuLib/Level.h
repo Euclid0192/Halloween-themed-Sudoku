@@ -10,7 +10,6 @@
 
 
 #include "SudokuGame.h"
-#include "Game.h"
 
 /**
  * Class that will read a levels XML file and construct the necessary objects
@@ -19,7 +18,7 @@ class Level
 {
 private:
     /// Pointer to our game class
-    Game* mGame;
+    SudokuGame* mGame;
 
     /// Width of a tile in pixels
     int mTileWidth = 0;
@@ -44,7 +43,7 @@ public:
     void XmlDeclaration(wxXmlNode *node);
     void XmlItem(wxXmlNode *node);
 
-    void SetGame(Game* game) { mGame = game; }
+    void SetGame(SudokuGame* game) { mGame = game; }
 
     void Save(const wxString &filename);
 

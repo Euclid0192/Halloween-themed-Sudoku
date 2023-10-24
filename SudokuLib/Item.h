@@ -14,7 +14,7 @@
 #include <wx/xml/xml.h>
 
 
-class Game;
+class SudokuGame;
 /**
  * A base class for any items in the game
  */
@@ -22,7 +22,7 @@ class Item
 {
 private:
     /// The game that this item belongs to
-    Game   *mGame;
+    SudokuGame   *mGame;
 
     ///id of Declaration
     std::wstring mId;
@@ -43,7 +43,7 @@ private:
     wxGraphicsBitmap mBitmap;
 
 public:
-    Item(Game *game);
+    Item(SudokuGame *game);
     Item() = delete;
     Item(const Item &);
     virtual ~Item();
@@ -134,7 +134,7 @@ public:
      * Getter for the game this item belongs to
      * @return pointer to the game
      */
-    Game *GetGame() { return mGame; };
+    SudokuGame *GetGame() { return mGame; };
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_ITEM_H

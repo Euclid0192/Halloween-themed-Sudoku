@@ -1,10 +1,10 @@
 /**
- * @file GameView.cpp
+ * @file SudokuGameView.cpp
  * @author Olivia Pal
  */
 
 #include "pch.h"
-#include "GameView.h"
+#include "SudokuGameView.h"
 
 #include <wx/dcbuffer.h>
 #include<vector>
@@ -18,19 +18,19 @@ const int FrameDuration = 30;
  * Constructor
  * @param mainFrame Pointer to wxFrame object, the main frame for the application
  */
-void GameView::Initialize(wxFrame* mainFrame)
+void SudokuGameView::Initialize(wxFrame* mainFrame)
 {
     Create(mainFrame, wxID_ANY,
            wxDefaultPosition, wxDefaultSize,
            wxFULL_REPAINT_ON_RESIZE);
     SetBackgroundStyle(wxBG_STYLE_PAINT);
-    Bind(wxEVT_PAINT, &GameView::OnPaint, this);
+    Bind(wxEVT_PAINT, &SudokuGameView::OnPaint, this);
     ///Bind the mouse event handlers to the events
-    Bind(wxEVT_LEFT_DOWN, &GameView::OnLeftDown, this);
+    Bind(wxEVT_LEFT_DOWN, &SudokuGameView::OnLeftDown, this);
     ///Bind timer event handlers to the events
-    Bind(wxEVT_TIMER, &GameView::OnTimer, this);
+    Bind(wxEVT_TIMER, &SudokuGameView::OnTimer, this);
     ///Bind the key event handlers to the events
-    mainFrame->Bind(wxEVT_CHAR_HOOK, &GameView::OnKeyDown, this);
+    mainFrame->Bind(wxEVT_CHAR_HOOK, &SudokuGameView::OnKeyDown, this);
 
 
 
@@ -46,7 +46,7 @@ void GameView::Initialize(wxFrame* mainFrame)
  * Paint event, draws the window.
  * @param event Paint event object
  */
-void GameView::OnPaint(wxPaintEvent &event)
+void SudokuGameView::OnPaint(wxPaintEvent &event)
 {
     // Compute the time that has elapsed
     // since the last call to OnPaint.
@@ -77,7 +77,7 @@ void GameView::OnPaint(wxPaintEvent &event)
  * Be able to drag the sparty with the mouse
  * @param event Mouse event object
  */
-void GameView::OnLeftDown(wxMouseEvent &event)
+void SudokuGameView::OnLeftDown(wxMouseEvent &event)
 {
     mGame.OnLeftDown(event.GetX(), event.GetY());
 }
@@ -86,7 +86,7 @@ void GameView::OnLeftDown(wxMouseEvent &event)
  * Handle the timer event
  * @param event
  */
-void GameView::OnTimer(wxTimerEvent &event)
+void SudokuGameView::OnTimer(wxTimerEvent &event)
 {
     Refresh();
 }
@@ -95,7 +95,7 @@ void GameView::OnTimer(wxTimerEvent &event)
  * Key Press handler
  * @param event : key event
  */
-void GameView::OnKeyDown(wxKeyEvent &event)
+void SudokuGameView::OnKeyDown(wxKeyEvent &event)
 {
     mGame.OnKeyDown(event);
 }
@@ -103,7 +103,7 @@ void GameView::OnKeyDown(wxKeyEvent &event)
  * Level load handler for level 0
  * @param event
  */
-void GameView::LoadLevel0()
+void SudokuGameView::LoadLevel0()
 {
    mLevel.Load(L"../levels/level0.xml");
 }
@@ -111,7 +111,7 @@ void GameView::LoadLevel0()
  * Level load handler for level 1
  * @param event
  */
-void GameView::LoadLevel1()
+void SudokuGameView::LoadLevel1()
 {
     mLevel.Load(L"../levels/level1.xml");
 }
@@ -119,7 +119,7 @@ void GameView::LoadLevel1()
  * Level load handler for level 2
  * @param event
  */
-void GameView::LoadLevel2()
+void SudokuGameView::LoadLevel2()
 {
     mLevel.Load(L"../levels/level2.xml");
 }
@@ -127,7 +127,7 @@ void GameView::LoadLevel2()
  * Level load handler for level 3
  * @param event
  */
-void GameView::LoadLevel3()
+void SudokuGameView::LoadLevel3()
 {
     mLevel.Load(L"../levels/level3.xml");
 }
@@ -135,7 +135,7 @@ void GameView::LoadLevel3()
  * Solve game handler
  * @param event
  */
-void GameView::Solve()
+void SudokuGameView::Solve()
 {
  mGame.Solve();
 }

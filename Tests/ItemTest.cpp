@@ -9,7 +9,7 @@
 #include <pch.h>
 #include "gtest/gtest.h"
 
-#include<Game.h>
+#include<SudokuGame.h>
 #include<Item.h>
 
 using namespace std;
@@ -23,7 +23,7 @@ public:
     /**  Constructor
      * @param game : game this Item is a member of
      */
-    ItemMock(Game *game) : Item(game)
+    ItemMock(SudokuGame *game) : Item(game)
     {
     }
 
@@ -37,13 +37,13 @@ public:
 
 TEST(ItemTest, Constructor)
 {
-    Game game;
+    SudokuGame game;
     ItemMock item(&game);
 }
 
 TEST(ItemTest, SetLocation)
 {
-    Game game;
+    SudokuGame game;
     ItemMock item(&game);
 
     ASSERT_EQ(0, item.GetX());
@@ -60,10 +60,10 @@ TEST(ItemTest, SetLocation)
 
 TEST(ItemTest, GameGetter)
 {
-    Game game;
+    SudokuGame game;
     ItemMock item(&game);
 
-    Game *testGame = item.GetGame();
+    SudokuGame *testGame = item.GetGame();
     ASSERT_EQ(testGame, &game);
 }
 

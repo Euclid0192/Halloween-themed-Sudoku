@@ -4,10 +4,8 @@ set(SOURCE_FILES
         MainFrame.h
         MainFrame.cpp
         pch.h
-        GameView.cpp
-        GameView.h
-        Game.cpp
-        Game.h
+        SudokuGameView.cpp
+        SudokuGameView.h
         SudokuGame.cpp
         SudokuGame.h
         Item.cpp

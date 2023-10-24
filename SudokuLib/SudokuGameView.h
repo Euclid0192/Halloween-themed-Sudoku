@@ -1,5 +1,5 @@
 /**
- * @file GameView.h
+ * @file SudokuGameView.h
  * @author Nam Hai Nguyen, Olivia Pal
  *
  * Class that implements the child window our program draws in.
@@ -8,15 +8,15 @@
 #ifndef ACTIONSUDOKU_SUDOKULIB_GAMEVIEW_H
 #define ACTIONSUDOKU_SUDOKULIB_GAMEVIEW_H
 
-#include "Game.h"
+#include "SudokuGame.h"
 #include "ScoreBoard.h"
 #include "Level.h"
 
-class GameView : public wxWindow
+class SudokuGameView : public wxWindow
 {
 private:
     ///The main game
-    Game mGame;
+    SudokuGame mGame;
     ///The current level
     Level mLevel;
 

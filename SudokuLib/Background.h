@@ -20,7 +20,7 @@ class Background : public Item
 private:
 
 public:
-    Background(Game *game);
+    Background(SudokuGame *game);
     Background() = delete;
     Background(const Background &) = delete;
 

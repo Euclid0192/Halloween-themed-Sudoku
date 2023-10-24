@@ -11,7 +11,7 @@ using namespace std;
 /**
  * Constructor
  */
-Background::Background(Game *game): Item(game)
+Background::Background(SudokuGame *game): Item(game)
 {
 
 }

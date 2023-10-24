@@ -10,7 +10,7 @@
 #include "pch.h"
 #include "Container.h"
 #include "Item.h"
-#include "Game.h"
+#include "SudokuGame.h"
 
 using namespace std;
 
@@ -25,7 +25,7 @@ const wstring cauldron = L"images/cauldron.png";
 /**
  * Constructor
  */
-Container::Container(Game *game) : Item(game)
+Container::Container(SudokuGame *game) : Item(game)
 {
 
 }

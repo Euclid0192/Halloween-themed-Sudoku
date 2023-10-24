@@ -59,7 +59,7 @@ private:
 public:
     Sparty() = delete;
     Sparty(const Sparty &) = delete;
-    Sparty(Game *game);
+    Sparty(SudokuGame *game);
 
     /**
      * Set the move state

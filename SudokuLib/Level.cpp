@@ -4,7 +4,7 @@
  */
 
 #include "pch.h"
-#include "Game.h"
+#include "SudokuGame.h"
 #include "Level.h"
 #include "Item.h"
 #include "Digit.h"

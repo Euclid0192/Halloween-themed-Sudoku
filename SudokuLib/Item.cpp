@@ -8,7 +8,7 @@
 #include "pch.h"
 
 #include "Item.h"
-#include "Game.h"
+#include "SudokuGame.h"
 
 #include<string>
 using namespace std;
@@ -18,7 +18,7 @@ using namespace std;
  * Constructor
  * @param game: the game that this item is a member of
  */
-Item::Item(Game *game): mGame(game)
+Item::Item(SudokuGame *game): mGame(game)
 {
 
 }

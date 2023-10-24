@@ -13,7 +13,7 @@ using namespace std;
 /**
  * Constructor
  */
-Xray::Xray(Game *game): Item(game)
+Xray::Xray(SudokuGame *game): Item(game)
 {
 
 }

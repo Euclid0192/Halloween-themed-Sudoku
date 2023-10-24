@@ -18,7 +18,7 @@ private:
     ///Maximum number of digits hold
     int mCapacity = 0;
 public:
-    Xray(Game *game);
+    Xray(SudokuGame *game);
     Xray() = delete;
     Xray(const Xray &) = delete;
 
