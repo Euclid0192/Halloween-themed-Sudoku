@@ -276,9 +276,10 @@ void Game::OnKeyDown(wxKeyEvent &event)
  */
 bool Game::IntroOn(double introDuration){
 
-    int shown = (int)introDuration % 60;
+    int shownSeconds = (int)introDuration % 60;
+    int shownMinutes = (int)introDuration / 60;
 
-    if (shown <= 3){
+    if (shownSeconds <= 3 && shownMinutes == 0){
         return TRUE;
     }
 
