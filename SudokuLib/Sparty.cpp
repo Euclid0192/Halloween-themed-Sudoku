@@ -71,7 +71,7 @@ void Sparty::Draw(shared_ptr<wxGraphicsContext> graphics)
             graphics->DrawBitmap(mBitmap2, int(GetX()), int(GetY() - hit2 / 2), wid2, hit2);
             graphics->DrawBitmap(mBitmap1, int(GetX()), int(GetY() - hit1 / 2), wid1, hit1);
         }
-
+        ///Update drawing when headbutting
 		if (mHeadButt)
 		{
 			graphics->PopState(); // Restore the state

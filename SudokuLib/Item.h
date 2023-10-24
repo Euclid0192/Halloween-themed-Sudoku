@@ -31,7 +31,7 @@ private:
     int mWidth, mHeight;
 
     ///Location in the mainframe
-    double mX, mY;
+    wxPoint2DDouble mLocation;
 
     ///Row and column in the game
     double mRow, mCol;
@@ -67,18 +67,23 @@ public:
      * Get the X location of the item
      * @return X location of the item in the game
      */
-    int GetX() { return mX;};
+    int GetX() { return mLocation.m_x;};
     /**
      * Get the Y location of the item
      * @return Y location of the item in the game
      */
-    int GetY() { return mY; };
+    int GetY() { return mLocation.m_y; };
+    /**
+     * Get the location of the item
+     * @return location of item in wxPoint2DDouble
+     */
+    wxPoint2DDouble GetLocation() { return mLocation; };
     /**
      * Set the location of the item
      * @param x : x coordinate
      * @param y : y coordinate
      */
-    void SetLocation(double x, double y) { mX = x; mY = y;};
+    void SetLocation(double x, double y) { mLocation.m_x = x; mLocation.m_y = y;};
     std::wstring GetImagesDirectory();
 
     /**
