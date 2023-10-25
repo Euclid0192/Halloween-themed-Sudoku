@@ -34,14 +34,16 @@ private:
     wxPoint mMouthPivot;
     ///Head Pivot max Angle
     double mHeadAngle;
-	///Head Pivot Angle current
-	double mHeadAngleUpdate;
     ///Head Pivot of Sparty
     wxPoint mHeadPivot;
+
 	/// Determine if sparty headbutt
 	bool mHeadButt = false;
 	/// Use to calculate the headbutt time
 	double mHeadButtTimeUpdate = 0;
+    ///Head Pivot Angle current
+    double mHeadAngleUpdate;
+
     ///X-offset when moving Sparty
     double mTargetX;
     ///Y-offset when moving Sparty
@@ -52,10 +54,13 @@ private:
     double mTraveled = 0;
     ///Determine when to move
     bool mMove = false;
+
     ///Determine when to open mouth
     bool mEat = false;
     ///Eating time
     double mEatTime = 0;
+    ///Current head angle to make animation smooth
+    double mMouthAngleUpdate;
     ///The Xray of the game to handle eating
     Xray *mXray = nullptr;
 public:
@@ -114,7 +119,7 @@ public:
      * @param xray : the associated Xray
      */
     void SetXray(Xray *xray) { mXray = xray; };
-	void StartHeadButtTimer(double time);
+	void StartHeadButtTimer();
 	void HeadButtAction(double elapsed);
 
 

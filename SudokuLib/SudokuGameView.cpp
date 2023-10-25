@@ -33,13 +33,12 @@ void SudokuGameView::Initialize(wxFrame* mainFrame)
     mainFrame->Bind(wxEVT_CHAR_HOOK, &SudokuGameView::OnKeyDown, this);
 
 
-
-
     mTimer.SetOwner(this);
     mTimer.Start(FrameDuration);
     mStopWatch.Start();
     mLevel.SetGame(&mGame);
     mLevel.Load(L"../levels/level1.xml");
+    mChecker.SetGame(&mGame);
 }
 
 /**
@@ -137,5 +136,5 @@ void SudokuGameView::LoadLevel3()
  */
 void SudokuGameView::Solve()
 {
- mGame.Solve();
+    mChecker.Solve();
 }

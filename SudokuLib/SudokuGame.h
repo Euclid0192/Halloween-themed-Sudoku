@@ -123,7 +123,7 @@ public:
     bool IntroOn(double introDuration);
     void DrawIntroPage(std::shared_ptr<wxGraphicsContext> graphics);
 
-    void Solve();
+    //void Solve() { mChecker.Solve(); }
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_GAME_H

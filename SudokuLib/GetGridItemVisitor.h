@@ -31,6 +31,7 @@ public:
      * @return bool
      */
     bool GetResult() { return mGridTake; }
+    Digit* GetDigit() { return mDigit; }
     /**
      * Set the location in the sudoku grid that we will compare with
      * @param col

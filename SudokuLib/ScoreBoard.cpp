@@ -37,6 +37,15 @@ void ScoreBoard::UpdateTime(double elapsed)
 }
 
 /**
+ * Refresh the scoreboard when changing levels
+ */
+void ScoreBoard::RefreshTime()
+{
+    mTime = 0;
+
+}
+
+/**
  * Draw the scoreboard
  * @param graphics a wxGraphicsContext to draw
  */
