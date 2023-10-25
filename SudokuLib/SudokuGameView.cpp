@@ -40,6 +40,7 @@ void SudokuGameView::Initialize(wxFrame* mainFrame)
     mStopWatch.Start();
     mLevel.SetGame(&mGame);
     mLevel.Load(L"../levels/level1.xml");
+    mChecker.SetGame(&mGame);
 }
 
 /**
@@ -137,5 +138,5 @@ void SudokuGameView::LoadLevel3()
  */
 void SudokuGameView::Solve()
 {
- mGame.Solve();
+    mChecker.Solve();
 }
