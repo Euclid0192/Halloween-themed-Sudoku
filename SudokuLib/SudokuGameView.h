@@ -11,6 +11,7 @@
 #include "SudokuGame.h"
 #include "ScoreBoard.h"
 #include "Level.h"
+#include "CompletionChecker.h"
 
 class SudokuGameView : public wxWindow
 {
@@ -28,6 +29,8 @@ private:
 
     /// The last stopwatch time
     long mTime = 0;
+
+    CompletionChecker mChecker;
 
 public:
     void Initialize(wxFrame *mainFrame);
