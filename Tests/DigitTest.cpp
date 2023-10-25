@@ -12,7 +12,7 @@
 
 using namespace std;
 
-TEST(HitTest, HitTestDigit)
+TEST(DigitTest, HitTest)
 {
     SudokuGame game;
     Level level;
