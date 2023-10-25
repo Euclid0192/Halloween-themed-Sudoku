@@ -50,3 +50,10 @@ void Xray::Draw(shared_ptr<wxGraphicsContext> graphics)
                          GetHeight()
     );
 }
+
+
+bool Xray::HasKey(char key)
+{
+	// Implement the logic to check if the X-ray holds the item corresponding to the key
+	return false; // Placeholder
+}

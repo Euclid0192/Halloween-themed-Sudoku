@@ -18,11 +18,22 @@ class GetXrayVisitor : public ItemVisitor
 {
 private:
     Xray *mXray;
+	char mKeyPressed;
+	bool mKeyInXRay = false;
+
+
 public:
     Xray *GetXray() { return mXray; }
-    void VisitXray(Xray *Xray) override
+	void SetKeyPressed(char key) { mKeyPressed = key; }
+
+    void VisitXray(Xray *xray) override
     {
-        mXray = Xray;
+		if (xray->HasKey(mKeyPressed))
+		{
+			mKeyInXRay = true;
+		}
+
+        mXray = xray;
     }
 };
 

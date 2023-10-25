@@ -13,6 +13,7 @@
 #include "Background.h"
 #include "GetSpartyVisitor.h"
 #include "DigitVisitor.h"
+#include "GetXrayVisitor.h"
 #include "GetGridItemVisitor.h"
 
 
@@ -271,7 +272,25 @@ void SudokuGame::OnKeyDown(wxKeyEvent &event)
 		mSparty->StartHeadButtTimer(0.5);
 	}
 
-    event.Skip();
+	// Check if the key code corresponds to a number between '0' and '8'
+	if (event.GetKeyCode() >= '0' && event.GetKeyCode() <= '8')
+	{
+		char key = static_cast<char>(event.GetKeyCode());
+
+		GetXrayVisitor XrayVisitor;
+		this->Accept(&XrayVisitor);
+
+		XrayVisitor.SetKeyPressed(key);
+		Xray* xray = XrayVisitor.GetXray();
+
+//		if (XrayVisitor.GetResult())
+//		{
+//			// The key pressed corresponds to an item in the X-ray
+//			mSparty->OpenMouth();
+//		}
+	}
+
+	event.Skip();
 }
 
 /**
