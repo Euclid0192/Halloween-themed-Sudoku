@@ -22,6 +22,8 @@ private:
     int mDigitCount = 0;
     ///Container for digits in Xray
     std::vector<Digit*> mDigits;
+    ///Logic to make digit not overlapping
+    int mCurX = 0, mCurY = 0;
 public:
     Xray(SudokuGame *game);
     Xray() = delete;
@@ -38,6 +40,7 @@ public:
      */
     void IncrementCount() { mDigitCount++; };
     void AddDigit(Digit *digit);
+    void Relocate(Digit *digit);
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_XRAY_H

@@ -33,8 +33,6 @@ void SudokuGameView::Initialize(wxFrame* mainFrame)
     mainFrame->Bind(wxEVT_CHAR_HOOK, &SudokuGameView::OnKeyDown, this);
 
 
-
-
     mTimer.SetOwner(this);
     mTimer.Start(FrameDuration);
     mStopWatch.Start();

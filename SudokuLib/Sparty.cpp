@@ -240,7 +240,6 @@ void Sparty::EatAction(double elapsed)
     GetEatingDigitVisitor visitor;
     item->Accept(&visitor);
     auto digit = visitor.GetDigit();
-    digit->SetLocation(mXray->GetX(), mXray->GetY());
     mXray->AddDigit(digit);
 }
 
