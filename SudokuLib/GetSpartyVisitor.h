@@ -17,7 +17,7 @@
 class GetSpartyVisitor : public ItemVisitor
 {
 private:
-    Sparty *mSparty;
+    Sparty *mSparty = nullptr;
 public:
     Sparty *GetSparty() { return mSparty; }
     void VisitSparty(Sparty *sparty) override
