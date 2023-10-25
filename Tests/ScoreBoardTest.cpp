@@ -16,3 +16,20 @@ using namespace std;
 TEST(ScoreBoardTest, Construct){
     ScoreBoard scoreBoard ;
 }
+
+
+/**
+ * Tests for RefreshTime
+ */
+TEST(ScoreBoardTest, RefreshTime){
+    ScoreBoard timer;
+
+    //test for UpdateTime
+    timer.UpdateTime(1000);
+    ASSERT_EQ(1000, timer.GetTime());
+
+    //Test for RefreshTime
+    timer.RefreshTime();
+    ASSERT_EQ(0, timer.GetTime());
+
+}

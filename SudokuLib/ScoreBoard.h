@@ -31,6 +31,15 @@ public:
 
     void Draw(std::shared_ptr<wxGraphicsContext> graphics);
 
+    void RefreshTime();
+
+    /**
+     * Getter for mTime
+     */
+     double GetTime(){
+         return mTime;
+     }
+
 
 };
 
