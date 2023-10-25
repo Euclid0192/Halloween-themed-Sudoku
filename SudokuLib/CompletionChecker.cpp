@@ -51,6 +51,10 @@ void CompletionChecker::Solve()
             mGame->Accept(&visitor);
 
             /// Implement the move functionality
+            auto digit = visitor.GetDigit();
+            auto x = j * mGame->GetTileHeight();
+            auto y =  (i-1) * mGame->GetTileHeight();
+            digit->SetLocation(x,y);
             /// Also finding a way to think about the xRay, if a digit is eaten then don't move that as well
 
             ind2++;
@@ -58,6 +62,7 @@ void CompletionChecker::Solve()
         ind1++;
         ind2 = 0;
     }
+
 }
 
 /**
