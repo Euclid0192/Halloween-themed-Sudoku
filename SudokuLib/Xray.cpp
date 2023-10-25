@@ -50,3 +50,15 @@ void Xray::Draw(shared_ptr<wxGraphicsContext> graphics)
                          GetHeight()
     );
 }
+
+/**
+ * Add a digit to xray
+ * @param digit : digit to be added
+ */
+void Xray::AddDigit(Digit *digit)
+{
+    if (mDigits.size() >= mCapacity)
+        return;
+
+    mDigits.push_back(digit);
+}

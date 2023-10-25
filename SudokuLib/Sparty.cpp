@@ -9,6 +9,7 @@
 #include "pch.h"
 #include "Sparty.h"
 #include "SudokuGame.h"
+#include "GetEatingDigitVisitor.h"
 
 #include<string>
 #include<cmath>
@@ -232,11 +233,15 @@ void Sparty::EatAction(double elapsed)
     }
     ///Handling real eating
     auto game = GetGame();
-    auto digit = game->HitTest(GetX(), GetY());
-    if (digit == nullptr)
+    auto item = game->HitTest(GetX(), GetY());
+    if (item == nullptr)
         return;
     ///If there is a digit in eating range
+    GetEatingDigitVisitor visitor;
+    item->Accept(&visitor);
+    auto digit = visitor.GetDigit();
     digit->SetLocation(mXray->GetX(), mXray->GetY());
+    mXray->AddDigit(digit);
 }
 
 /**
