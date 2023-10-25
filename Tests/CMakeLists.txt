@@ -8,6 +8,7 @@ set(TEST_FILES
         ScoreBoardTest.cpp
         XrayTest.cpp
         GetSpartyVisitorTest.cpp
+        HitTestTest.cpp
 )
 
 # Get Google Tests
