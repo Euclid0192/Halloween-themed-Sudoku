@@ -7,6 +7,7 @@ set(TEST_FILES
         ItemTest.cpp
         ScoreBoardTest.cpp
         SudokuGameTest.cpp
+        DigitTest.cpp
 )
 
 # Get Google Tests

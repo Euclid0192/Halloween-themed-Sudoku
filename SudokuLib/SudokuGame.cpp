@@ -268,7 +268,7 @@ void SudokuGame::OnKeyDown(wxKeyEvent &event)
 	if (event.GetKeyCode() == 'B' || event.GetKeyCode() == 'b')
 	{
 		mSparty->SetHeadButtState(true);
-		mSparty->StartHeadButtTimer(0.5);
+		mSparty->StartHeadButtTimer();
 	}
 
     event.Skip();

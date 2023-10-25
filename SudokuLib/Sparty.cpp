@@ -86,7 +86,7 @@ void Sparty::Draw(shared_ptr<wxGraphicsContext> graphics)
                 graphics->PushState();
 
                 graphics->Translate(GetX() + mMouthPivot.x, GetY() - hit2 / 2 + mMouthPivot.y);
-                graphics->Rotate(mMouthAngle);
+                graphics->Rotate(mMouthAngleUpdate);
                 graphics->Translate(-(GetX()  + mMouthPivot.x), -(GetY() + mMouthPivot.y));
 
                 graphics->DrawBitmap(mBitmap2, GetX(), GetY() , wid2, hit2);
@@ -212,11 +212,22 @@ void Sparty::EatAction(double elapsed)
     if (mEatTime > 0)
     {
         mEatTime -= elapsed;
+        // Calculate the percentage of the eating completed
+        double percentage = 1 - (mEatTime / EatingTime);
 
+        if (percentage <= 0.5)
+        {
+            mMouthAngleUpdate = mMouthAngle * (percentage/0.5);
+        }
+        else
+        {
+            mMouthAngleUpdate = mMouthAngle *  (1 - ((percentage - 0.5) / 0.5));
+        }
         if (mEatTime <= 0)
         {
             mEatTime = 0;
             mEat = false;
+            mMouthAngleUpdate = 0;
         }
     }
     ///Handling real eating
@@ -232,10 +243,10 @@ void Sparty::EatAction(double elapsed)
  * Update the time of Sparty HeadButt
  * @param time : time of the event initializing
  */
-void Sparty::StartHeadButtTimer(double time)
+void Sparty::StartHeadButtTimer()
 {
 	// Set the headbutt timer to the specified time
-	mHeadButtTimeUpdate = time;
+	mHeadButtTimeUpdate = HeadbuttTime;
 }
 
 /**
