@@ -56,9 +56,10 @@ void Sparty::Draw(shared_ptr<wxGraphicsContext> graphics)
 		{
 			graphics->PushState();
 
-			graphics->Translate(GetX() + mHeadPivot.x, GetY() + mHeadPivot.y);
-			graphics->Rotate(mHeadAngle);
-			graphics->Translate(-(GetX() + mHeadPivot.x), -(GetY() + mHeadPivot.y));
+			graphics->Translate(GetX() + wid1/4, GetY() + hit1/2);
+			graphics->Rotate(mHeadAngleUpdate);
+			graphics->Translate(-(GetX()+ wid1/4), -(GetY() + hit1/2));
+
 		}
 
         if (mFront == 1)
@@ -93,7 +94,7 @@ void Sparty::Draw(shared_ptr<wxGraphicsContext> graphics)
             }
             else
                 graphics->DrawBitmap(mBitmap2, GetX(), GetY() - hit2 / 2, wid2, hit2);
-            graphics->DrawBitmap(mBitmap1, GetX(), GetY() - hit1 / 2, wid1, hit1);
+            	graphics->DrawBitmap(mBitmap1, GetX(), GetY() - hit1 / 2, wid1, hit1);
         }
         ///Update drawing when headbutting
 		if (mHeadButt)
@@ -246,12 +247,23 @@ void Sparty::HeadButtAction(double elapsed)
 	if (mHeadButtTimeUpdate > 0)
 	{
 		mHeadButtTimeUpdate -= elapsed;
+		// Calculate the percentage of the headbutt completed
+		double percentage = 1 - (mHeadButtTimeUpdate / HeadbuttTime);
+
+		if (percentage <= 0.5)
+		{
+			mHeadAngleUpdate = mHeadAngle * (percentage/0.5);
+		}
+		else
+		{
+			mHeadAngleUpdate = mHeadAngle *  (1 - ((percentage - 0.5) / 0.5));
+		}
 
 		if (mHeadButtTimeUpdate <= 0)
 		{
 			mHeadButtTimeUpdate = 0;
 			mHeadButt = false;
-//			mHeadAngle = 0;
+			mHeadAngleUpdate = 0;
 		}
 
 		else

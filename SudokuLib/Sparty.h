@@ -32,8 +32,10 @@ private:
     double mMouthAngle;
     ///Mouth Pivot of Sparty
     wxPoint mMouthPivot;
-    ///Head Pivot Angle
+    ///Head Pivot max Angle
     double mHeadAngle;
+	///Head Pivot Angle current
+	double mHeadAngleUpdate;
     ///Head Pivot of Sparty
     wxPoint mHeadPivot;
 	/// Determine if sparty headbutt
