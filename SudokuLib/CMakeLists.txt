@@ -39,6 +39,8 @@ set(SOURCE_FILES
         GetGridItemVisitor.h
         CompletionChecker.cpp
         CompletionChecker.h
+        GetEatingDigitVisitor.h
+        GetEatingDigitVisitor.cpp
 )
 
 set(wxBUILD_PRECOMP OFF)
