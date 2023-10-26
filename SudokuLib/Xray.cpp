@@ -8,6 +8,7 @@
 #include "pch.h"
 #include "Xray.h"
 #include "Digit.h"
+#include "SudokuGame.h"
 
 using namespace std;
 
@@ -72,9 +73,18 @@ void Xray::AddDigit(Digit *digit)
 void Xray::Relocate(Digit *digit)
 {
     ///Display the digits in the Xray in rows and columns so that they are not overlapping
-    /// Each column will have at most 4 digits to avoid out of xray
-    digit->SetLocation(GetX() + mCurX * GetWidth() / 5, GetY() - mCurY * GetHeight() / 5);
+
+    ///Calculating new coordinates
+    auto game = GetGame();
+    double newX = GetX() + mCurX * GetWidth() / 5;
+    double newY = GetY() - mCurY * GetHeight() / 5;
+    ///Calculating new rows and cols
+    double newRow = (double) (newX / game->GetTileWidth());
+    double newCol = (double) (newY / game->GetTileHeight() + 1);
+    digit->SetColRow(newRow, newCol);
+    digit->SetLocation(newX, newY);
     mCurY++;
+    /// Each column will have at most 4 digits to avoid out of xray
     if (mCurY >= 4)
     {
         mCurX++;
