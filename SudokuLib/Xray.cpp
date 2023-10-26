@@ -62,6 +62,13 @@ void Xray::AddDigit(Digit *digit)
     if (mDigits.size() >= mCapacity)
         return;
 
+    ///Check if the digit is already in Xray
+    for (auto item: mDigits)
+    {
+        if (item == digit)
+            return;
+    }
+    
     Relocate(digit);
     mDigits.push_back(digit);
 }
