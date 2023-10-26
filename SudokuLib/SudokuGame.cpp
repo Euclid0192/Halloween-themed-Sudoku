@@ -190,6 +190,7 @@ void SudokuGame::Clear()
     if (!mItems.empty())
         mItems.clear();
     mDeclarations.clear();
+    mSolution.Clear();
 }
 
 ///Whoever works on this class can continue this to handle mouse click
