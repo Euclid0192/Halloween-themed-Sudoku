@@ -12,6 +12,9 @@
 
 using namespace std;
 
+///Maximum number of digits in a column in the Xray
+const int MaxDigitCol = 4;
+
 /**
  * Constructor
  */
@@ -83,8 +86,8 @@ void Xray::Relocate(Digit *digit)
 
     ///Calculating new coordinates
     auto game = GetGame();
-    double newX = GetX() + mCurX * GetWidth() / 5;
-    double newY = GetY() - mCurY * GetHeight() / 5;
+    double newX = GetX() + mCurX * GetWidth() / (MaxDigitCol + 1);
+    double newY = GetY() - mCurY * GetHeight() / (MaxDigitCol + 1);
     ///Calculating new rows and cols
     double newRow = (double) (newX / game->GetTileWidth());
     double newCol = (double) (newY / game->GetTileHeight() + 1);
@@ -92,7 +95,7 @@ void Xray::Relocate(Digit *digit)
     digit->SetLocation(newX, newY);
     mCurY++;
     /// Each column will have at most 4 digits to avoid out of xray
-    if (mCurY >= 4)
+    if (mCurY >= MaxDigitCol)
     {
         mCurX++;
         mCurY = 0;
