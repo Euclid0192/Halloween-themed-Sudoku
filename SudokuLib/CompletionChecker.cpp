@@ -54,8 +54,13 @@ void CompletionChecker::Solve()
             auto digit = visitor.GetDigit();
             double x = j * mGame->GetTileHeight();
             double y =  (i-1) * mGame->GetTileHeight();
-            digit->SetLocation(x,y);
-            digit->SetColRow(i, j);
+
+            if (digit != nullptr)
+            {
+                digit->SetLocation(x,y);
+                digit->SetColRow(i, j);
+            }
+
             /// Also finding a way to think about the xRay, if a digit is eaten then don't move that as well
 
             ind2++;
