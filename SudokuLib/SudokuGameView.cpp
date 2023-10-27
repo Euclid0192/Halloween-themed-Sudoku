@@ -38,6 +38,7 @@ void SudokuGameView::Initialize(wxFrame* mainFrame)
     mStopWatch.Start();
     mLevel.SetGame(&mGame);
     mLevel.Load(L"../levels/level0.xml");
+
 }
 
 /**
@@ -141,3 +142,11 @@ void SudokuGameView::Solve()
 {
     mGame.Solve();
 }
+
+/**
+* Set the level for introduction page
+ * @param level, the current level
+*/
+void SudokuGameView::SetGameLevel(int level){
+    mGame.SetLevel(level);
+};

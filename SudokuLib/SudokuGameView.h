@@ -47,6 +47,8 @@ public:
      * Stop the timer so the window can close
      */
     void Stop() {mTimer.Stop();}
+
+    void SetGameLevel(int level);
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_GAMEVIEW_H

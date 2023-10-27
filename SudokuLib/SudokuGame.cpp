@@ -25,6 +25,8 @@ const wstring ImagesDirectory = L"/images";
 
 ///Keep on track the duration of introduction page
 double introDuration = 0;
+///Keep on track the duration of introduction page
+double resultDuration = 0;
 
 /**
  * Constructor
@@ -100,13 +102,18 @@ void SudokuGame::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, 
         mScoreBoard.Draw(graphics);
     }
 
-    if (mCorrect){
-        DrawResult(graphics, "Level Complete!");
-        mScoreBoard.Stop();
 
-    } if (mIncorrect){
-        DrawResult(graphics, "Incorrect");
+    if (resultDuration <= 3){
+        if (mCorrect){
+            DrawResult(graphics, "Level Complete!");
+            mScoreBoard.Stop();
+
+        } if (mIncorrect)
+        {
+            DrawResult(graphics, "Incorrect");
+        }
     }
+
 
     graphics->PopState();
 }
@@ -173,11 +180,19 @@ void SudokuGame::MoveToFront(std::shared_ptr<Item> item)
 */
 void SudokuGame::Update(double elapsed)
 {
+    ///update time for instruction page
+    introDuration += elapsed;
 
-    ///update time for scoreboard after
-    /// instruction page disappear
-    if (!IntroOn(introDuration)){
-        mScoreBoard.UpdateTime(elapsed);
+    if (mCorrect || mIncorrect)
+    {
+        resultDuration += elapsed;
+    }
+    else{
+        ///update time for scoreboard after
+        /// instruction page disappear
+        if (!IntroOn(introDuration)){
+            mScoreBoard.UpdateTime(elapsed);
+        }
     }
 
     ///update time for instruction page
@@ -331,21 +346,43 @@ void SudokuGame::DrawIntroPage(std::shared_ptr<wxGraphicsContext> graphics){
                    wxFONTWEIGHT_BOLD);
     graphics->SetFont(bigFont, wxColour(0, 500, 0));
 
-    double wid, hit;
-    graphics->GetTextExtent(L"Centered Text", &wid, &hit);
-    graphics->DrawText(L"Level 1 Begin", 200,200);
-
     wxFont smallFont(wxSize(0, 40),
-                   wxFONTFAMILY_SWISS,
-                   wxFONTSTYLE_NORMAL,
-                   wxFONTWEIGHT_BOLD);
+                     wxFONTFAMILY_SWISS,
+                     wxFONTSTYLE_NORMAL,
+                     wxFONTWEIGHT_BOLD);
     graphics->SetFont(smallFont, wxColour(0,0,500));
 
+    double wid, hit;
     graphics->GetTextExtent(L"Centered Text", &wid, &hit);
-    graphics->DrawText(L"space: Eat", 320,300);
-    graphics->DrawText(L"0-8: Regurgitate", 320,375);
-    graphics->DrawText(L"B: Headbutt", 320,450);
+
+    if (currentLevel == 1){
+        graphics->DrawText(L"Level 1 Begin", 200,200);
+
+        graphics->GetTextExtent(L"Centered Text", &wid, &hit);
+        graphics->DrawText(L"space: Eat", 320,300);
+        graphics->DrawText(L"0-8: Regurgitate", 320,375);
+        graphics->DrawText(L"B: Headbutt", 320,450);
+    }
+
+    if (currentLevel == 2){
+        graphics->DrawText(L"Level 2 Begin", 200,200);
+
+        graphics->GetTextExtent(L"Centered Text", &wid, &hit);
+        graphics->DrawText(L"space: Eat", 320,300);
+        graphics->DrawText(L"0-8: Regurgitate", 320,375);
+        graphics->DrawText(L"B: Headbutt", 320,450);
+    }
+
+    if (currentLevel == 3){
+        graphics->DrawText(L"Level 3 Begin", 200,200);
+
+        graphics->GetTextExtent(L"Centered Text", &wid, &hit);
+        graphics->DrawText(L"space: Eat", 320,300);
+        graphics->DrawText(L"0-8: Regurgitate", 320,375);
+        graphics->DrawText(L"B: Headbutt", 320,450);
+    }
 }
+
 
 /**
  * Draw the introduction page

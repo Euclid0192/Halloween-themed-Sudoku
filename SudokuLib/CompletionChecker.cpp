@@ -78,7 +78,7 @@ void CompletionChecker::Solve()
 }
 
 /**
- * Checks if the game is
+ * Checks if the game is complete and what the solution is
  */
 void CompletionChecker::CheckCompletion()
 {
