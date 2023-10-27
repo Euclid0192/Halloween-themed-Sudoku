@@ -268,20 +268,21 @@ void SudokuGame::Accept(ItemVisitor *visitor)
  */
 void SudokuGame::OnKeyDown(wxKeyEvent &event)
 {
+    auto keyCode = event.GetKeyCode();
     ///Eating digits
-    if (event.GetKeyCode() == WXK_SPACE)
+    if (keyCode == WXK_SPACE)
     {
         mSparty->SetEatState(true);
         mSparty->StartMouthTimer();
     }
     ///Headbutting
-	else if (event.GetKeyCode() == 'B' || event.GetKeyCode() == 'b')
+	else if (keyCode == 'B' || keyCode == 'b')
 	{
 		mSparty->SetHeadButtState(true);
 		mSparty->StartHeadButtTimer();
 	}
     ///Regurgitating
-    else if (event.GetKeyCode() >= '0' && event.GetKeyCode() <= '9')
+    else if (keyCode >= '0' && keyCode <= '9')
     {
         mSparty->SetSpitState(true);
         mSparty->StartMouthTimer();

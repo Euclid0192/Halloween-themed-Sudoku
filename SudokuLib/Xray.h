@@ -38,6 +38,7 @@ public:
 
     void AddDigit(Digit *digit);
     void Relocate(Digit *digit);
+    void Spit(int row, int col);
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_XRAY_H

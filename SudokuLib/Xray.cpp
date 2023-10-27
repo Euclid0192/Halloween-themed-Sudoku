@@ -88,9 +88,9 @@ void Xray::Relocate(Digit *digit)
     double newX = GetX() + mCurX * GetWidth() / (MaxDigitCol + 1);
     double newY = GetY() - mCurY * GetHeight() / (MaxDigitCol + 1);
     ///Calculating new rows and cols
-    double newRow = (double) ((newY / game->GetTileWidth()) - 1);
-    double newCol = (double) (newX / game->GetTileHeight());
-    digit->SetColRow(newRow, newCol);
+//    double newRow = (double) ((newY / game->GetTileWidth()) - 1);
+//    double newCol = (double) (newX / game->GetTileHeight());
+//    digit->SetColRow(newRow, newCol);
     digit->SetLocation(newX, newY);
     mCurY++;
     /// Each column will have at most 4 digits to avoid out of xray
@@ -99,4 +99,35 @@ void Xray::Relocate(Digit *digit)
         mCurX++;
         mCurY = 0;
     }
+    if (mCurX >= MaxDigitCol)
+    {
+        mCurX = 0;
+        mCurY = 0;
+    }
+}
+
+
+void Xray::Spit(int row, int col)
+{
+    if (mDigits.size() == 0)
+        return;
+
+    auto game = GetGame();
+    auto digit = mDigits.back();
+    mDigits.pop_back();
+
+    int x = col * game->GetTileWidth();
+    int y = (row - 1) * game->GetTileHeight();
+    digit->SetLocation(x, y);
+    ///Make it edible again
+    digit->SetEaten(false);
+
+    if (mCurY < 0)
+    {
+        mCurY = 3;
+        if (mCurX > 0)
+            mCurX--;
+    }
+    else
+        mCurY--;
 }

@@ -10,6 +10,7 @@
 #include "Sparty.h"
 #include "SudokuGame.h"
 #include "GetDigitFromItem.h"
+#include "Solver.h"
 
 #include<string>
 #include<cmath>
@@ -236,8 +237,26 @@ void Sparty::Regurgitation(double elapsed)
         return;
 
     MouthUpdate(elapsed, L"Spit");
+    ///Handling spitting digits
+    auto game = GetGame();
+    auto solution = game->GetSolution();
+    int rowPlay = solution->GetRow();
+    int colPlay = solution->GetCol();
+    int colCur = (int) (GetCol() + 1) + 1;
+    int rowCur = (int)(GetRow()) + 1;
+
+    ///If in board
+    if (colCur < colPlay + 9 && colCur >= colPlay && rowCur >= rowPlay && rowCur < rowPlay + 9)
+    {
+        mXray->Spit(rowCur, colCur);
+    }
 }
 
+/**
+ * Update mouth motion for eating and regurgitating
+ * @param elapsed : time since last call
+ * @param action : eat or regurgitate (spit)
+ */
 void Sparty::MouthUpdate(double elapsed, wstring action)
 {
     if (mMouthTime > 0)
