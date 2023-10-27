@@ -35,14 +35,9 @@ public:
      */
     void Accept(ItemVisitor *visitor) override { visitor->VisitXray(this); };
     void Draw(std::shared_ptr<wxGraphicsContext> graphics);
-    /**
-     * Increment digit count by 1
-     */
-    void IncrementCount() { mDigitCount++; };
+    
     void AddDigit(Digit *digit);
     void Relocate(Digit *digit);
-
-    bool InXray(Digit digit);
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_XRAY_H

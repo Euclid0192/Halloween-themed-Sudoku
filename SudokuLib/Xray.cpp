@@ -66,14 +66,13 @@ void Xray::AddDigit(Digit *digit)
         return;
 
     ///Check if the digit is already in Xray
-    for (auto item: mDigits)
-    {
-        if (item == digit)
-            return;
-    }
+    if (digit->GetEaten())
+        return;
     
     Relocate(digit);
+    digit->SetEaten(true);
     mDigits.push_back(digit);
+
 }
 
 /**
@@ -100,8 +99,4 @@ void Xray::Relocate(Digit *digit)
         mCurX++;
         mCurY = 0;
     }
-}
-
-bool Xray::InXray(Digit digit){
-    return true;
 }

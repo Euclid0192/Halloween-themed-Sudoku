@@ -54,35 +54,13 @@ public:
      */
     void VisitDigit(Digit *digit) override {
         ///Checks if the digit we have right now is outside of the sudoku grid
-        if ( (digit->GetRow() < mCheckingRow || digit->GetRow() > (mCheckingRow+8)) || (digit->GetCol() < mCheckingCol || digit->GetCol() > (mCheckingCol+8)))
+        if ((digit->GetRow() < mCheckingRow || digit->GetRow() > (mCheckingRow+8)) || (digit->GetCol() < mCheckingCol || digit->GetCol() > (mCheckingCol+8)))
         {
-            if (digit->GetValue() == mWantedVal){
+            if (!digit->GetEaten() && digit->GetValue() == mWantedVal){
                 mDigit = digit;
             }
-//            auto xrayrow = mXray->GetRow();
-//            auto xraycol = mXray->GetCol();
-//            if ((digit->GetCol() < xraycol || digit->GetCol() > (xraycol+(mXray->GetWidth()/mTileHeight))) || (digit->GetRow() > xrayrow || digit->GetRow() < (xrayrow-(mXray->GetHeight()/mTileHeight))))
-//            {
-//                if (digit->GetValue() == mWantedVal){
-//                    mDigit = digit;
-//                }
-//            }
-
         }
     }
-
-//    /**
-//     * Override function to visit container
-//     * @param container : container to visit
-//     */
-//    void VisitContainer(Container *container) override
-//    {
-//        auto digits = container->GetDigits();
-//        for (auto digit: digits)
-//        {
-//            digit->Accept(this);
-//        }
-//    }
 
 };
 
