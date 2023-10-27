@@ -234,9 +234,9 @@ void Sparty::Regurgitation(double elapsed)
     auto solution = game->GetSolution();
     int rowPlay = solution->GetRow();
     int colPlay = solution->GetCol();
-    int colCur = (int) (GetCol() + 1) + 1;
-    int rowCur = (int)(GetRow()) + 1;
 
+    int rowCur = (int ) ((GetY() / game->GetTileWidth()) );
+    int colCur = (int) (GetX() / game->GetTileHeight() + 2);
     ///If in board
     if (colCur < colPlay + 9 && colCur >= colPlay && rowCur >= rowPlay && rowCur < rowPlay + 9)
     {
