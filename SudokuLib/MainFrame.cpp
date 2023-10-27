@@ -54,9 +54,6 @@ void MainFrame::Initialize()
     Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnLevelTwo, this, IDM_LEVELTWO);
     Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnLevelThree, this, IDM_LEVELTHREE);
     Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnSolve, this, IDM_SOLVE);
-    //Bind(wxEVT_COMMAND_MENU_SELECTED, &SudokuGameView::Loadlevel1, this, IDM_LEVELONE);
-    //Bind(wxEVT_COMMAND_MENU_SELECTED, &SudokuGameView::Loadlevel2, this, IDM_LEVELTWO);
-   // Bind(wxEVT_COMMAND_MENU_SELECTED, &SudokuGameView::Loadlevel3, this, IDM_LEVELTHREE);
 
 	Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnExit, this, wxID_EXIT);
 	Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnAbout, this, wxID_ABOUT);

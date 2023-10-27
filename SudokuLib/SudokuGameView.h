@@ -30,8 +30,6 @@ private:
     /// The last stopwatch time
     long mTime = 0;
 
-    CompletionChecker mChecker;
-
 public:
     void Initialize(wxFrame *mainFrame);
     void OnPaint(wxPaintEvent &event);

@@ -32,6 +32,7 @@ double introDuration = 0;
 SudokuGame::SudokuGame()
 {
     SetImagesDirectory(L".");
+    mChecker.SetGame(this);
 }
 
 /**
@@ -97,6 +98,12 @@ void SudokuGame::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, 
 
     if (!IntroOn(introDuration)){
         mScoreBoard.Draw(graphics);
+    }
+
+    if (mCorrect){
+        DrawResult(graphics, "Level Complete!");
+    } if (mIncorrect){
+        DrawResult(graphics, "Incorrect");
     }
 
     graphics->PopState();
@@ -191,6 +198,9 @@ void SudokuGame::Clear()
         mItems.clear();
     mDeclarations.clear();
     mSolution.Clear();
+    mCorrect = false;
+    mIncorrect = false;
+    introDuration = 0;
 }
 
 ///Whoever works on this class can continue this to handle mouse click
@@ -329,8 +339,23 @@ void SudokuGame::DrawIntroPage(std::shared_ptr<wxGraphicsContext> graphics){
     graphics->DrawText(L"space: Eat", 320,300);
     graphics->DrawText(L"0-8: Regurgitate", 320,375);
     graphics->DrawText(L"B: Headbutt", 320,450);
-
-
-
 }
 
+/**
+ * Draw the introduction page
+ * @param graphics a wxGraphicsContext to draw
+ */
+void SudokuGame::DrawResult(std::shared_ptr<wxGraphicsContext> graphics, string str){
+
+    wxFont bigFont(wxSize(0, 80),
+                   wxFONTFAMILY_SWISS,
+                   wxFONTSTYLE_NORMAL,
+                   wxFONTWEIGHT_BOLD);
+    graphics->SetFont(bigFont, wxColour(0, 500, 0));
+
+    double wid = mTileWidth * mWidth;
+    double hit = mTileHeight * mHeight;
+    //graphics->GetTextExtent(L"Centered Text", &wid, &hit);
+    graphics->DrawText(str, wid/2 ,hit/2);
+
+}

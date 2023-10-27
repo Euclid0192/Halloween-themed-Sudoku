@@ -40,7 +40,6 @@ public:
          return mTime;
      }
 
-
 };
 
 #endif //TARTARUS_SUDOKULIB_SCOREBOARD_H

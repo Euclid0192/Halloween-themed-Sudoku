@@ -41,6 +41,8 @@ public:
     void IncrementCount() { mDigitCount++; };
     void AddDigit(Digit *digit);
     void Relocate(Digit *digit);
+
+    bool InXray(Digit digit);
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_XRAY_H

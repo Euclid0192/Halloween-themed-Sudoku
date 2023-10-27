@@ -14,11 +14,13 @@
 #include "Level.h"
 #include "Solver.h"
 #include "ScoreBoard.h"
+#include "CompletionChecker.h"
 
 #include<string>
 #include<map>
 #include<memory>
 #include<vector>
+
 
 class SudokuGame
 {
@@ -51,6 +53,11 @@ private:
 
     ///Scoreboard
     ScoreBoard mScoreBoard;
+
+    CompletionChecker mChecker;
+
+    bool mIncorrect = false;
+    bool mCorrect = false;
 
 public:
     SudokuGame();
@@ -123,7 +130,14 @@ public:
     bool IntroOn(double introDuration);
     void DrawIntroPage(std::shared_ptr<wxGraphicsContext> graphics);
 
-    //void Solve() { mChecker.Solve(); }
+    /**
+     * Intiates the completion checker class
+     */
+    void Solve() { mChecker.Solve(); }
+
+    void SetCorrect(bool correct) { mCorrect= correct; }
+    void SetIncorrect(bool incorrect) { mIncorrect= incorrect; }
+    void DrawResult(std::shared_ptr<wxGraphicsContext> graphics, std::string str);
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_GAME_H

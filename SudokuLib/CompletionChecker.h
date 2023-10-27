@@ -8,8 +8,9 @@
 #ifndef TARTARUS_SUDOKULIB_COMPLETIONCHECKER_H
 #define TARTARUS_SUDOKULIB_COMPLETIONCHECKER_H
 
-#include "SudokuGame.h"
 #include "Solver.h"
+
+class SudokuGame;
 
 class CompletionChecker
 {
@@ -17,6 +18,8 @@ private:
     SudokuGame* mGame;
 
     Solver* mSolution;
+
+    bool mComplete;
 
 public:
     void SetGame(SudokuGame* game);

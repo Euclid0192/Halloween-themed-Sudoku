@@ -89,8 +89,8 @@ void Xray::Relocate(Digit *digit)
     double newX = GetX() + mCurX * GetWidth() / (MaxDigitCol + 1);
     double newY = GetY() - mCurY * GetHeight() / (MaxDigitCol + 1);
     ///Calculating new rows and cols
-    double newRow = (double) (newX / game->GetTileWidth());
-    double newCol = (double) (newY / game->GetTileHeight() + 1);
+    double newRow = (double) ((newY / game->GetTileWidth()) - 1);
+    double newCol = (double) (newX / game->GetTileHeight());
     digit->SetColRow(newRow, newCol);
     digit->SetLocation(newX, newY);
     mCurY++;
@@ -100,4 +100,8 @@ void Xray::Relocate(Digit *digit)
         mCurX++;
         mCurY = 0;
     }
+}
+
+bool Xray::InXray(Digit digit){
+    return true;
 }

@@ -8,6 +8,7 @@
 #include "DigitVisitor.h"
 #include "GetGridItemVisitor.h"
 #include "SudokuGame.h"
+#include "GetXrayVisitor.h"
 
 
 void CompletionChecker::SetGame(SudokuGame* game)
@@ -28,6 +29,10 @@ void CompletionChecker::Solve()
     int endCol = startCol + 8;
     int ind1 = 0; int ind2 = 0;
 
+    GetXrayVisitor xrayVisit;
+    mGame->Accept(&xrayVisit);
+    auto xRay = xrayVisit.GetXray();
+
     // Will loop through the sudoku row and col checking if a grid is empty or not
     // if empty will move to next square if not it will find the right value to put in the square and
     // the digit
@@ -47,7 +52,7 @@ void CompletionChecker::Solve()
 
             ///This visitor will give us the digit we want
             DigitVisitor visitor;
-            visitor.SetCMPVals(wantedValue, startRow, startCol);
+            visitor.SetCMPVals(wantedValue, xRay, startRow, startCol, mGame->GetTileHeight());
             mGame->Accept(&visitor);
 
             /// Implement the move functionality
@@ -68,6 +73,8 @@ void CompletionChecker::Solve()
         ind1++;
         ind2 = 0;
     }
+
+    CheckCompletion();
 }
 
 /**
@@ -110,4 +117,10 @@ void CompletionChecker::CheckCompletion()
     }
 
     ///Check bool value and display window
+    /// update the bools for correct and incorrect and make a draw function similar to intro page
+    if (anyIncorrect){
+        mGame->SetIncorrect(true);
+    } else {
+        mGame->SetCorrect(true);
+    }
 }
