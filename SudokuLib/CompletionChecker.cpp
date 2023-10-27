@@ -34,11 +34,11 @@ void CompletionChecker::Solve()
     for (int i = startRow; i <= endRow; i++){
         for (int j = startCol; j <= endCol; j++)
         {
-            GetGridItemVisitor gridvist;
-            gridvist.SetLocation(j, i);
-            mGame->Accept(&gridvist);
+            GetGridItemVisitor gridVisitor;
+            gridVisitor.SetLocation(j, i);
+            mGame->Accept(&gridVisitor);
 
-            if (gridvist.GetResult()){
+            if (gridVisitor.GetResult()){
                 ind2++;
                 continue;
             }
@@ -85,18 +85,18 @@ void CompletionChecker::CheckCompletion()
     for (int i = startRow; i <= endRow; i++){
         for (int j = startCol; j <= endCol; j++)
         {
-            GetGridItemVisitor gridvist;
-            gridvist.SetLocation(j, i);
-            mGame->Accept(&gridvist);
+            GetGridItemVisitor gridVisitor;
+            gridVisitor.SetLocation(j, i);
+            mGame->Accept(&gridVisitor);
 
-            if (!gridvist.GetResult()){
+            if (!gridVisitor.GetResult()){
                 /// If a grid is empty end the loop, game is not complete
                 return;
             }
 
             int wantedValue = mSolution->GetVectorValue(ind1, ind2);
 
-            if (gridvist.GetDigit()->GetValue() != wantedValue)
+            if (gridVisitor.GetDigit()->GetValue() != wantedValue)
             {
                 ///Indicat that at some point a wrong value was put into the wrong place
                 /// Set some bool value
