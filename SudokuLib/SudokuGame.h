@@ -31,8 +31,6 @@ private:
     std::vector<std::shared_ptr<Item>> mItems;
     /// Directory containing the system images
     std::wstring mImagesDirectory;
-    ///Directory containing the level xml files
-    std::wstring mLevelsDirectory;
 
     ///Scale for virtual pixel
     double mScale = 0;
@@ -131,7 +129,7 @@ public:
     void DrawIntroPage(std::shared_ptr<wxGraphicsContext> graphics);
 
     /**
-     * Intiates the completion checker class
+     * Initiates the completion checker class
      */
     void Solve() { mChecker.Solve(); }
 

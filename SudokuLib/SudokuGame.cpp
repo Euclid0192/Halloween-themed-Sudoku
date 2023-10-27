@@ -272,18 +272,19 @@ void SudokuGame::OnKeyDown(wxKeyEvent &event)
     if (event.GetKeyCode() == WXK_SPACE)
     {
         mSparty->SetEatState(true);
-        mSparty->StartEatTimer();
+        mSparty->StartMouthTimer();
     }
     ///Headbutting
-	if (event.GetKeyCode() == 'B' || event.GetKeyCode() == 'b')
+	else if (event.GetKeyCode() == 'B' || event.GetKeyCode() == 'b')
 	{
 		mSparty->SetHeadButtState(true);
 		mSparty->StartHeadButtTimer();
 	}
     ///Regurgitating
-    if (event.GetKeyCode() >= '0' && event.GetKeyCode() <= '9')
+    else if (event.GetKeyCode() >= '0' && event.GetKeyCode() <= '9')
     {
-        
+        mSparty->SetSpitState(true);
+        mSparty->StartMouthTimer();
     }
     event.Skip();
 }

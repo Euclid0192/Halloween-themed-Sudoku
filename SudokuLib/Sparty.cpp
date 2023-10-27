@@ -66,7 +66,7 @@ void Sparty::Draw(shared_ptr<wxGraphicsContext> graphics)
         if (mFront == 1)
         {
             graphics->DrawBitmap(mBitmap1, GetX(), GetY() - hit1 / 2, wid1, hit1);
-            if (mEat)
+            if (mEat || mSpit)
             {
                 graphics->PushState();
 
@@ -82,7 +82,7 @@ void Sparty::Draw(shared_ptr<wxGraphicsContext> graphics)
         }
         else if (mFront == 2)
         {
-            if (mEat)
+            if (mEat || mSpit)
             {
                 graphics->PushState();
 
@@ -197,7 +197,7 @@ void Sparty::MoveAction(double elapsed)
 /**
  * Start the eating timer
  */
-void Sparty::StartEatTimer()
+void Sparty::StartMouthTimer()
 {
     mEatTime = EatingTime;
 }

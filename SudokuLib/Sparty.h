@@ -55,8 +55,10 @@ private:
     ///Determine when to move
     bool mMove = false;
 
-    ///Determine when to open mouth
+    ///Determine when to open mouth for eating
     bool mEat = false;
+    ///Determine when to open mouth for spitting
+    bool mSpit = false;
     ///Eating time
     double mEatTime = 0;
     ///Current head angle to make animation smooth
@@ -79,7 +81,11 @@ public:
      * @param state : state to be set
      */
     void SetEatState(bool state) { mEat = state;};
-
+    /**
+     * Set the spit state
+     * @param state : state to be set
+     */
+    void SetSpitState(bool state) { mSpit = state;};
 	/**
 	 * Set the headbutt state
 	 * @param state : state to be set
@@ -113,7 +119,7 @@ public:
     void SetTraveled(double traveled) { mTraveled = traveled; };
     void MoveAction(double elapsed);
     void EatAction(double elapsed);
-    void StartEatTimer();
+    void StartMouthTimer();
     /**
      * Set the xray of this sparty
      * @param xray : the associated Xray
