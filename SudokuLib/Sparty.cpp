@@ -173,6 +173,9 @@ void Sparty::Update(double elapsed)
 
     ///Eating
     EatAction(elapsed);
+
+    ///Regurgitating
+    Regurgitation(elapsed);
 }
 
 /**
@@ -199,7 +202,7 @@ void Sparty::MoveAction(double elapsed)
  */
 void Sparty::StartMouthTimer()
 {
-    mEatTime = EatingTime;
+    mMouthTime = EatingTime;
 }
 /**
  * Eating action of Sparty
@@ -210,27 +213,7 @@ void Sparty::EatAction(double elapsed)
     if (!mEat)
         return;
 
-    if (mEatTime > 0)
-    {
-        mEatTime -= elapsed;
-        // Calculate the percentage of the eating completed
-        double percentage = 1 - (mEatTime / EatingTime);
-
-        if (percentage <= 0.5)
-        {
-            mMouthAngleUpdate = mMouthAngle * (percentage/0.5);
-        }
-        else
-        {
-            mMouthAngleUpdate = mMouthAngle *  (1 - ((percentage - 0.5) / 0.5));
-        }
-        if (mEatTime <= 0)
-        {
-            mEatTime = 0;
-            mEat = false;
-            mMouthAngleUpdate = 0;
-        }
-    }
+    MouthUpdate(elapsed, L"Eat");
     ///Handling real eating
     auto game = GetGame();
     auto item = game->HitTest(GetX(), GetY());
@@ -241,6 +224,46 @@ void Sparty::EatAction(double elapsed)
     item->Accept(&visitor);
     auto digit = visitor.GetDigit();
     mXray->AddDigit(digit);
+}
+
+/**
+ * Regurgitating action of Sparty
+ * @param elapsed : time since last call
+ */
+void Sparty::Regurgitation(double elapsed)
+{
+    if (!mSpit)
+        return;
+
+    MouthUpdate(elapsed, L"Spit");
+}
+
+void Sparty::MouthUpdate(double elapsed, wstring action)
+{
+    if (mMouthTime > 0)
+    {
+        mMouthTime -= elapsed;
+        // Calculate the percentage of the eating completed
+        double percentage = 1 - (mMouthTime / EatingTime);
+
+        if (percentage <= 0.5)
+        {
+            mMouthAngleUpdate = mMouthAngle * (percentage/0.5);
+        }
+        else
+        {
+            mMouthAngleUpdate = mMouthAngle *  (1 - ((percentage - 0.5) / 0.5));
+        }
+        if (mMouthTime <= 0)
+        {
+            mMouthTime = 0;
+            if (action ==L"Eat")
+                mEat = false;
+            else if (action == L"Spit")
+                mSpit = false;
+            mMouthAngleUpdate = 0;
+        }
+    }
 }
 
 /**

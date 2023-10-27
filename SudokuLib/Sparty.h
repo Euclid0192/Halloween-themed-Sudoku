@@ -60,7 +60,7 @@ private:
     ///Determine when to open mouth for spitting
     bool mSpit = false;
     ///Eating time
-    double mEatTime = 0;
+    double mMouthTime = 0;
     ///Current head angle to make animation smooth
     double mMouthAngleUpdate;
     ///The Xray of the game to handle eating
@@ -119,7 +119,9 @@ public:
     void SetTraveled(double traveled) { mTraveled = traveled; };
     void MoveAction(double elapsed);
     void EatAction(double elapsed);
+    void Regurgitation(double elapsed);
     void StartMouthTimer();
+    void MouthUpdate(double elapsed, std::wstring action);
     /**
      * Set the xray of this sparty
      * @param xray : the associated Xray
