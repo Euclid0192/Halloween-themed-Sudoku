@@ -90,7 +90,7 @@ void SudokuGame::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, 
     }
 
     ///Draw the introduction page
-    ///and scoarboard
+    ///and scoreboard
     if (IntroOn(introDuration)){
         DrawIntroPage(graphics);
     }
@@ -258,18 +258,23 @@ void SudokuGame::Accept(ItemVisitor *visitor)
  */
 void SudokuGame::OnKeyDown(wxKeyEvent &event)
 {
+    ///Eating digits
     if (event.GetKeyCode() == WXK_SPACE)
     {
         mSparty->SetEatState(true);
         mSparty->StartEatTimer();
     }
-
+    ///Headbutting
 	if (event.GetKeyCode() == 'B' || event.GetKeyCode() == 'b')
 	{
 		mSparty->SetHeadButtState(true);
 		mSparty->StartHeadButtTimer();
 	}
-
+    ///Regurgitating
+    if (event.GetKeyCode() >= '0' && event.GetKeyCode() <= '9')
+    {
+        
+    }
     event.Skip();
 }
 
