@@ -98,7 +98,7 @@ void CompletionChecker::CheckCompletion()
 
             if (gridVisitor.GetDigit()->GetValue() != wantedValue)
             {
-                ///Indicat that at some point a wrong value was put into the wrong place
+                ///Indicate that at some point a wrong value was put into the wrong place
                 /// Set some bool value
                 anyIncorrect = true;
             }

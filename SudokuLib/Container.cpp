@@ -11,6 +11,7 @@
 #include "Container.h"
 #include "Item.h"
 #include "SudokuGame.h"
+#include "GetDigitFromItem.h"
 
 using namespace std;
 

@@ -33,6 +33,11 @@ public:
     void XmlLoadDeclaration(wxXmlNode *node) override;
     void XmlLoadItem(wxXmlNode *node) override;
     void Draw(std::shared_ptr<wxGraphicsContext> graphics) override;
+    /**
+     * Get all the digits in the container
+     * @return vector of digits
+     */
+    std::vector<std::shared_ptr<Item>> GetDigits() { return mDigits; }
 
     /**
     * Accept a visitor

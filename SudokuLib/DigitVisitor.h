@@ -10,6 +10,7 @@
 
 #include "ItemVisitor.h"
 #include "Digit.h"
+#include "Container.h"
 
 class DigitVisitor : public ItemVisitor
 {
@@ -30,13 +31,13 @@ public:
      */
     Digit* GetDigit() { return mDigit; }
     /**
-     * Set the values we will campare with the digit values
+     * Set the values we will compare with the digit values
      * @param val
      */
     void SetCMPVals(int val, int row, int col) { mWantedVal = val; mCheckingRow = row; mCheckingCol = col; }
 
     /**
-     * Checks if
+     * Checks if the digit we have right now is outside of the sudoku grid
      * @param digit
      */
     void VisitDigit(Digit *digit) override {
@@ -48,6 +49,20 @@ public:
             }
         }
     }
+
+    /**
+     * Override function to visit container
+     * @param container : container to visit
+     */
+    void VisitContainer(Container *container) override
+    {
+        auto digits = container->GetDigits();
+        for (auto digit: digits)
+        {
+            digit->Accept(this);
+        }
+    }
+
 };
 
 #endif //TARTARUS_SUDOKULIB_DIGITVISITOR_H
