@@ -47,10 +47,10 @@ Item::~Item()
 void Item::SetLocation(double x, double y)
 {
     mLocation.m_x = x; mLocation.m_y = y;
-    auto game = GetGame();
-    double newRow = (double) ((y / game->GetTileWidth()) - 1);
-    double newCol = (double) (x / game->GetTileHeight());
-    SetColRow(newRow, newCol);
+//    auto game = GetGame();
+//    double newRow = (double) ((y / game->GetTileWidth()) - 1);
+//    double newCol = (double) (x / game->GetTileHeight());
+//    SetColRow(newRow, newCol);
 }
 
 /**

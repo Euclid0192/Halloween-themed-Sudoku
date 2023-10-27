@@ -170,13 +170,16 @@ void Sparty::Update(double elapsed)
 	HeadButtAction(elapsed);
 
     ///Movement
-    MoveAction(elapsed);
+    if (mMove)
+        MoveAction(elapsed);
 
     ///Eating
-    EatAction(elapsed);
+    if (mEat)
+        MouthUpdate(elapsed, L"Eat");
 
     ///Regurgitating
-    Regurgitation(elapsed);
+    if (mSpit)
+        MouthUpdate(elapsed, L"Spit");
 }
 
 /**
@@ -185,9 +188,6 @@ void Sparty::Update(double elapsed)
  */
 void Sparty::MoveAction(double elapsed)
 {
-    if (!mMove)
-        return;
-
     auto d = mSpeed * MaxSpeed * elapsed;
     double traveled = d.GetVectorLength();
     SetLocation(GetX() + d.m_x, GetY() + d.m_y);
@@ -211,10 +211,6 @@ void Sparty::StartMouthTimer()
  */
 void Sparty::EatAction(double elapsed)
 {
-    if (!mEat)
-        return;
-
-    MouthUpdate(elapsed, L"Eat");
     ///Handling real eating
     auto game = GetGame();
     auto item = game->HitTest(GetX(), GetY());
@@ -233,10 +229,6 @@ void Sparty::EatAction(double elapsed)
  */
 void Sparty::Regurgitation(double elapsed)
 {
-    if (!mSpit)
-        return;
-
-    MouthUpdate(elapsed, L"Spit");
     ///Handling spitting digits
     auto game = GetGame();
     auto solution = game->GetSolution();
@@ -278,9 +270,15 @@ void Sparty::MouthUpdate(double elapsed, wstring action)
         {
             mMouthTime = 0;
             if (action ==L"Eat")
+            {
+                EatAction(elapsed);
                 mEat = false;
+            }
             else if (action == L"Spit")
+            {
+                Regurgitation(elapsed);
                 mSpit = false;
+            }
             mMouthAngleUpdate = 0;
         }
     }
