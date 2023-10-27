@@ -38,6 +38,7 @@ void SudokuGameView::Initialize(wxFrame* mainFrame)
     mStopWatch.Start();
     mLevel.SetGame(&mGame);
     mLevel.Load(L"../levels/level0.xml");
+
 }
 
 /**

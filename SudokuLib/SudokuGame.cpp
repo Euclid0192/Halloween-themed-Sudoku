@@ -25,6 +25,8 @@ const wstring ImagesDirectory = L"/images";
 
 ///Keep on track the duration of introduction page
 double introDuration = 0;
+///Keep on track the duration of introduction page
+double resultDuration = 0;
 
 /**
  * Constructor
@@ -100,13 +102,18 @@ void SudokuGame::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, 
         mScoreBoard.Draw(graphics);
     }
 
-    if (mCorrect){
-        DrawResult(graphics, "Level Complete!");
-        mScoreBoard.Stop();
 
-    } if (mIncorrect){
-        DrawResult(graphics, "Incorrect");
+    if (resultDuration <= 3){
+        if (mCorrect){
+            DrawResult(graphics, "Level Complete!");
+            mScoreBoard.Stop();
+
+        } if (mIncorrect)
+        {
+            DrawResult(graphics, "Incorrect");
+        }
     }
+
 
     graphics->PopState();
 }
@@ -173,11 +180,19 @@ void SudokuGame::MoveToFront(std::shared_ptr<Item> item)
 */
 void SudokuGame::Update(double elapsed)
 {
+    ///update time for instruction page
+    introDuration += elapsed;
 
-    ///update time for scoreboard after
-    /// instruction page disappear
-    if (!IntroOn(introDuration)){
-        mScoreBoard.UpdateTime(elapsed);
+    if (mCorrect || mIncorrect)
+    {
+        resultDuration += elapsed;
+    }
+    else{
+        ///update time for scoreboard after
+        /// instruction page disappear
+        if (!IntroOn(introDuration)){
+            mScoreBoard.UpdateTime(elapsed);
+        }
     }
 
     ///update time for instruction page

@@ -53,8 +53,11 @@ private:
     ScoreBoard mScoreBoard;
 
     CompletionChecker mChecker;
-
+    /// Holds the level class that is passed from view class
+    Level* mLevel;
+    /// Tells the game if the game is complete and answer is incorrect
     bool mIncorrect = false;
+    /// Tells the game if the game is complete and answer is correct
     bool mCorrect = false;
 
 public:
