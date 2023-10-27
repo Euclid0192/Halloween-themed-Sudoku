@@ -19,6 +19,9 @@ const int ScoreboardTextSize = 64;
 /// Top left corner of the scoreboard in virtual pixels
 const wxPoint ScoreboardTopLeft(10, 10);
 
+///Store boolean to see if timer is running
+bool IsRunning = TRUE;
+
 /**
  * Constrcutor
  */
@@ -32,7 +35,13 @@ ScoreBoard::ScoreBoard() {
  */
 void ScoreBoard::UpdateTime(double elapsed)
 {
-    mTime += elapsed;
+    if (IsRunning){
+        mTime += elapsed;
+    }
+
+    else {
+        mTime += 0;
+    }
 
 }
 
@@ -42,6 +51,15 @@ void ScoreBoard::UpdateTime(double elapsed)
 void ScoreBoard::RefreshTime()
 {
     mTime = 0;
+
+}
+
+/**
+ * Stop the Timer
+ */
+void ScoreBoard::Stop()
+{
+    IsRunning = FALSE;
 
 }
 

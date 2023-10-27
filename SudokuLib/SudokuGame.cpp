@@ -102,6 +102,8 @@ void SudokuGame::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, 
 
     if (mCorrect){
         DrawResult(graphics, "Level Complete!");
+        mScoreBoard.Stop();
+
     } if (mIncorrect){
         DrawResult(graphics, "Incorrect");
     }
@@ -201,6 +203,7 @@ void SudokuGame::Clear()
     mCorrect = false;
     mIncorrect = false;
     introDuration = 0;
+    mScoreBoard.RefreshTime();
 }
 
 ///Whoever works on this class can continue this to handle mouse click
