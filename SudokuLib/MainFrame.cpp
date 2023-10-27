@@ -96,21 +96,25 @@ void MainFrame::OnLevelZero(wxCommandEvent& event)
 {
 
     mGameView->LoadLevel0();
+    mGameView->SetGameLevel(0);
 }
 void MainFrame::OnLevelOne(wxCommandEvent& event)
 {
 
     mGameView->LoadLevel1();
+    mGameView->SetGameLevel(1);
 }
 void MainFrame::OnLevelTwo(wxCommandEvent& event)
 {
 
     mGameView->LoadLevel2();
+    mGameView->SetGameLevel(2);
 }
 
 void MainFrame::OnLevelThree(wxCommandEvent& event)
 {
     mGameView->LoadLevel3();
+    mGameView->SetGameLevel(3);
 }
 
 void MainFrame::OnSolve(wxCommandEvent &event)
