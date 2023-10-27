@@ -9,6 +9,7 @@
 #include "Xray.h"
 #include "Digit.h"
 #include "SudokuGame.h"
+#include <algorithm>
 
 using namespace std;
 
@@ -107,15 +108,28 @@ void Xray::Relocate(Digit *digit)
 }
 
 
-void Xray::Spit(int row, int col)
+void Xray::Spit(int row, int col, int value)
 {
     if (mDigits.size() == 0)
         return;
 
-    auto game = GetGame();
-    auto digit = mDigits.back();
-    mDigits.pop_back();
+    Digit *digit = nullptr;
+    for (auto d: mDigits)
+    {
+        if (d->GetValue() == value)
+        {
+            digit = d;
+            break;
+        }
+    }
 
+    ///Digit not in stomach
+    if (digit == nullptr)
+        return;
+    ///Else
+    auto game = GetGame();
+    Remove(digit);
+    ///Set location on board
     int x = col * game->GetTileWidth();
     int y = (row - 1) * game->GetTileHeight();
     digit->SetLocation(x, y);
@@ -130,4 +144,17 @@ void Xray::Spit(int row, int col)
     }
     else
         mCurY--;
+}
+
+/**
+* Remove a digit from the Xray
+*/
+void Xray::Remove(Digit *digit)
+{
+    auto loc = find(mDigits.begin(), mDigits.end(), digit);
+    if (loc != mDigits.end())
+    {
+        mDigits.erase(loc);
+        digit->SetEaten(false);
+    }
 }

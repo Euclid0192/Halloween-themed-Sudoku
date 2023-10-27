@@ -65,6 +65,8 @@ private:
     double mMouthAngleUpdate;
     ///The Xray of the game to handle eating
     Xray *mXray = nullptr;
+    ///Value got from the key pressed
+    int mKeyCode = 0;
 public:
     Sparty() = delete;
     Sparty(const Sparty &) = delete;
@@ -139,6 +141,11 @@ public:
      * Accept a visitor
      */
     void Accept(ItemVisitor *visitor) override { visitor->VisitSparty(this); };
+    /**
+     * Set the key code pressed
+     * @param code : key code to set
+     */
+    void SetKeyCode(int code) { mKeyCode = code; };
 
 };
 

@@ -248,7 +248,8 @@ void Sparty::Regurgitation(double elapsed)
     ///If in board
     if (colCur < colPlay + 9 && colCur >= colPlay && rowCur >= rowPlay && rowCur < rowPlay + 9)
     {
-        mXray->Spit(rowCur, colCur);
+        int value = mKeyCode - '0';
+        mXray->Spit(rowCur, colCur, value);
     }
 }
 

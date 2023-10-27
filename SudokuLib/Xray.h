@@ -18,8 +18,6 @@ class Xray : public Item
 private:
     ///Maximum number of digits hold
     int mCapacity = 0;
-    ///Current number of digits
-    int mDigitCount = 0;
     ///Container for digits in Xray
     std::vector<Digit*> mDigits;
     ///Logic to make digit not overlapping
@@ -38,7 +36,8 @@ public:
 
     void AddDigit(Digit *digit);
     void Relocate(Digit *digit);
-    void Spit(int row, int col);
+    void Spit(int row, int col, int value);
+    void Remove(Digit *digit);
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_XRAY_H
