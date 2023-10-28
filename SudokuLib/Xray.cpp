@@ -141,15 +141,6 @@ void Xray::Spit(int row, int col, int value)
     ///Make it edible again
     digit->SetEaten(false);
     game ->SetFull(false);
-
-    if (mCurY < 0)
-    {
-        mCurY = 3;
-        if (mCurX > 0)
-            mCurX--;
-    }
-    else
-        mCurY--;
 }
 
 /**
