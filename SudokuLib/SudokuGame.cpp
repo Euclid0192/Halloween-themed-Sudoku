@@ -133,6 +133,10 @@ void SudokuGame::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, 
         Clear();
         mLevel->Load(oss.str());
     }
+    if(mSpartyFull){
+        DrawResult(graphics, "I'm Full!");
+    }
+
 
 
     graphics->PopState();

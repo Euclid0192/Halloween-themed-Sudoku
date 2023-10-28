@@ -62,6 +62,8 @@ private:
 
     ///Store the current level for instruction page
     int mCurrentLevel = 0;
+    bool mSpartyFull = false;
+
 
 public:
     SudokuGame();
@@ -156,6 +158,7 @@ public:
      * Checks if the game is complete and gets the result
      */
     void CheckCorrect() { mChecker.CheckCompletion(); }
+    void SetFull(bool spartyfull) {mSpartyFull = spartyfull;}
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_GAME_H
