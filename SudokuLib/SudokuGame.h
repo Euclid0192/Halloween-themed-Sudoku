@@ -55,15 +55,13 @@ private:
     CompletionChecker mChecker;
     /// Holds the level class that is passed from view class
     Level* mLevel;
-    /// What level are we on right now
-    int mLevelNum = 0;
     /// Tells the game if the game is complete and answer is incorrect
     bool mIncorrect = false;
     /// Tells the game if the game is complete and answer is correct
     bool mCorrect = false;
 
     ///Store the current level for instruction page
-    int currentLevel = 0;
+    int mCurrentLevel = 0;
 
 public:
     SudokuGame();
@@ -141,21 +139,19 @@ public:
      */
     void Solve() { mChecker.Solve(); }
     /**
-     * Set our Level member function
+     * Set our Level member function to the level object we made
      * @param level
      */
     void SetLevel(Level* level) { mLevel = level; }
-    /**
-     * When a level is completed or level is changed we update what level we are on
-     * @param num
-     */
-    void UpdateLevel(int num) { mLevelNum = num; }
 
     void SetCorrect(bool correct) { mCorrect= correct; }
     void SetIncorrect(bool incorrect) { mIncorrect= incorrect; }
     void DrawResult(std::shared_ptr<wxGraphicsContext> graphics, std::string str);
-
-    void SetLevel(int level){currentLevel = level;}
+    /**
+     * When a level is completed or level is changed we update what level we are on
+     * @param level
+     */
+    void SetCurrentLevel(int num){mCurrentLevel = num;}
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_GAME_H

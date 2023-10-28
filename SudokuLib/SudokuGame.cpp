@@ -109,11 +109,11 @@ void SudokuGame::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, 
         DrawResult(graphics, "Level Complete!");
 
     } else if (mCorrect && resultDuration > 3){
-        if (mLevelNum < 3)
+        if (mCurrentLevel < 3)
         {
-            mLevelNum += 1;
+            mCurrentLevel += 1;
             ostringstream oss;
-            oss << "../levels/level" << mLevelNum << ".xml";
+            oss << "../levels/level" << mCurrentLevel << ".xml";
             Clear();
             mLevel->Load(oss.str());
         } else {
@@ -128,7 +128,7 @@ void SudokuGame::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, 
         DrawResult(graphics, "Incorrect");
     } else if (mIncorrect && resultDuration > 3){
         ostringstream oss;
-        oss << "../levels/level" << mLevelNum << ".xml";
+        oss << "../levels/level" << mCurrentLevel << ".xml";
         Clear();
         mLevel->Load(oss.str());
         /// reload
@@ -206,12 +206,12 @@ void SudokuGame::Update(double elapsed)
     if (mCorrect || mIncorrect)
     {
         resultDuration += elapsed;
-    } else {
-        ///update time for scoreboard after
-        /// instruction page disappear
-        if (!IntroOn(introDuration)){
-            mScoreBoard.UpdateTime(elapsed);
-        }
+    }
+
+    ///update time for scoreboard after
+    /// instruction page disappear
+    if (!IntroOn(introDuration)){
+        mScoreBoard.UpdateTime(elapsed);
     }
 
     ///update time for instruction page
@@ -368,13 +368,13 @@ void SudokuGame::DrawIntroPage(std::shared_ptr<wxGraphicsContext> graphics){
     graphics->GetTextExtent(L"Centered Text", &wid, &hit);
 
     ///Draw different headings for different levels
-    if (currentLevel == 1){graphics->DrawText(L"Level 1 Begin", 200,200);}
+    if (mCurrentLevel == 1){graphics->DrawText(L"Level 1 Begin", 200,200);}
 
-    else if (currentLevel == 2){graphics->DrawText(L"Level 2 Begin", 200,200);}
+    else if (mCurrentLevel == 2){graphics->DrawText(L"Level 2 Begin", 200,200);}
 
-    else if (currentLevel == 3){graphics->DrawText(L"Level 3 Begin", 200,200);}
+    else if (mCurrentLevel == 3){graphics->DrawText(L"Level 3 Begin", 200,200);}
 
-    else if (currentLevel == 0){graphics->DrawText(L"Level 0 Begin", 200,200);}
+    else if (mCurrentLevel == 0){graphics->DrawText(L"Level 0 Begin", 200,200);}
 
     ///set front and draw instructions
     wxFont smallFont(wxSize(0, 40),
