@@ -9,7 +9,7 @@
 #define ACTIONSUDOKU_SUDOKULIB_LEVEL_H
 
 
-#include "SudokuGame.h"
+class SudokuGame;
 
 /**
  * Class that will read a levels XML file and construct the necessary objects

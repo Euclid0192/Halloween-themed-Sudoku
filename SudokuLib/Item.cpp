@@ -68,6 +68,9 @@ void Item::Draw(shared_ptr<wxGraphicsContext> graphics)
                              wid,
                              hit);
     }
+
+//    graphics->SetPen(*wxBLUE_PEN);
+//    graphics->DrawRectangle(GetX(), GetY(), 10, 10);
 }
 
 /**
