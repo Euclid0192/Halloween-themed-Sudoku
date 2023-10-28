@@ -36,8 +36,10 @@ void SudokuGameView::Initialize(wxFrame* mainFrame)
     mTimer.SetOwner(this);
     mTimer.Start(FrameDuration);
     mStopWatch.Start();
+    mGame.SetLevel(&mLevel);
     mLevel.SetGame(&mGame);
-    mLevel.Load(L"../levels/level0.xml");
+    mLevel.Load(L"../levels/level1.xml");
+    mGame.UpdateLevel(1);
 
 }
 
@@ -106,6 +108,7 @@ void SudokuGameView::LoadLevel0()
 {
     mGame.Clear();
    mLevel.Load(L"../levels/level0.xml");
+    mGame.UpdateLevel(0);
 }
 /**
  * Level load handler for level 1
@@ -115,6 +118,7 @@ void SudokuGameView::LoadLevel1()
 {
     mGame.Clear();
     mLevel.Load(L"../levels/level1.xml");
+    mGame.UpdateLevel(1);
 }
 /**
  * Level load handler for level 2
@@ -124,6 +128,7 @@ void SudokuGameView::LoadLevel2()
 {
     mGame.Clear();
     mLevel.Load(L"../levels/level2.xml");
+    mGame.UpdateLevel(2);
 }
 /**
  * Level load handler for level 3
@@ -133,6 +138,7 @@ void SudokuGameView::LoadLevel3()
 {
     mGame.Clear();
     mLevel.Load(L"../levels/level3.xml");
+    mGame.UpdateLevel(3);
 }
 /**
  * Solve game handler

@@ -16,6 +16,7 @@
 
 #include<iostream>
 #include<cmath>
+#include <sstream>
 
 using namespace std;
 
@@ -103,15 +104,33 @@ void SudokuGame::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, 
     }
 
 
-    if (resultDuration <= 3){
-        if (mCorrect){
-            DrawResult(graphics, "Level Complete!");
-            mScoreBoard.Stop();
+    if (mCorrect && resultDuration <= 3){
+        DrawResult(graphics, "Level Complete!");
 
-        } if (mIncorrect)
+    } else if (mCorrect && resultDuration > 3){
+        if (mLevelNum < 3)
         {
-            DrawResult(graphics, "Incorrect");
+            mLevelNum += 1;
+            ostringstream oss;
+            oss << "../levels/level" << mLevelNum << ".xml";
+            Clear();
+            mLevel->Load(oss.str());
+        } else {
+            Clear();
+            mLevel->Load(L"../levels/level3.xml");
         }
+
+        /// Uss oss strings to make the path to the file and load that in
+    }
+    if (mIncorrect && resultDuration <= 3)
+    {
+        DrawResult(graphics, "Incorrect");
+    } else if (mIncorrect && resultDuration > 3){
+        ostringstream oss;
+        oss << "../levels/level" << mLevelNum << ".xml";
+        Clear();
+        mLevel->Load(oss.str());
+        /// reload
     }
 
 
@@ -186,8 +205,7 @@ void SudokuGame::Update(double elapsed)
     if (mCorrect || mIncorrect)
     {
         resultDuration += elapsed;
-    }
-    else{
+    } else {
         ///update time for scoreboard after
         /// instruction page disappear
         if (!IntroOn(introDuration)){
@@ -218,6 +236,7 @@ void SudokuGame::Clear()
     mCorrect = false;
     mIncorrect = false;
     introDuration = 0;
+    resultDuration = 0;
     mScoreBoard.RefreshTime();
 }
 
@@ -348,7 +367,9 @@ void SudokuGame::DrawIntroPage(std::shared_ptr<wxGraphicsContext> graphics){
 
     double wid, hit;
     graphics->GetTextExtent(L"Centered Text", &wid, &hit);
-    graphics->DrawText(L"Level 1 Begin", 200,200);
+    ostringstream oss;
+    oss << "Level " << mLevelNum << " Begin";
+    graphics->DrawText(oss.str(), 200,200);
 
     wxFont smallFont(wxSize(0, 40),
                    wxFONTFAMILY_SWISS,

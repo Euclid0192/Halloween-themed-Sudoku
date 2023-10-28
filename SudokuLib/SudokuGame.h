@@ -51,10 +51,12 @@ private:
 
     ///Scoreboard
     ScoreBoard mScoreBoard;
-
+    ///Object that will check if our board has the correct answer
     CompletionChecker mChecker;
     /// Holds the level class that is passed from view class
     Level* mLevel;
+    /// What level are we on right now
+    int mLevelNum = 0;
     /// Tells the game if the game is complete and answer is incorrect
     bool mIncorrect = false;
     /// Tells the game if the game is complete and answer is correct
@@ -135,6 +137,16 @@ public:
      * Initiates the completion checker class
      */
     void Solve() { mChecker.Solve(); }
+    /**
+     * Set our Level member function
+     * @param level
+     */
+    void SetLevel(Level* level) { mLevel = level; }
+    /**
+     * When a level is completed or level is changed we update what level we are on
+     * @param num
+     */
+    void UpdateLevel(int num) { mLevelNum = num; }
 
     void SetCorrect(bool correct) { mCorrect= correct; }
     void SetIncorrect(bool incorrect) { mIncorrect= incorrect; }
