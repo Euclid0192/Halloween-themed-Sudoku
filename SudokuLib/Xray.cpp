@@ -128,14 +128,12 @@ void Xray::Spit(int row, int col, int value)
     if (digit == nullptr)
         return;
     ///Else
-    auto game = GetGame();
     Remove(digit);
     ///Set location on board
     int x = col * game->GetTileWidth();
     int y = row * game->GetTileHeight();
     digit->SetLocation(x, y);
     digit->SetColRow(row, col);
-    game->CheckCorrect();
     ///Make it edible again
     digit->SetEaten(false);
 
