@@ -24,7 +24,7 @@ private:
     ///Logic to make digit not overlapping
     int mCurX = 0, mCurY = 0;
 
-    SudokuGame mGame;
+//    SudokuGame mGame;
 
 public:
     Xray(SudokuGame *game);

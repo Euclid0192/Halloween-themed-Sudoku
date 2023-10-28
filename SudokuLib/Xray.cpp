@@ -62,6 +62,8 @@ void Xray::Draw(shared_ptr<wxGraphicsContext> graphics)
  */
 void Xray::AddDigit(Digit *digit)
 {
+    /// Use this for full
+    auto game = GetGame();
     if (mDigits.size() >= mCapacity)
         return;
 
@@ -109,7 +111,10 @@ void Xray::Relocate(Digit *digit)
 
 void Xray::Spit(int row, int col, int value)
 {
+    /// Use this for full
+    auto game = GetGame();
     if (mDigits.size() == 0)
+
         return;
 
     Digit *digit = nullptr;
@@ -126,7 +131,6 @@ void Xray::Spit(int row, int col, int value)
     if (digit == nullptr)
         return;
     ///Else
-    auto game = GetGame();
     Remove(digit);
     ///Set location on board
     int x = col * game->GetTileWidth();
