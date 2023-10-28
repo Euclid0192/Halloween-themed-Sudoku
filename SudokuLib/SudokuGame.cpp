@@ -332,56 +332,42 @@ bool SudokuGame::IntroOn(double introDuration){
  * @param graphics a wxGraphicsContext to draw
  */
 void SudokuGame::DrawIntroPage(std::shared_ptr<wxGraphicsContext> graphics){
-    //
-    // Draw a filled rectangle
-    //
+    /// Draw a filled rectangle
     wxBrush rectBrush(*wxWHITE);
     graphics->SetBrush(rectBrush);
     graphics->SetPen(*wxBLACK);
     graphics->DrawRectangle(150, 170, 600, 350);
 
-
+    ///Set the font for levels
     wxFont bigFont(wxSize(0, 80),
                    wxFONTFAMILY_SWISS,
                    wxFONTSTYLE_NORMAL,
                    wxFONTWEIGHT_BOLD);
     graphics->SetFont(bigFont, wxColour(0, 500, 0));
+    double wid = mTileWidth * mWidth;
+    double hit = mTileHeight * mHeight;
+    graphics->GetTextExtent(L"Centered Text", &wid, &hit);
 
+    ///Draw different headings for different levels
+    if (currentLevel == 1){graphics->DrawText(L"Level 1 Begin", 200,200);}
+
+    else if (currentLevel == 2){graphics->DrawText(L"Level 2 Begin", 200,200);}
+
+    else if (currentLevel == 3){graphics->DrawText(L"Level 3 Begin", 200,200);}
+
+    else if (currentLevel == 0){graphics->DrawText(L"Level 0 Begin", 200,200);}
+
+    ///set front and draw instructions
     wxFont smallFont(wxSize(0, 40),
                      wxFONTFAMILY_SWISS,
                      wxFONTSTYLE_NORMAL,
                      wxFONTWEIGHT_BOLD);
     graphics->SetFont(smallFont, wxColour(0,0,500));
 
-    double wid, hit;
     graphics->GetTextExtent(L"Centered Text", &wid, &hit);
-
-    if (currentLevel == 1){
-        graphics->DrawText(L"Level 1 Begin", 200,200);
-
-        graphics->GetTextExtent(L"Centered Text", &wid, &hit);
-        graphics->DrawText(L"space: Eat", 320,300);
-        graphics->DrawText(L"0-8: Regurgitate", 320,375);
-        graphics->DrawText(L"B: Headbutt", 320,450);
-    }
-
-    if (currentLevel == 2){
-        graphics->DrawText(L"Level 2 Begin", 200,200);
-
-        graphics->GetTextExtent(L"Centered Text", &wid, &hit);
-        graphics->DrawText(L"space: Eat", 320,300);
-        graphics->DrawText(L"0-8: Regurgitate", 320,375);
-        graphics->DrawText(L"B: Headbutt", 320,450);
-    }
-
-    if (currentLevel == 3){
-        graphics->DrawText(L"Level 3 Begin", 200,200);
-
-        graphics->GetTextExtent(L"Centered Text", &wid, &hit);
-        graphics->DrawText(L"space: Eat", 320,300);
-        graphics->DrawText(L"0-8: Regurgitate", 320,375);
-        graphics->DrawText(L"B: Headbutt", 320,450);
-    }
+    graphics->DrawText(L"space: Eat", 320,300);
+    graphics->DrawText(L"0-8: Regurgitate", 320,375);
+    graphics->DrawText(L"B: Headbutt", 320,450);
 }
 
 
