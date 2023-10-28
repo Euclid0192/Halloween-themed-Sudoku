@@ -62,6 +62,9 @@ private:
     /// Tells the game if the game is complete and answer is correct
     bool mCorrect = false;
 
+    ///Store the current level for instruction page
+    int currentLevel = 0;
+
 public:
     SudokuGame();
     /**
@@ -151,6 +154,8 @@ public:
     void SetCorrect(bool correct) { mCorrect= correct; }
     void SetIncorrect(bool incorrect) { mIncorrect= incorrect; }
     void DrawResult(std::shared_ptr<wxGraphicsContext> graphics, std::string str);
+
+    void SetLevel(int level){currentLevel = level;}
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_GAME_H

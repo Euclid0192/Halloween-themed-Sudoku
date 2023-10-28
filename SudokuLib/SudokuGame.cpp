@@ -100,6 +100,7 @@ void SudokuGame::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, 
     }
 
     if (!IntroOn(introDuration)){
+        mScoreBoard.Restart();
         mScoreBoard.Draw(graphics);
     }
 
@@ -350,31 +351,36 @@ bool SudokuGame::IntroOn(double introDuration){
  * @param graphics a wxGraphicsContext to draw
  */
 void SudokuGame::DrawIntroPage(std::shared_ptr<wxGraphicsContext> graphics){
-    //
-    // Draw a filled rectangle
-    //
+    /// Draw a filled rectangle
     wxBrush rectBrush(*wxWHITE);
     graphics->SetBrush(rectBrush);
     graphics->SetPen(*wxBLACK);
     graphics->DrawRectangle(150, 170, 600, 350);
 
-
+    ///Set the font for levels
     wxFont bigFont(wxSize(0, 80),
                    wxFONTFAMILY_SWISS,
                    wxFONTSTYLE_NORMAL,
                    wxFONTWEIGHT_BOLD);
     graphics->SetFont(bigFont, wxColour(0, 500, 0));
-
-    double wid, hit;
+    double wid = mTileWidth * mWidth;
+    double hit = mTileHeight * mHeight;
     graphics->GetTextExtent(L"Centered Text", &wid, &hit);
-    ostringstream oss;
-    oss << "Level " << mLevelNum << " Begin";
-    graphics->DrawText(oss.str(), 200,200);
 
+    ///Draw different headings for different levels
+    if (currentLevel == 1){graphics->DrawText(L"Level 1 Begin", 200,200);}
+
+    else if (currentLevel == 2){graphics->DrawText(L"Level 2 Begin", 200,200);}
+
+    else if (currentLevel == 3){graphics->DrawText(L"Level 3 Begin", 200,200);}
+
+    else if (currentLevel == 0){graphics->DrawText(L"Level 0 Begin", 200,200);}
+
+    ///set front and draw instructions
     wxFont smallFont(wxSize(0, 40),
-                   wxFONTFAMILY_SWISS,
-                   wxFONTSTYLE_NORMAL,
-                   wxFONTWEIGHT_BOLD);
+                     wxFONTFAMILY_SWISS,
+                     wxFONTSTYLE_NORMAL,
+                     wxFONTWEIGHT_BOLD);
     graphics->SetFont(smallFont, wxColour(0,0,500));
 
     graphics->GetTextExtent(L"Centered Text", &wid, &hit);
@@ -382,6 +388,7 @@ void SudokuGame::DrawIntroPage(std::shared_ptr<wxGraphicsContext> graphics){
     graphics->DrawText(L"0-8: Regurgitate", 320,375);
     graphics->DrawText(L"B: Headbutt", 320,450);
 }
+
 
 /**
  * Draw the introduction page
