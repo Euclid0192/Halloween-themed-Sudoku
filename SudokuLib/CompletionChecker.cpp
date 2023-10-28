@@ -66,7 +66,6 @@ void CompletionChecker::Solve()
                 digit->SetColRow(i, j);
             }
 
-            /// Also finding a way to think about the xRay, if a digit is eaten then don't move that as well
 
             ind2++;
         }

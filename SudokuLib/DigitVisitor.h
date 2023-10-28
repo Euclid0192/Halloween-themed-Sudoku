@@ -54,7 +54,7 @@ public:
      */
     void VisitDigit(Digit *digit) override {
         ///Checks if the digit we have right now is outside of the sudoku grid
-        if ((digit->GetRow() < mCheckingRow || digit->GetRow() > (mCheckingRow+8)) || (digit->GetCol() < mCheckingCol || digit->GetCol() > (mCheckingCol+8)))
+        if (digit->GetRow() < mCheckingRow || digit->GetRow() > (mCheckingRow+8) || digit->GetCol() < mCheckingCol || digit->GetCol() > (mCheckingCol+8))
         {
             if (!digit->GetEaten() && digit->GetValue() == mWantedVal){
                 mDigit = digit;

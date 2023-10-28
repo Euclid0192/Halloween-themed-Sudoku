@@ -9,6 +9,7 @@
 #define ACTIONSUDOKU_SUDOKULIB_XRAY_H
 
 #include "Item.h"
+#include "SudokuGame.h"
 #include<vector>
 /**
  * A class for the Xray
@@ -22,6 +23,9 @@ private:
     std::vector<Digit*> mDigits;
     ///Logic to make digit not overlapping
     int mCurX = 0, mCurY = 0;
+
+    SudokuGame mGame;
+
 public:
     Xray(SudokuGame *game);
     Xray() = delete;

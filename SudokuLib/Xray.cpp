@@ -8,7 +8,6 @@
 #include "pch.h"
 #include "Xray.h"
 #include "Digit.h"
-#include "SudokuGame.h"
 #include <algorithm>
 
 using namespace std;
@@ -133,6 +132,7 @@ void Xray::Spit(int row, int col, int value)
     int x = col * game->GetTileWidth();
     int y = (row) * game->GetTileHeight();
     digit->SetLocation(x, y);
+    digit->SetColRow(row, col);
     ///Make it edible again
     digit->SetEaten(false);
 
