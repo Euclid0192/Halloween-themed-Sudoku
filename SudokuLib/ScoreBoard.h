@@ -42,6 +42,8 @@ public:
 
     void Stop();
 
+    void Restart();
+
 };
 
 #endif //TARTARUS_SUDOKULIB_SCOREBOARD_H

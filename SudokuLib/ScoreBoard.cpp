@@ -64,15 +64,24 @@ void ScoreBoard::Stop()
 }
 
 /**
+ * Restart the Timer
+ */
+void ScoreBoard::Restart()
+{
+    IsRunning = TRUE;
+
+}
+
+/**
  * Draw the scoreboard
  * @param graphics a wxGraphicsContext to draw
  */
 void ScoreBoard::Draw(std::shared_ptr<wxGraphicsContext> graphics)
 {
-    if (mTime == 0)
-    {
-        return;
-    }
+//    if (mTime == 0)
+//    {
+//        return;
+//    }
 
     int minutes = (int)mTime/60;
     int seconds = (int)mTime%60;

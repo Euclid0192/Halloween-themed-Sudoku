@@ -99,6 +99,7 @@ void SudokuGame::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, 
     }
 
     if (!IntroOn(introDuration)){
+        mScoreBoard.Restart();
         mScoreBoard.Draw(graphics);
     }
 
