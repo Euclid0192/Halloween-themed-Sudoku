@@ -107,6 +107,7 @@ void SudokuGame::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, 
 
     if (mCorrect && resultDuration <= 3){
         DrawResult(graphics, "Level Complete!");
+        mScoreBoard.Stop();
 
     } else if (mCorrect && resultDuration > 3){
         if (mCurrentLevel < 3)
