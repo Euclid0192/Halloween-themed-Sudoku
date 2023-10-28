@@ -11,6 +11,7 @@
 #include "SudokuGame.h"
 #include "GetDigitFromItem.h"
 #include "Solver.h"
+#include "GetGridItemVisitor.h"
 
 #include<string>
 #include<cmath>
@@ -241,6 +242,16 @@ void Sparty::Regurgitation(double elapsed)
     ///If in board
     if (colCur < colPlay + 9 && colCur >= colPlay && rowCur >= rowPlay && rowCur < rowPlay + 9)
     {
+        ///Check if something is already there
+        GetGridItemVisitor gridVisitor;
+        gridVisitor.SetLocation(colCur, rowCur);
+        game->Accept(&gridVisitor);
+        ///If something is there already, no regurgitation
+        if (gridVisitor.GetResult()){
+            wxMessageBox("Something is already there!!!");
+            return;
+        }
+        ///If nothing there, spit the digits
         int value = mKeyCode - '0';
         mXray->Spit(rowCur, colCur, value);
     }

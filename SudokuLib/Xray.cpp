@@ -88,10 +88,7 @@ void Xray::Relocate(Digit *digit)
     auto game = GetGame();
     double newX = GetX() + mCurX * GetWidth() / (MaxDigitCol + 1);
     double newY = GetY() - mCurY * GetHeight() / (MaxDigitCol + 1);
-    ///Calculating new rows and cols
-//    double newRow = (double) ((newY / game->GetTileWidth()) - 1);
-//    double newCol = (double) (newX / game->GetTileHeight());
-//    digit->SetColRow(newRow, newCol);
+
     digit->SetLocation(newX, newY);
     mCurY++;
     /// Each column will have at most 4 digits to avoid out of xray
@@ -131,8 +128,9 @@ void Xray::Spit(int row, int col, int value)
     Remove(digit);
     ///Set location on board
     int x = col * game->GetTileWidth();
-    int y = (row) * game->GetTileHeight();
+    int y = row * game->GetTileHeight();
     digit->SetLocation(x, y);
+    digit->SetColRow(row, col);
     ///Make it edible again
     digit->SetEaten(false);
 

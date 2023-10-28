@@ -222,6 +222,8 @@ void SudokuGame::Update(double elapsed)
     {
         item->Update(elapsed);
     }
+    ///Check the status of the game after each update
+    mChecker.CheckCompletion();
 }
 
 /**
