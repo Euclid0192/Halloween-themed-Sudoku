@@ -152,6 +152,10 @@ public:
      * @param level
      */
     void SetCurrentLevel(int num){mCurrentLevel = num;}
+    /**
+     * Checks if the game is complete and gets the result
+     */
+    void CheckCorrect() { mChecker.CheckCompletion(); }
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_GAME_H

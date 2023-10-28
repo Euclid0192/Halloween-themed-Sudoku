@@ -11,7 +11,6 @@
 #include "Digit.h"
 #include "Xray.h"
 #include "Background.h"
-#include "GetSpartyVisitor.h"
 
 
 #include<iostream>
@@ -127,12 +126,12 @@ void SudokuGame::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, 
     if (mIncorrect && resultDuration <= 3)
     {
         DrawResult(graphics, "Incorrect");
+        mScoreBoard.Stop();
     } else if (mIncorrect && resultDuration > 3){
         ostringstream oss;
         oss << "../levels/level" << mCurrentLevel << ".xml";
         Clear();
         mLevel->Load(oss.str());
-        /// reload
     }
 
 
@@ -215,8 +214,6 @@ void SudokuGame::Update(double elapsed)
         mScoreBoard.UpdateTime(elapsed);
     }
 
-    ///update time for instruction page
-    introDuration += elapsed;
 
     for (auto item : mItems)
     {
