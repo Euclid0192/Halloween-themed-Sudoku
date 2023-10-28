@@ -137,6 +137,7 @@ void Xray::Spit(int row, int col, int value)
     int y = (row) * game->GetTileHeight();
     digit->SetLocation(x, y);
     digit->SetColRow(row, col);
+    game->CheckCorrect();
     ///Make it edible again
     digit->SetEaten(false);
 
