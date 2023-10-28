@@ -58,7 +58,7 @@ void CompletionChecker::Solve()
             /// Implement the move functionality
             auto digit = visitor.GetDigit();
             double x = j * mGame->GetTileHeight();
-            double y =  (i-1) * mGame->GetTileHeight();
+            double y =  (i) * mGame->GetTileHeight();
 
             if (digit != nullptr)
             {

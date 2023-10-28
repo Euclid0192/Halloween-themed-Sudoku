@@ -104,7 +104,7 @@ void Container::XmlLoadItem(wxXmlNode *node)
         auto declaration = game->GetDeclaration(id);
         auto item = declaration->Clone();
         item->XmlLoadItem(child);
-        item->SetLocation(item->GetX(), item->GetY() - 2 * item->GetHeight());
+        item->SetLocation(item->GetX(), item->GetY() - game->GetTileHeight());
         mDigits.push_back(item);
     }
 }

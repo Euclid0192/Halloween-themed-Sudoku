@@ -65,9 +65,12 @@ bool Digit::HitTest(double x, double y)
     if (mGiven)
         return false;
     SudokuGame *game = GetGame();
+    auto tileHeight = game->GetTileHeight();
+    auto tileWidth = game->GetTileWidth();
+
     int distX = (int)(GetX() - x);
-    int distY = (int)(GetY() + game->GetTileHeight() - y);
-    if (distX > 0 && distX <= game->GetTileWidth() * 3 / 2 && abs(distY) < game->GetTileHeight() / 4)
+    int distY = (int)(GetY() - tileHeight  - y);
+    if (distX >= tileWidth / 2 && distX <= tileWidth * 3 / 2 && abs(distY) < tileHeight / 4)
         return true;
     return false;
 }

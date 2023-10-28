@@ -53,25 +53,25 @@ void Sparty::Draw(shared_ptr<wxGraphicsContext> graphics)
         mBitmap2 = graphics->CreateBitmapFromImage(*mImage2);
         int wid2 = mImage2->GetWidth();
         int hit2 = mImage2->GetHeight();
-
+        ///Headbutt rotation
 		if (mHeadButt)
 		{
 			graphics->PushState();
 
-			graphics->Translate(GetX() + wid1/4, GetY() + hit1/2);
+			graphics->Translate(GetX() + wid1/4, GetY() + hit1);
 			graphics->Rotate(mHeadAngleUpdate);
-			graphics->Translate(-(GetX()+ wid1/4), -(GetY() + hit1/2));
+			graphics->Translate(-(GetX()+ wid1/4), -(GetY() + hit1));
 
 		}
 
         if (mFront == 1)
         {
-            graphics->DrawBitmap(mBitmap1, GetX(), GetY() - hit1 / 2, wid1, hit1);
+            graphics->DrawBitmap(mBitmap1, GetX(), GetY(), wid1, hit1);
             if (mEat || mSpit)
             {
                 graphics->PushState();
 
-                graphics->Translate(GetX() + mMouthPivot.x, GetY() - hit2 / 2 + mMouthPivot.y);
+                graphics->Translate(GetX() + mMouthPivot.x, GetY() + mMouthPivot.y);
                 graphics->Rotate(mMouthAngle);
                 graphics->Translate(-(GetX()  + mMouthPivot.x), -(GetY() + mMouthPivot.y));
 
@@ -79,7 +79,7 @@ void Sparty::Draw(shared_ptr<wxGraphicsContext> graphics)
                 graphics->PopState();
             }
             else
-                graphics->DrawBitmap(mBitmap2, GetX(), GetY() - hit2 / 2, wid2, hit2);
+                graphics->DrawBitmap(mBitmap2, GetX(), GetY() , wid2, hit2);
         }
         else if (mFront == 2)
         {
@@ -87,7 +87,7 @@ void Sparty::Draw(shared_ptr<wxGraphicsContext> graphics)
             {
                 graphics->PushState();
 
-                graphics->Translate(GetX() + mMouthPivot.x, GetY() - hit2 / 2 + mMouthPivot.y);
+                graphics->Translate(GetX() + mMouthPivot.x, GetY() + mMouthPivot.y);
                 graphics->Rotate(mMouthAngleUpdate);
                 graphics->Translate(-(GetX()  + mMouthPivot.x), -(GetY() + mMouthPivot.y));
 
@@ -95,8 +95,8 @@ void Sparty::Draw(shared_ptr<wxGraphicsContext> graphics)
                 graphics->PopState();
             }
             else
-                graphics->DrawBitmap(mBitmap2, GetX(), GetY() - hit2 / 2, wid2, hit2);
-            	graphics->DrawBitmap(mBitmap1, GetX(), GetY() - hit1 / 2, wid1, hit1);
+                graphics->DrawBitmap(mBitmap2, GetX(), GetY(), wid2, hit2);
+            	graphics->DrawBitmap(mBitmap1, GetX(), GetY(), wid1, hit1);
         }
         ///Update drawing when headbutting
 		if (mHeadButt)
@@ -235,8 +235,9 @@ void Sparty::Regurgitation(double elapsed)
     int rowPlay = solution->GetRow();
     int colPlay = solution->GetCol();
 
-    int rowCur = (int ) ((GetY() / game->GetTileWidth()) );
-    int colCur = (int) (GetX() / game->GetTileHeight() + 2);
+    int rowCur = round( GetY() / game->GetTileWidth() + 1);
+    int colCur = round( GetX() / game->GetTileHeight() + 1 );
+
     ///If in board
     if (colCur < colPlay + 9 && colCur >= colPlay && rowCur >= rowPlay && rowCur < rowPlay + 9)
     {
@@ -327,6 +328,16 @@ void Sparty::HeadButtAction(double elapsed)
 			//check for containers
 		}
 	}
+}
+
+/**
+ * Override load item from xml since location is not right in xml
+ * @param node: node we are loading from
+ */
+void Sparty::XmlLoadItem(wxXmlNode *node)
+{
+    Item::XmlLoadItem(node);
+    SetLocation(GetX(), GetY() - GetHeight() / 2);
 }
 
 

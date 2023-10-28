@@ -51,7 +51,7 @@ void Xray::Draw(shared_ptr<wxGraphicsContext> graphics)
     ///Draw the background
     graphics->DrawBitmap(bitmap,
                          GetX(),
-                         GetY() - GetHeight() / 3,
+                         GetY() - GetHeight() * 2 / 3,
                          GetWidth(),
                          GetHeight()
     );
@@ -131,7 +131,7 @@ void Xray::Spit(int row, int col, int value)
     Remove(digit);
     ///Set location on board
     int x = col * game->GetTileWidth();
-    int y = (row - 1) * game->GetTileHeight();
+    int y = (row) * game->GetTileHeight();
     digit->SetLocation(x, y);
     ///Make it edible again
     digit->SetEaten(false);

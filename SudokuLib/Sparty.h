@@ -147,6 +147,8 @@ public:
      */
     void SetKeyCode(int code) { mKeyCode = code; };
 
+    void XmlLoadItem(wxXmlNode *node) override;
+
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_SPARTY_H

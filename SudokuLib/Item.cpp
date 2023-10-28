@@ -64,13 +64,10 @@ void Item::Draw(shared_ptr<wxGraphicsContext> graphics)
         //
         graphics->DrawBitmap(mBitmap,
                              int(GetX()),
-                             int(GetY() + hit),
+                             int(GetY()),
                              wid,
                              hit);
     }
-
-//    graphics->SetPen(*wxBLUE_PEN);
-//    graphics->DrawRectangle(GetX(), GetY(), 10, 10);
 }
 
 /**
@@ -121,6 +118,6 @@ void Item::XmlLoadItem(wxXmlNode *node)
     mCol = (double)col;
     ///Calculate the correct location (lower-left corner of item)
     double x = col * mGame->GetTileWidth();
-    double y = (row - 1) * mGame->GetTileHeight();
+    double y = (row) * mGame->GetTileHeight();
     SetLocation(x, y);
 }

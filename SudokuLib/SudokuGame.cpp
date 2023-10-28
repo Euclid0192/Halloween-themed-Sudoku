@@ -259,7 +259,7 @@ void SudokuGame::OnLeftDown(double x, double y)
     double oX = (x - mXOffset) / mScale;
     double oY = (y - mYOffset) / mScale;
 
-    wxPoint2DDouble target(oX - mSparty->GetTargetX(), oY - mSparty->GetTargetY());
+    wxPoint2DDouble target(oX - mSparty->GetTargetX(), oY - mSparty->GetHeight() / 2 - mSparty->GetTargetY());
     auto d = target - mSparty->GetLocation();
     ///Calculate total distance we need to move
     double distance = d.GetVectorLength();
