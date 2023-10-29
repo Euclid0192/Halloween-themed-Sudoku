@@ -20,6 +20,8 @@ private:
     int mValue;
     ///Determine if this is given or playing digit
     bool mGiven = false;
+    ///Whether this has been eaten or not
+    bool mEaten = false;
 public:
     Digit() = delete;
     Digit(const Digit &);
@@ -36,7 +38,18 @@ public:
      * Gets the mGiven value whether this is a given or not
      *  @return bool
      */
-     bool GetGiven() { return mGiven; }
+    bool GetGiven() { return mGiven; }
+    /**
+     * Get the eaten state
+     * @return true if this has been eaten, false otherwise
+     */
+    bool GetEaten() { return mEaten; }
+    /**
+     * Set the eaten state of digit
+     * @param state : state to set
+     */
+    void SetEaten(bool state) { mEaten = state; }
+
     /**
     * Get the row location of the digit
     * @return row location of the digit in the game

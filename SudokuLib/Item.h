@@ -94,7 +94,13 @@ public:
      * @param x : x coordinate
      * @param y : y coordinate
      */
-    void SetLocation(double x, double y) { mLocation.m_x = x; mLocation.m_y = y;};
+    void SetLocation(double x, double y) { mLocation.m_x = x; mLocation.m_y = y; };
+    /**
+    * Set the row and col location of the item
+    * @param x : x coordinate
+    * @param y : y coordinate
+    */
+    void SetColRow(double row, double col) { mRow = row; mCol = col; }
     std::wstring GetImagesDirectory();
 
     /**

@@ -55,14 +55,18 @@ private:
     ///Determine when to move
     bool mMove = false;
 
-    ///Determine when to open mouth
+    ///Determine when to open mouth for eating
     bool mEat = false;
+    ///Determine when to open mouth for spitting
+    bool mSpit = false;
     ///Eating time
-    double mEatTime = 0;
+    double mMouthTime = 0;
     ///Current head angle to make animation smooth
     double mMouthAngleUpdate;
     ///The Xray of the game to handle eating
     Xray *mXray = nullptr;
+    ///Value got from the key pressed
+    int mKeyCode = 0;
 public:
     Sparty() = delete;
     Sparty(const Sparty &) = delete;
@@ -79,7 +83,11 @@ public:
      * @param state : state to be set
      */
     void SetEatState(bool state) { mEat = state;};
-
+    /**
+     * Set the spit state
+     * @param state : state to be set
+     */
+    void SetSpitState(bool state) { mSpit = state;};
 	/**
 	 * Set the headbutt state
 	 * @param state : state to be set
@@ -113,7 +121,9 @@ public:
     void SetTraveled(double traveled) { mTraveled = traveled; };
     void MoveAction(double elapsed);
     void EatAction(double elapsed);
-    void StartEatTimer();
+    void Regurgitation(double elapsed);
+    void StartMouthTimer();
+    void MouthUpdate(double elapsed, std::wstring action);
     /**
      * Set the xray of this sparty
      * @param xray : the associated Xray
@@ -131,6 +141,13 @@ public:
      * Accept a visitor
      */
     void Accept(ItemVisitor *visitor) override { visitor->VisitSparty(this); };
+    /**
+     * Set the key code pressed
+     * @param code : key code to set
+     */
+    void SetKeyCode(int code) { mKeyCode = code; };
+
+    void XmlLoadItem(wxXmlNode *node) override;
 
 };
 

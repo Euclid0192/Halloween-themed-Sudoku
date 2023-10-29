@@ -8,6 +8,7 @@
 #include "DigitVisitor.h"
 #include "GetGridItemVisitor.h"
 #include "SudokuGame.h"
+#include "GetXrayVisitor.h"
 
 
 void CompletionChecker::SetGame(SudokuGame* game)
@@ -28,17 +29,21 @@ void CompletionChecker::Solve()
     int endCol = startCol + 8;
     int ind1 = 0; int ind2 = 0;
 
+    GetXrayVisitor xrayVisit;
+    mGame->Accept(&xrayVisit);
+    auto xRay = xrayVisit.GetXray();
+
     // Will loop through the sudoku row and col checking if a grid is empty or not
     // if empty will move to next square if not it will find the right value to put in the square and
     // the digit
     for (int i = startRow; i <= endRow; i++){
         for (int j = startCol; j <= endCol; j++)
         {
-            GetGridItemVisitor gridvist;
-            gridvist.SetLocation(j, i);
-            mGame->Accept(&gridvist);
+            GetGridItemVisitor gridVisitor;
+            gridVisitor.SetLocation(j, i);
+            mGame->Accept(&gridVisitor);
 
-            if (gridvist.GetResult()){
+            if (gridVisitor.GetResult()){
                 ind2++;
                 continue;
             }
@@ -47,15 +52,20 @@ void CompletionChecker::Solve()
 
             ///This visitor will give us the digit we want
             DigitVisitor visitor;
-            visitor.SetCMPVals(wantedValue, startRow, startCol);
+            visitor.SetCMPVals(wantedValue, xRay, startRow, startCol, mGame->GetTileHeight());
             mGame->Accept(&visitor);
 
             /// Implement the move functionality
             auto digit = visitor.GetDigit();
-            auto x = j * mGame->GetTileHeight();
-            auto y =  (i-1) * mGame->GetTileHeight();
-            digit->SetLocation(x,y);
-            /// Also finding a way to think about the xRay, if a digit is eaten then don't move that as well
+            double x = j * mGame->GetTileHeight();
+            double y =  (i) * mGame->GetTileHeight();
+
+            if (digit != nullptr)
+            {
+                digit->SetLocation(x,y);
+                digit->SetColRow(i, j);
+            }
+
 
             ind2++;
         }
@@ -63,10 +73,11 @@ void CompletionChecker::Solve()
         ind2 = 0;
     }
 
+    CheckCompletion();
 }
 
 /**
- * Checks if the game is
+ * Checks if the game is complete and what the solution is
  */
 void CompletionChecker::CheckCompletion()
 {
@@ -80,20 +91,20 @@ void CompletionChecker::CheckCompletion()
     for (int i = startRow; i <= endRow; i++){
         for (int j = startCol; j <= endCol; j++)
         {
-            GetGridItemVisitor gridvist;
-            gridvist.SetLocation(j, i);
-            mGame->Accept(&gridvist);
+            GetGridItemVisitor gridVisitor;
+            gridVisitor.SetLocation(j, i);
+            mGame->Accept(&gridVisitor);
 
-            if (!gridvist.GetResult()){
+            if (!gridVisitor.GetResult()){
                 /// If a grid is empty end the loop, game is not complete
                 return;
             }
 
             int wantedValue = mSolution->GetVectorValue(ind1, ind2);
 
-            if (gridvist.GetDigit()->GetValue() != wantedValue)
+            if (gridVisitor.GetDigit()->GetValue() != wantedValue)
             {
-                ///Indicat that at some point a wrong value was put into the wrong place
+                ///Indicate that at some point a wrong value was put into the wrong place
                 /// Set some bool value
                 anyIncorrect = true;
             }
@@ -105,4 +116,10 @@ void CompletionChecker::CheckCompletion()
     }
 
     ///Check bool value and display window
+    /// update the bools for correct and incorrect and make a draw function similar to intro page
+    if (anyIncorrect){
+        mGame->SetIncorrect(true);
+    } else {
+        mGame->SetCorrect(true);
+    }
 }

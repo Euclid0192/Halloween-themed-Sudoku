@@ -1,12 +1,12 @@
 /**
- * @file GetEatingDigitVisitor.h
+ * @file GetDigitFromItem.h
  * @author Nam Hai Nguyen
  *
  * A Concrete visitor to get digit that is in range of Sparty's eating
  */
 
-#ifndef TARTARUS_SUDOKULIB_GETEATINGDIGITVISITOR_H
-#define TARTARUS_SUDOKULIB_GETEATINGDIGITVISITOR_H
+#ifndef TARTARUS_SUDOKULIB_GETDIGITFROMITEM_H
+#define TARTARUS_SUDOKULIB_GETDIGITFROMITEM_H
 
 #include "Digit.h"
 #include "ItemVisitor.h"
@@ -14,7 +14,7 @@
 /**
  * A Concrete visitor to get digit that is in range of Sparty's eating
  */
-class GetEatingDigitVisitor : public ItemVisitor
+class GetDigitFromItem : public ItemVisitor
 {
 private:
     Digit *mDigit = nullptr;
@@ -30,4 +30,4 @@ public:
     }
 };
 
-#endif //TARTARUS_SUDOKULIB_GETEATINGDIGITVISITOR_H
+#endif //TARTARUS_SUDOKULIB_GETDIGITFROMITEM_H

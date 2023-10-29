@@ -8,8 +8,13 @@
 #include "pch.h"
 #include "Xray.h"
 #include "Digit.h"
+#include "SudokuGame.h"
+#include <algorithm>
 
 using namespace std;
+
+///Maximum number of digits in a column in the Xray
+const int MaxDigitCol = 4;
 
 /**
  * Constructor
@@ -46,7 +51,7 @@ void Xray::Draw(shared_ptr<wxGraphicsContext> graphics)
     ///Draw the background
     graphics->DrawBitmap(bitmap,
                          GetX(),
-                         GetY() - GetHeight() / 3,
+                         GetY() - GetHeight() * 2 / 3,
                          GetWidth(),
                          GetHeight()
     );
@@ -58,11 +63,23 @@ void Xray::Draw(shared_ptr<wxGraphicsContext> graphics)
  */
 void Xray::AddDigit(Digit *digit)
 {
-    if (mDigits.size() >= mCapacity)
+    /// Use this for full
+    auto game = GetGame();
+    if(mDigits.size() >= mCapacity)
+    {
+        game->SetFull(true);
         return;
+    }
 
+    ///Check if the digit is already in Xray
+    if (digit->GetEaten())
+        return;
+    
     Relocate(digit);
+    digit->SetEaten(true);
+    game->SetFull(false);
     mDigits.push_back(digit);
+
 }
 
 /**
@@ -72,19 +89,71 @@ void Xray::AddDigit(Digit *digit)
 void Xray::Relocate(Digit *digit)
 {
     ///Display the digits in the Xray in rows and columns so that they are not overlapping
-    /// Each column will have at most 4 digits to avoid out of xray
-    digit->SetLocation(GetX() + mCurX * GetWidth() / 5, GetY() - mCurY * GetHeight() / 5);
+
+    ///Calculating new coordinates
+    auto game = GetGame();
+    double newX = GetX() + mCurX * GetWidth() / (MaxDigitCol + 1);
+    double newY = GetY() - mCurY * GetHeight() / (MaxDigitCol + 1);
+
+    digit->SetLocation(newX, newY);
     mCurY++;
-    if (mCurY >= 4)
+    /// Each column will have at most 4 digits to avoid out of xray
+    if (mCurY >= MaxDigitCol)
     {
         mCurX++;
+        mCurY = 0;
+    }
+    if (mCurX >= MaxDigitCol)
+    {
+        mCurX = 0;
         mCurY = 0;
     }
 }
 
 
-bool Xray::HasKey(char key)
+void Xray::Spit(int row, int col, int value)
 {
-	// Implement the logic to check if the X-ray holds the item corresponding to the key
-	return false; // Placeholder
+    /// Use this for full
+    auto game = GetGame();
+    if (mDigits.size() == 0)
+        return;
+
+    Digit *digit = nullptr;
+    for (auto d: mDigits)
+    {
+        if (d->GetValue() == value)
+        {
+            digit = d;
+            break;
+        }
+    }
+
+    ///Digit not in stomach
+    if (digit == nullptr)
+        return;
+    ///Else
+    Remove(digit);
+    ///Set location on board
+    int x = col * game->GetTileWidth();
+    int y = row * game->GetTileHeight();
+    digit->SetLocation(x, y);
+    digit->SetColRow(row, col);
+    ///Make it edible again
+    digit->SetEaten(false);
+    game ->SetFull(false);
+}
+
+/**
+* Remove a digit from the Xray
+*/
+void Xray::Remove(Digit *digit)
+{
+    auto loc = find(mDigits.begin(), mDigits.end(), digit);
+    if (loc != mDigits.end())
+    {
+        mDigits.erase(loc);
+        digit->SetEaten(false);
+
+    }
+    
 }

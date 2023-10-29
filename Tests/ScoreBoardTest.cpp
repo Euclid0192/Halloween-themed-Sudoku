@@ -28,6 +28,11 @@ TEST(ScoreBoardTest, RefreshTime){
     timer.UpdateTime(1000);
     ASSERT_EQ(1000, timer.GetTime());
 
+    //Test for Stop
+    timer.Stop();
+    timer.UpdateTime(1000);
+    ASSERT_EQ(1000, timer.GetTime());
+
     //Test for RefreshTime
     timer.RefreshTime();
     ASSERT_EQ(0, timer.GetTime());

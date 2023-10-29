@@ -40,6 +40,9 @@ public:
          return mTime;
      }
 
+    void Stop();
+
+    void Restart();
 
 };
 

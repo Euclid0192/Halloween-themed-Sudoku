@@ -14,11 +14,13 @@
 #include "Level.h"
 #include "Solver.h"
 #include "ScoreBoard.h"
+#include "CompletionChecker.h"
 
 #include<string>
 #include<map>
 #include<memory>
 #include<vector>
+
 
 class SudokuGame
 {
@@ -29,8 +31,6 @@ private:
     std::vector<std::shared_ptr<Item>> mItems;
     /// Directory containing the system images
     std::wstring mImagesDirectory;
-    ///Directory containing the level xml files
-    std::wstring mLevelsDirectory;
 
     ///Scale for virtual pixel
     double mScale = 0;
@@ -51,6 +51,19 @@ private:
 
     ///Scoreboard
     ScoreBoard mScoreBoard;
+    ///Object that will check if our board has the correct answer
+    CompletionChecker mChecker;
+    /// Holds the level class that is passed from view class
+    Level* mLevel;
+    /// Tells the game if the game is complete and answer is incorrect
+    bool mIncorrect = false;
+    /// Tells the game if the game is complete and answer is correct
+    bool mCorrect = false;
+
+    ///Store the current level for instruction page
+    int mCurrentLevel = 0;
+    bool mSpartyFull = false;
+
 
 public:
     SudokuGame();
@@ -123,7 +136,29 @@ public:
     bool IntroOn(double introDuration);
     void DrawIntroPage(std::shared_ptr<wxGraphicsContext> graphics);
 
-    //void Solve() { mChecker.Solve(); }
+    /**
+     * Initiates the completion checker class
+     */
+    void Solve() { mChecker.Solve(); }
+    /**
+     * Set our Level member function to the level object we made
+     * @param level
+     */
+    void SetLevel(Level* level) { mLevel = level; }
+
+    void SetCorrect(bool correct) { mCorrect= correct; }
+    void SetIncorrect(bool incorrect) { mIncorrect= incorrect; }
+    void DrawResult(std::shared_ptr<wxGraphicsContext> graphics, std::string str);
+    /**
+     * When a level is completed or level is changed we update what level we are on
+     * @param level
+     */
+    void SetCurrentLevel(int num){mCurrentLevel = num;}
+    /**
+     * Checks if the game is complete and gets the result
+     */
+    void CheckCorrect() { mChecker.CheckCompletion(); }
+    void SetFull(bool spartyfull) {mSpartyFull = spartyfull;}
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_GAME_H

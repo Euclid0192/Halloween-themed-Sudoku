@@ -42,6 +42,8 @@ public:
      * @return in value at solution[opos][ipos]
      */
     int GetVectorValue(int opos, int ipos) { return mSolution.at(opos).at(ipos); }
+
+    void Clear() { mSolution.clear();}
 };
 
 #endif //TARTARUS_SUDOKULIB_SOLVER_H

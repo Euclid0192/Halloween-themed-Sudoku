@@ -9,7 +9,9 @@
 #include "pch.h"
 #include "Sparty.h"
 #include "SudokuGame.h"
-#include "GetEatingDigitVisitor.h"
+#include "GetDigitFromItem.h"
+#include "Solver.h"
+#include "GetGridItemVisitor.h"
 
 #include<string>
 #include<cmath>
@@ -52,25 +54,25 @@ void Sparty::Draw(shared_ptr<wxGraphicsContext> graphics)
         mBitmap2 = graphics->CreateBitmapFromImage(*mImage2);
         int wid2 = mImage2->GetWidth();
         int hit2 = mImage2->GetHeight();
-
+        ///Headbutt rotation
 		if (mHeadButt)
 		{
 			graphics->PushState();
 
-			graphics->Translate(GetX() + wid1/4, GetY() + hit1/2);
+			graphics->Translate(GetX() + wid1/4, GetY() + hit1);
 			graphics->Rotate(mHeadAngleUpdate);
-			graphics->Translate(-(GetX()+ wid1/4), -(GetY() + hit1/2));
+			graphics->Translate(-(GetX()+ wid1/4), -(GetY() + hit1));
 
 		}
 
         if (mFront == 1)
         {
-            graphics->DrawBitmap(mBitmap1, GetX(), GetY() - hit1 / 2, wid1, hit1);
-            if (mEat)
+            graphics->DrawBitmap(mBitmap1, GetX(), GetY(), wid1, hit1);
+            if (mEat || mSpit)
             {
                 graphics->PushState();
 
-                graphics->Translate(GetX() + mMouthPivot.x, GetY() - hit2 / 2 + mMouthPivot.y);
+                graphics->Translate(GetX() + mMouthPivot.x, GetY() + mMouthPivot.y);
                 graphics->Rotate(mMouthAngle);
                 graphics->Translate(-(GetX()  + mMouthPivot.x), -(GetY() + mMouthPivot.y));
 
@@ -78,15 +80,15 @@ void Sparty::Draw(shared_ptr<wxGraphicsContext> graphics)
                 graphics->PopState();
             }
             else
-                graphics->DrawBitmap(mBitmap2, GetX(), GetY() - hit2 / 2, wid2, hit2);
+                graphics->DrawBitmap(mBitmap2, GetX(), GetY() , wid2, hit2);
         }
         else if (mFront == 2)
         {
-            if (mEat)
+            if (mEat || mSpit)
             {
                 graphics->PushState();
 
-                graphics->Translate(GetX() + mMouthPivot.x, GetY() - hit2 / 2 + mMouthPivot.y);
+                graphics->Translate(GetX() + mMouthPivot.x, GetY() + mMouthPivot.y);
                 graphics->Rotate(mMouthAngleUpdate);
                 graphics->Translate(-(GetX()  + mMouthPivot.x), -(GetY() + mMouthPivot.y));
 
@@ -94,8 +96,8 @@ void Sparty::Draw(shared_ptr<wxGraphicsContext> graphics)
                 graphics->PopState();
             }
             else
-                graphics->DrawBitmap(mBitmap2, GetX(), GetY() - hit2 / 2, wid2, hit2);
-            	graphics->DrawBitmap(mBitmap1, GetX(), GetY() - hit1 / 2, wid1, hit1);
+                graphics->DrawBitmap(mBitmap2, GetX(), GetY(), wid2, hit2);
+            	graphics->DrawBitmap(mBitmap1, GetX(), GetY(), wid1, hit1);
         }
         ///Update drawing when headbutting
 		if (mHeadButt)
@@ -169,10 +171,16 @@ void Sparty::Update(double elapsed)
 	HeadButtAction(elapsed);
 
     ///Movement
-    MoveAction(elapsed);
+    if (mMove)
+        MoveAction(elapsed);
 
     ///Eating
-    EatAction(elapsed);
+    if (mEat)
+        MouthUpdate(elapsed, L"Eat");
+
+    ///Regurgitating
+    if (mSpit)
+        MouthUpdate(elapsed, L"Spit");
 }
 
 /**
@@ -181,9 +189,6 @@ void Sparty::Update(double elapsed)
  */
 void Sparty::MoveAction(double elapsed)
 {
-    if (!mMove)
-        return;
-
     auto d = mSpeed * MaxSpeed * elapsed;
     double traveled = d.GetVectorLength();
     SetLocation(GetX() + d.m_x, GetY() + d.m_y);
@@ -197,9 +202,9 @@ void Sparty::MoveAction(double elapsed)
 /**
  * Start the eating timer
  */
-void Sparty::StartEatTimer()
+void Sparty::StartMouthTimer()
 {
-    mEatTime = EatingTime;
+    mMouthTime = EatingTime;
 }
 /**
  * Eating action of Sparty
@@ -207,14 +212,63 @@ void Sparty::StartEatTimer()
  */
 void Sparty::EatAction(double elapsed)
 {
-    if (!mEat)
+    ///Handling real eating
+    auto game = GetGame();
+    auto item = game->HitTest(GetX(), GetY());
+    if (item == nullptr)
         return;
+    ///If there is a digit in eating range
+    GetDigitFromItem visitor;
+    item->Accept(&visitor);
+    auto digit = visitor.GetDigit();
+    mXray->AddDigit(digit);
+}
 
-    if (mEatTime > 0)
+/**
+ * Regurgitating action of Sparty
+ * @param elapsed : time since last call
+ */
+void Sparty::Regurgitation(double elapsed)
+{
+    ///Handling spitting digits
+    auto game = GetGame();
+    auto solution = game->GetSolution();
+    int rowPlay = solution->GetRow();
+    int colPlay = solution->GetCol();
+
+    int rowCur = round( GetY() / game->GetTileWidth() + 1);
+    int colCur = round( GetX() / game->GetTileHeight() + 1 );
+
+    ///If in board
+    if (colCur < colPlay + 9 && colCur >= colPlay && rowCur >= rowPlay && rowCur < rowPlay + 9)
     {
-        mEatTime -= elapsed;
+        ///Check if something is already there
+        GetGridItemVisitor gridVisitor;
+        gridVisitor.SetLocation(colCur, rowCur);
+        game->Accept(&gridVisitor);
+        ///If something is there already, no regurgitation
+        if (gridVisitor.GetResult()){
+            wxMessageBox("Something is already there!!!");
+            return;
+        }
+        ///If nothing there, spit the digits
+        int value = mKeyCode - '0';
+        mXray->Spit(rowCur, colCur, value);
+    }
+}
+
+/**
+ * Update mouth motion for eating and regurgitating
+ * @param elapsed : time since last call
+ * @param action : eat or regurgitate (spit)
+ */
+void Sparty::MouthUpdate(double elapsed, wstring action)
+{
+    if (mMouthTime > 0)
+    {
+        mMouthTime -= elapsed;
         // Calculate the percentage of the eating completed
-        double percentage = 1 - (mEatTime / EatingTime);
+        double percentage = 1 - (mMouthTime / EatingTime);
 
         if (percentage <= 0.5)
         {
@@ -224,23 +278,22 @@ void Sparty::EatAction(double elapsed)
         {
             mMouthAngleUpdate = mMouthAngle *  (1 - ((percentage - 0.5) / 0.5));
         }
-        if (mEatTime <= 0)
+        if (mMouthTime <= 0)
         {
-            mEatTime = 0;
-            mEat = false;
+            mMouthTime = 0;
+            if (action ==L"Eat")
+            {
+                EatAction(elapsed);
+                mEat = false;
+            }
+            else if (action == L"Spit")
+            {
+                Regurgitation(elapsed);
+                mSpit = false;
+            }
             mMouthAngleUpdate = 0;
         }
     }
-    ///Handling real eating
-    auto game = GetGame();
-    auto item = game->HitTest(GetX(), GetY());
-    if (item == nullptr)
-        return;
-    ///If there is a digit in eating range
-    GetEatingDigitVisitor visitor;
-    item->Accept(&visitor);
-    auto digit = visitor.GetDigit();
-    mXray->AddDigit(digit);
 }
 
 /**
@@ -286,6 +339,16 @@ void Sparty::HeadButtAction(double elapsed)
 			//check for containers
 		}
 	}
+}
+
+/**
+ * Override load item from xml since location is not right in xml
+ * @param node: node we are loading from
+ */
+void Sparty::XmlLoadItem(wxXmlNode *node)
+{
+    Item::XmlLoadItem(node);
+    SetLocation(GetX(), GetY() - GetHeight() / 2);
 }
 
 

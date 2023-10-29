@@ -36,9 +36,11 @@ void SudokuGameView::Initialize(wxFrame* mainFrame)
     mTimer.SetOwner(this);
     mTimer.Start(FrameDuration);
     mStopWatch.Start();
+    mGame.SetLevel(&mLevel);
     mLevel.SetGame(&mGame);
     mLevel.Load(L"../levels/level1.xml");
-    mChecker.SetGame(&mGame);
+    mGame.SetCurrentLevel(1);
+
 }
 
 /**
@@ -104,6 +106,7 @@ void SudokuGameView::OnKeyDown(wxKeyEvent &event)
  */
 void SudokuGameView::LoadLevel0()
 {
+    mGame.Clear();
    mLevel.Load(L"../levels/level0.xml");
 }
 /**
@@ -112,6 +115,7 @@ void SudokuGameView::LoadLevel0()
  */
 void SudokuGameView::LoadLevel1()
 {
+    mGame.Clear();
     mLevel.Load(L"../levels/level1.xml");
 }
 /**
@@ -120,6 +124,7 @@ void SudokuGameView::LoadLevel1()
  */
 void SudokuGameView::LoadLevel2()
 {
+    mGame.Clear();
     mLevel.Load(L"../levels/level2.xml");
 }
 /**
@@ -128,6 +133,7 @@ void SudokuGameView::LoadLevel2()
  */
 void SudokuGameView::LoadLevel3()
 {
+    mGame.Clear();
     mLevel.Load(L"../levels/level3.xml");
 }
 /**
@@ -136,5 +142,13 @@ void SudokuGameView::LoadLevel3()
  */
 void SudokuGameView::Solve()
 {
-    mChecker.Solve();
+    mGame.Solve();
 }
+
+/**
+* Set the level for introduction page
+ * @param level, the current level
+*/
+void SudokuGameView::SetGameLevel(int level){
+    mGame.SetCurrentLevel(level);
+};

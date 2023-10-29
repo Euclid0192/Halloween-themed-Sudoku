@@ -19,6 +19,9 @@ const int ScoreboardTextSize = 64;
 /// Top left corner of the scoreboard in virtual pixels
 const wxPoint ScoreboardTopLeft(10, 10);
 
+///Store boolean to see if timer is running
+bool IsRunning = TRUE;
+
 /**
  * Constrcutor
  */
@@ -32,7 +35,13 @@ ScoreBoard::ScoreBoard() {
  */
 void ScoreBoard::UpdateTime(double elapsed)
 {
-    mTime += elapsed;
+    if (IsRunning){
+        mTime += elapsed;
+    }
+
+    else {
+        mTime += 0;
+    }
 
 }
 
@@ -46,15 +55,33 @@ void ScoreBoard::RefreshTime()
 }
 
 /**
+ * Stop the Timer
+ */
+void ScoreBoard::Stop()
+{
+    IsRunning = FALSE;
+
+}
+
+/**
+ * Restart the Timer
+ */
+void ScoreBoard::Restart()
+{
+    IsRunning = TRUE;
+
+}
+
+/**
  * Draw the scoreboard
  * @param graphics a wxGraphicsContext to draw
  */
 void ScoreBoard::Draw(std::shared_ptr<wxGraphicsContext> graphics)
 {
-    if (mTime == 0)
-    {
-        return;
-    }
+//    if (mTime == 0)
+//    {
+//        return;
+//    }
 
     int minutes = (int)mTime/60;
     int seconds = (int)mTime%60;
