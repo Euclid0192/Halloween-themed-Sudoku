@@ -22,6 +22,13 @@ private:
     bool mGiven = false;
     ///Whether this has been eaten or not
     bool mEaten = false;
+
+    ///The speed for ghost digit
+    double mSpeedX;
+    double mSpeedY;
+
+    bool mIsGhost = false;
+
 public:
     Digit() = delete;
     Digit(const Digit &);
@@ -65,6 +72,8 @@ public:
      */
     void Accept(ItemVisitor *visitor) override { visitor->VisitDigit(this); };
     bool HitTest(double x, double y) override;
+    void Update(double elapsed) override;
+    void Floating(double elapsed, double speedX, double speedY);
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_DIGIT_H

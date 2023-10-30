@@ -8,8 +8,21 @@
 #include "pch.h"
 #include "Digit.h"
 #include "SudokuGame.h"
+#include <random>
 
 using namespace std;
+
+/// Maximum speed in the X direction in
+/// in pixels per second
+const double MaxSpeedX = 50;
+
+/// Minimum speed in the X direction in
+/// pixels per second
+const double MinSpeedX = 20;
+
+/// If the digit comes within this distance
+/// of the edge, bounce back.
+const double BounceBackMargin = 10;
 
 /**
  * Constructor
@@ -26,6 +39,7 @@ Digit::Digit(const Digit &digit) : Item(digit)
 {
     mValue = digit.mValue;
     mGiven = digit.mGiven;
+
 }
 
 /**
@@ -75,4 +89,67 @@ bool Digit::HitTest(double x, double y)
     return false;
 }
 
+/**
+ * Update the state for ghost digit
+ * @param elapsed : time has elapsed since the last update
+ */
+void Digit::Update(double elapsed){
+    SudokuGame *game = GetGame();
+
+    ///get the height and width for the game
+    int height =  game->GetHeight();
+    int width = game->GetWidth();
+
+    ///generate random number for speed in a range
+    std::uniform_real_distribution<> distribution(MinSpeedX, MaxSpeedX);
+    mSpeedX = distribution(game->GetRandom());
+    mSpeedY = distribution(game->GetRandom());
+
+    auto x = Item::GetX();
+    auto y = Item::GetY();
+
+    double distanceToRight = width - x - GetWidth()/2;
+    if(mSpeedX > 0 && distanceToRight <= BounceBackMargin)
+    {
+        mSpeedX = -mSpeedX;
+    }
+
+    double distanceToLeft = x - GetWidth()/2;
+    if(mSpeedX < 0 && distanceToLeft <= BounceBackMargin)
+    {
+        mSpeedX = -mSpeedX;
+    }
+
+    double distanceToBottom = height - y - GetHeight()/2;
+    if(mSpeedY > 0 && distanceToBottom <= BounceBackMargin)
+    {
+        mSpeedY = -mSpeedY;
+    }
+
+    double distanceToTop = y - GetHeight()/2;
+    if(mSpeedY < 0 && distanceToTop <= BounceBackMargin)
+    {
+        mSpeedY = -mSpeedY;
+    }
+
+    if (game->GetLevel() == 3 && !mGiven){
+        mIsGhost = TRUE;
+        Floating(elapsed, mSpeedX, mSpeedY);
+    }
+
+}
+
+/**
+ * Set new location for ghost digits
+ * @param elapsed : the time elapsed
+ * @param speedX : the speed on along x-axis
+ * @param speedY : the speed on along y-axis
+ */
+void Digit::Floating(double elapsed, double speedX, double speedY){
+
+    Item::SetLocation(Item::GetX()  + mSpeedX * elapsed,
+                Item::GetY()  + mSpeedY * elapsed );
+
+
+}
 
