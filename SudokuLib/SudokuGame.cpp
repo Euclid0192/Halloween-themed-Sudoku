@@ -412,7 +412,7 @@ void SudokuGame::DrawResult(std::shared_ptr<wxGraphicsContext> graphics, string 
 
     double wid = mTileWidth * mWidth;
     double hit = mTileHeight * mHeight;
-    //graphics->GetTextExtent(L"Centered Text", &wid, &hit);
+//    graphics->GetTextExtent(L"Centered Text", &wid, &hit);
     graphics->DrawText(str, wid/2 ,hit/2);
 
 }
