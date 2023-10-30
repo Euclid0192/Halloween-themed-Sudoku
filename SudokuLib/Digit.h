@@ -24,8 +24,8 @@ private:
     bool mEaten = false;
 
     ///The speed for ghost digit
-    double mSpeedX;
-    double mSpeedY;
+    double mSpeedX = 25;
+    double mSpeedY = 25;
 
     bool mIsGhost = false;
 
