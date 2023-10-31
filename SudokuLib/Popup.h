@@ -21,26 +21,13 @@ private:
     SudokuGame *mGame;
     ///Message in the popup
     std::wstring mMessage;
-    ///Determine when to appear
-    bool mAppear = false;
     ///Location in the mainframe
     wxPoint2DDouble mLocation;
 public:
-    Popup(SudokuGame *game);
+    Popup(SudokuGame *game, std::wstring message);
     Popup() = delete;
     Popup(const Popup &) = delete;
-//    virtual ~Popup();
 
-    /**
-     * Getter for appearing state
-     * @return appearing state
-     */
-    bool GetAppearState() { return mAppear; };
-    /**
-     * Setter for appearing state
-     * @param state : state to be set
-     */
-    void SetAppearState(bool state) { mAppear = state; };
     /**
      * Set the location of the item
      * @param x : x coordinate

@@ -12,11 +12,13 @@
 using namespace std;
 ///Speed of popup
 const int PopupSpeed = 400;
+///Height of popup
+const int PopupHeight = 50;
 
 /**
  * Constructor
  */
-Popup::Popup(SudokuGame *game) : mGame(game), mMessage(L"Something is already there!!!")
+Popup::Popup(SudokuGame *game, wstring message) : mGame(game), mMessage(message)
 {
     double wid = game->GetTileWidth() * game->GetWidth();
     double hit = game->GetTileHeight() * game->GetHeight();
@@ -29,19 +31,16 @@ Popup::Popup(SudokuGame *game) : mGame(game), mMessage(L"Something is already th
  */
 void Popup::Draw(shared_ptr<wxGraphicsContext> graphics)
 {
-    if (!mAppear)
-        return;
-
     double wid = mGame->GetTileWidth() * mGame->GetWidth();
     double hit = mGame->GetTileHeight() * mGame->GetHeight();
     // Draw a filled rectangle
     wxBrush rectBrush(*wxWHITE);
     graphics->SetBrush(rectBrush);
     graphics->SetPen(*wxBLACK_PEN);
-    graphics->DrawRectangle(mLocation.m_x, mLocation.m_y, wid / 2, 50);
+    graphics->DrawRectangle(mLocation.m_x, mLocation.m_y, wid / 2, PopupHeight);
 
     //Set the font for levels
-    wxFont bigFont(wxSize(0, 20),
+    wxFont bigFont(wxSize(0, 30),
                    wxFONTFAMILY_SWISS,
                    wxFONTSTYLE_NORMAL,
                    wxFONTWEIGHT_BOLD);
@@ -49,8 +48,8 @@ void Popup::Draw(shared_ptr<wxGraphicsContext> graphics)
     graphics->GetTextExtent(L"Centered Text", &wid, &hit);
 
     //Draw different headings for different levels
-    graphics->SetPen(*wxRED);
-    graphics->DrawText(mMessage, mLocation.m_x, mLocation.m_y);
+    graphics->SetPen(*wxBLUE);
+    graphics->DrawText(mMessage, mLocation.m_x + PopupHeight , mLocation.m_y + PopupHeight / 4);
 }
 
 /**
@@ -64,6 +63,6 @@ void Popup::Update(double elapsed)
     SetLocation(newX, newY);
     if (newY < 0)
     {
-        SetAppearState(false);
+        mGame->RemovePopup(this);
     }
 }

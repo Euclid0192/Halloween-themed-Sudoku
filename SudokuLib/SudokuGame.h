@@ -37,7 +37,7 @@ private:
 
 
     ///All popups
-    std::vector<std::shared_ptr<Popup>> mPopups;
+    std::vector<Popup*> mPopups;
 
     ///Scale for virtual pixel
     double mScale = 0;
@@ -94,7 +94,8 @@ public:
     void Update(double elapsed);
 
     ///
-    void AddPopup();
+    void AddPopup(std::wstring message);
+    void RemovePopup(Popup *popup);
     ///
 
     /**
@@ -185,8 +186,8 @@ public:
      */
     std::mt19937 &GetRandom() {return mRandom;}
 
-    double CheckSparyXLoc(double x, Background* background);
-    double CheckSparyYLoc(double y, Background* background);
+    double CheckSpartyXLoc(double x, Background* background);
+    double CheckSpartyYLoc(double y, Background* background);
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_GAME_H

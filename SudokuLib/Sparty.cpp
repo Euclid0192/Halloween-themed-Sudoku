@@ -249,8 +249,7 @@ void Sparty::Regurgitation(double elapsed)
         game->Accept(&gridVisitor);
         ///If something is there already, no regurgitation
         if (gridVisitor.GetResult()){
-            game->AddPopup();
-//            wxMessageBox("Something is already there!!!");
+            game->AddPopup(L"Something is already there!");
             return;
         }
         ///If nothing there, spit the digits

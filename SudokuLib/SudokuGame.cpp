@@ -26,9 +26,9 @@ using namespace std;
 const wstring ImagesDirectory = L"/images";
 
 ///Keep on track the duration of introduction page
-double introDuration = 0;
+double IntroDuration = 0;
 ///Keep on track the duration of introduction page
-double resultDuration = 0;
+double ResultDuration = 0;
 
 /**
  * Constructor
@@ -105,21 +105,21 @@ void SudokuGame::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, 
 
     //Draw the introduction page
     //and scoreboard
-    if (IntroOn(introDuration)){
+    if (IntroOn(IntroDuration)){
         DrawIntroPage(graphics);
     }
 
-    if (!IntroOn(introDuration)){
+    if (!IntroOn(IntroDuration)){
         mScoreBoard.Restart();
         mScoreBoard.Draw(graphics);
     }
 
 
-    if (mCorrect && resultDuration <= 3){
+    if (mCorrect && ResultDuration <= 3){
         DrawResult(graphics, "Level Complete!");
         mScoreBoard.Stop();
 
-    } else if (mCorrect && resultDuration > 3){
+    } else if (mCorrect && ResultDuration > 3){
         if (mCurrentLevel < 3)
         {
             mCurrentLevel += 1;
@@ -134,11 +134,11 @@ void SudokuGame::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, 
 
         /// Uss oss strings to make the path to the file and load that in
     }
-    if (mIncorrect && resultDuration <= 3)
+    if (mIncorrect && ResultDuration <= 3)
     {
         DrawResult(graphics, "Incorrect");
         mScoreBoard.Stop();
-    } else if (mIncorrect && resultDuration > 3){
+    } else if (mIncorrect && ResultDuration > 3){
         ostringstream oss;
         oss << "../levels/level" << mCurrentLevel << ".xml";
         Clear();
@@ -173,11 +173,26 @@ void SudokuGame::AddItem(shared_ptr<Item> item)
     mItems.push_back(item);
 }
 
-void SudokuGame::AddPopup()
+/**
+ * Add popup to the list of popups
+ * @param message : message that we need appear on the popup
+ */
+void SudokuGame::AddPopup(wstring message)
 {
-    auto newPopup = make_shared<Popup>(this);
-    newPopup->SetAppearState(true);
+    auto newPopup =  new Popup(this, message);
     mPopups.push_back(newPopup);
+}
+
+/**
+ * Remove a popup from the list of popups
+ * @param popup : a pointer to popup we need to remove
+ */
+void SudokuGame::RemovePopup(Popup *popup)
+{
+    auto loc = find(mPopups.begin(), mPopups.end(), popup);
+    if (loc != mPopups.end())
+        mPopups.erase(loc);
+    delete popup;
 }
 
 /**  Test an x,y click location to see if it clicked
@@ -223,16 +238,16 @@ void SudokuGame::MoveToFront(std::shared_ptr<Item> item)
 void SudokuGame::Update(double elapsed)
 {
     ///update time for instruction page
-    introDuration += elapsed;
+    IntroDuration += elapsed;
 
     if (mCorrect || mIncorrect)
     {
-        resultDuration += elapsed;
+        ResultDuration += elapsed;
     }
 
     ///update time for scoreboard after
     /// instruction page disappear
-    if (!IntroOn(introDuration)){
+    if (!IntroOn(IntroDuration)){
         mScoreBoard.UpdateTime(elapsed);
     }
 
@@ -263,8 +278,8 @@ void SudokuGame::Clear()
     mSolution.Clear();
     mCorrect = false;
     mIncorrect = false;
-    introDuration = 0;
-    resultDuration = 0;
+    IntroDuration = 0;
+    ResultDuration = 0;
     mScoreBoard.RefreshTime();
 }
 
@@ -276,7 +291,7 @@ void SudokuGame::Clear()
 */
 void SudokuGame::OnLeftDown(double x, double y)
 {
-    if (mSparty == nullptr || IntroOn(introDuration))
+    if (mSparty == nullptr || IntroOn(IntroDuration))
         return;
 
     GetBackgroundVisitor visitor;
@@ -290,7 +305,7 @@ void SudokuGame::OnLeftDown(double x, double y)
     double oY = (y - mYOffset) / mScale;
 
     wxPoint2DDouble target(oX - mSparty->GetTargetX(), oY - mSparty->GetHeight() / 2 - mSparty->GetTargetY());
-    wxPoint2DDouble final_target(CheckSparyXLoc(target.m_x, background), CheckSparyYLoc(target.m_y, background));
+    wxPoint2DDouble final_target(CheckSpartyXLoc(target.m_x, background), CheckSpartyYLoc(target.m_y, background));
     auto d = final_target - mSparty->GetLocation();
     ///Calculate total distance we need to move
     double distance = d.GetVectorLength();
@@ -327,9 +342,9 @@ void SudokuGame::OnLeftDown(double x, double y)
  * @param background
  * @return double, position x to move too
  */
-double SudokuGame::CheckSparyXLoc(double x, Background* background){
-    auto longend = (background->GetX() + background->GetWidth()) - mSparty->GetWidth();
-    if (x > background->GetX() && x < longend)
+double SudokuGame::CheckSpartyXLoc(double x, Background* background){
+    auto longEnd = (background->GetX() + background->GetWidth()) - mSparty->GetWidth();
+    if (x > background->GetX() && x < longEnd)
     {
         return x;
     } else if (x < background->GetX())
@@ -337,7 +352,7 @@ double SudokuGame::CheckSparyXLoc(double x, Background* background){
         return 0;
     } else
     {
-        return longend;
+        return longEnd;
     }
 }
 
@@ -347,7 +362,7 @@ double SudokuGame::CheckSparyXLoc(double x, Background* background){
  * @param background
  * @return double, position y to move too
  */
-double SudokuGame::CheckSparyYLoc(double y, Background* background){
+double SudokuGame::CheckSpartyYLoc(double y, Background* background){
     if (y < (background->GetY() - mSparty->GetHeight()/2) && y > (0 - mSparty->GetHeight()/2))
     {
         return y;
@@ -398,7 +413,7 @@ void SudokuGame::Accept(ItemVisitor *visitor)
 void SudokuGame::OnKeyDown(wxKeyEvent &event)
 {
     ///If intro is on, do not handle any key press
-    if (IntroOn(introDuration))
+    if (IntroOn(IntroDuration))
         return;
 
     auto keyCode = event.GetKeyCode();
