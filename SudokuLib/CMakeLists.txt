@@ -41,6 +41,8 @@ set(SOURCE_FILES
         CompletionChecker.h
         GetDigitFromItem.h
         GetDigitFromItem.cpp
+        Popup.cpp
+        Popup.h
 )
 
 set(wxBUILD_PRECOMP OFF)

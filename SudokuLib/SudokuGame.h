@@ -16,6 +16,8 @@
 #include "ScoreBoard.h"
 #include "CompletionChecker.h"
 
+#include "Popup.h"
+
 #include<string>
 #include<map>
 #include<memory>
@@ -32,6 +34,10 @@ private:
     std::vector<std::shared_ptr<Item>> mItems;
     /// Directory containing the system images
     std::wstring mImagesDirectory;
+
+
+    ///All popups
+    std::vector<std::shared_ptr<Popup>> mPopups;
 
     ///Scale for virtual pixel
     double mScale = 0;
@@ -86,6 +92,10 @@ public:
     void Clear();
 
     void Update(double elapsed);
+
+    ///
+    void AddPopup();
+    ///
 
     /**
      * Get the directory the images are stored in

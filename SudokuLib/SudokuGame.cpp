@@ -11,6 +11,7 @@
 #include "Digit.h"
 #include "Xray.h"
 #include "Background.h"
+#include "Popup.h"
 
 
 #include<iostream>
@@ -96,6 +97,11 @@ void SudokuGame::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, 
         item->Draw(graphics);
     }
 
+    for (auto popup: mPopups)
+    {
+        popup->Draw(graphics);
+    }
+
     //Draw the introduction page
     //and scoreboard
     if (IntroOn(introDuration)){
@@ -166,6 +172,13 @@ void SudokuGame::AddItem(shared_ptr<Item> item)
     mItems.push_back(item);
 }
 
+void SudokuGame::AddPopup()
+{
+    auto newPopup = make_shared<Popup>(this);
+    newPopup->SetAppearState(true);
+    mPopups.push_back(newPopup);
+}
+
 /**  Test an x,y click location to see if it clicked
 * on some item in the game
 * @param x X location
@@ -226,6 +239,11 @@ void SudokuGame::Update(double elapsed)
     for (auto item : mItems)
     {
         item->Update(elapsed);
+    }
+
+    for (auto p: mPopups)
+    {
+        p->Update(elapsed);
     }
     ///Check the status of the game after each update
     mChecker.CheckCompletion();
