@@ -376,14 +376,7 @@ void SudokuGame::DrawIntroPage(std::shared_ptr<wxGraphicsContext> graphics){
     graphics->GetTextExtent(L"Centered Text", &wid, &hit);
 
     //Draw different headings for different levels
-    if (mCurrentLevel == 1){graphics->DrawText(L"Level 1 Begin", 200,200);}
-
-    else if (mCurrentLevel == 2){graphics->DrawText(L"Level 2 Begin", 200,200);}
-
-    else if (mCurrentLevel == 3){graphics->DrawText(L"Level 3 Begin", 200,200);}
-
-    else if (mCurrentLevel == 0){graphics->DrawText(L"Level 0 Begin", 200,200);}
-
+    graphics->DrawText(L"Level " + to_wstring(mCurrentLevel) + " Begin", 200, 200);
     //set front and draw instructions
     wxFont smallFont(wxSize(0, 40),
                      wxFONTFAMILY_SWISS,
