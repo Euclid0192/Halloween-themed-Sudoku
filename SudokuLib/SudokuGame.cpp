@@ -257,6 +257,10 @@ void SudokuGame::Clear()
 */
 void SudokuGame::OnLeftDown(double x, double y)
 {
+    ///If intro is on, do not handle mouse left press
+    if (IntroOn(introDuration))
+        return;
+
     if (mSparty == nullptr)
         return;
 
@@ -314,6 +318,10 @@ void SudokuGame::Accept(ItemVisitor *visitor)
  */
 void SudokuGame::OnKeyDown(wxKeyEvent &event)
 {
+    ///If intro is on, do not handle any key press
+    if (IntroOn(introDuration))
+        return;
+
     auto keyCode = event.GetKeyCode();
     ///Eating digits
     if (keyCode == WXK_SPACE)
