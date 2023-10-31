@@ -312,32 +312,45 @@ void Sparty::StartHeadButtTimer()
  */
 void Sparty::HeadButtAction(double elapsed)
 {
+	// if the headbutt timer has started
 	if (mHeadButtTimeUpdate > 0)
 	{
+		// subtract the started headbutt timer with the elapsed to get current
 		mHeadButtTimeUpdate -= elapsed;
+
 		// Calculate the percentage of the headbutt completed
 		double percentage = 1 - (mHeadButtTimeUpdate / HeadbuttTime);
 
+		// if we are still not halfway with the angle as we rotate
 		if (percentage <= 0.5)
 		{
+			// update the angle so that sparty is rotating forward
 			mHeadAngleUpdate = mHeadAngle * (percentage/0.5);
 		}
+
+		// otherwise we are at the halfway point
 		else
 		{
+			// lets change the angle so we can go back to normal state
 			mHeadAngleUpdate = mHeadAngle *  (1 - ((percentage - 0.5) / 0.5));
+
+			//check to see if we hit a container, get the grid location of sparty
+
 		}
 
+		// once the timer of the headbutt ends
 		if (mHeadButtTimeUpdate <= 0)
 		{
+			// reset everything
 			mHeadButtTimeUpdate = 0;
 			mHeadButt = false;
 			mHeadAngleUpdate = 0;
 		}
 
-		else
-		{
-			//check for containers
-		}
+//		// if the timer hasnt ended yet
+//		else
+//		{
+//		}
 	}
 }
 

@@ -13,6 +13,7 @@ class Digit;
 class Xray;
 class Background;
 class Container;
+
 /**
  * Base visitor
  */
@@ -42,6 +43,7 @@ public:
      * Visit Container
     */
     virtual void VisitContainer(Container *container) {}
+
 };
 
 #endif //TARTARUS_SUDOKULIB_ITEMVISITOR_H

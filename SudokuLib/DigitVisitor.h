@@ -11,7 +11,7 @@
 #include "ItemVisitor.h"
 #include "Digit.h"
 #include "Xray.h"
-#include "Container.h"
+
 
 class DigitVisitor : public ItemVisitor
 {
@@ -35,6 +35,7 @@ public:
      * @return digit
      */
     Digit* GetDigit() { return mDigit; }
+
     /**
      * Set the values we will campare with the digit values
      * @param val

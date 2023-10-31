@@ -24,6 +24,7 @@ public:
      * @return digit
      */
     Digit *GetDigit() { return mDigit; };
+
     void VisitDigit(Digit *digit)
     {
         mDigit = digit;

@@ -33,6 +33,19 @@ public:
     void XmlLoadDeclaration(wxXmlNode *node) override;
     void XmlLoadItem(wxXmlNode *node) override;
     void Draw(std::shared_ptr<wxGraphicsContext> graphics) override;
+
+	/**
+	* Get the row location of the container
+	* @return row location of the container in the game
+	*/
+	double GetRow() override { return Item::GetRow(); }
+
+	/**
+	* Get the col location of the container
+	* @return col location of the container in the game
+	*/
+	double GetCol() override { return Item::GetCol(); }
+
     /**
      * Get all the digits in the container
      * @return vector of digits

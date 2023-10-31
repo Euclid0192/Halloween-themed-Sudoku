@@ -22,7 +22,7 @@ class Item
 {
 private:
     /// The game that this item belongs to
-    SudokuGame   *mGame;
+    SudokuGame *mGame;
 
     ///id of Declaration
     std::wstring mId;
@@ -68,16 +68,17 @@ public:
      * @return X location of the item in the game
      */
 
-    /**
+	 /**
      * Getter for row
      * @return row of item
      */
-    double GetRow() { return mRow; };
-    /**
+	 virtual double GetRow() { return mRow; };
+
+	 /**
      * Getter for column
      * @return column of item
      */
-    double GetCol() { return mCol; };
+	 virtual double GetCol() { return mCol; };
     double GetX() { return mLocation.m_x;};
     /**
      * Get the Y location of the item

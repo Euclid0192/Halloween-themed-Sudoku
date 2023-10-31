@@ -32,7 +32,6 @@ public:
     Xray(const Xray &) = delete;
 
     void XmlLoadDeclaration(wxXmlNode *node) override;
-	bool HasKey(char key);
 
     void Accept(ItemVisitor *visitor) override { visitor->VisitXray(this); };
     void Draw(std::shared_ptr<wxGraphicsContext> graphics);
