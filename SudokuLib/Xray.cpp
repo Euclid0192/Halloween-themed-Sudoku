@@ -94,8 +94,11 @@ void Xray::Relocate(Digit *digit)
     auto game = GetGame();
     double newX = GetX() + mCurX * GetWidth() / (MaxDigitCol + 1);
     double newY = GetY() - mCurY * GetHeight() / (MaxDigitCol + 1);
+    double row =  GetY() / game->GetTileWidth();
+    double col = GetX() / game->GetTileHeight();
 
     digit->SetLocation(newX, newY);
+    digit->SetColRow(row, col);
     mCurY++;
     /// Each column will have at most 4 digits to avoid out of xray
     if (mCurY >= MaxDigitCol)

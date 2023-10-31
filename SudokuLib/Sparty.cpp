@@ -8,6 +8,7 @@
 
 #include "pch.h"
 #include "Sparty.h"
+#include "Xray.h"
 #include "SudokuGame.h"
 #include "GetDigitFromItem.h"
 #include "Solver.h"

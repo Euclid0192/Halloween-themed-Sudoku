@@ -9,7 +9,7 @@
 #define ACTIONSUDOKU_SUDOKULIB_SPARTY_H
 
 #include "Item.h"
-#include "Xray.h"
+
 
 #include<string>
 #include<memory>

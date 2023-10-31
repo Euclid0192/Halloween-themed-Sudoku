@@ -36,6 +36,10 @@ SudokuGame::SudokuGame()
 {
     SetImagesDirectory(L".");
     mChecker.SetGame(this);
+
+    // Seed the random number generator
+    std::random_device rd;
+    mRandom.seed(rd());
 }
 
 /**
@@ -93,8 +97,8 @@ void SudokuGame::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, 
         item->Draw(graphics);
     }
 
-    ///Draw the introduction page
-    ///and scoreboard
+    //Draw the introduction page
+    //and scoreboard
     if (IntroOn(introDuration)){
         DrawIntroPage(graphics);
     }
@@ -358,13 +362,13 @@ bool SudokuGame::IntroOn(double introDuration){
  * @param graphics a wxGraphicsContext to draw
  */
 void SudokuGame::DrawIntroPage(std::shared_ptr<wxGraphicsContext> graphics){
-    /// Draw a filled rectangle
+    // Draw a filled rectangle
     wxBrush rectBrush(*wxWHITE);
     graphics->SetBrush(rectBrush);
     graphics->SetPen(*wxBLACK);
     graphics->DrawRectangle(150, 170, 600, 350);
 
-    ///Set the font for levels
+    //Set the font for levels
     wxFont bigFont(wxSize(0, 80),
                    wxFONTFAMILY_SWISS,
                    wxFONTSTYLE_NORMAL,
@@ -374,16 +378,9 @@ void SudokuGame::DrawIntroPage(std::shared_ptr<wxGraphicsContext> graphics){
     double hit = mTileHeight * mHeight;
     graphics->GetTextExtent(L"Centered Text", &wid, &hit);
 
-    ///Draw different headings for different levels
-    if (mCurrentLevel == 1){graphics->DrawText(L"Level 1 Begin", 200,200);}
-
-    else if (mCurrentLevel == 2){graphics->DrawText(L"Level 2 Begin", 200,200);}
-
-    else if (mCurrentLevel == 3){graphics->DrawText(L"Level 3 Begin", 200,200);}
-
-    else if (mCurrentLevel == 0){graphics->DrawText(L"Level 0 Begin", 200,200);}
-
-    ///set front and draw instructions
+    //Draw different headings for different levels
+    graphics->DrawText(L"Level " + to_wstring(mCurrentLevel) + " Begin", 200, 200);
+    //set front and draw instructions
     wxFont smallFont(wxSize(0, 40),
                      wxFONTFAMILY_SWISS,
                      wxFONTSTYLE_NORMAL,
@@ -411,7 +408,7 @@ void SudokuGame::DrawResult(std::shared_ptr<wxGraphicsContext> graphics, string 
 
     double wid = mTileWidth * mWidth;
     double hit = mTileHeight * mHeight;
-    //graphics->GetTextExtent(L"Centered Text", &wid, &hit);
+//    graphics->GetTextExtent(L"Centered Text", &wid, &hit);
     graphics->DrawText(str, wid/2 ,hit/2);
 
 }

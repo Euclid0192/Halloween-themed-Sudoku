@@ -20,6 +20,7 @@
 #include<map>
 #include<memory>
 #include<vector>
+#include <random>
 
 
 class SudokuGame
@@ -63,6 +64,8 @@ private:
     ///Store the current level for instruction page
     int mCurrentLevel = 0;
     bool mSpartyFull = false;
+
+    std::mt19937 mRandom;
 
 
 public:
@@ -159,6 +162,18 @@ public:
      */
     void CheckCorrect() { mChecker.CheckCompletion(); }
     void SetFull(bool spartyfull) {mSpartyFull = spartyfull;}
+
+    /**
+     * Getter function for current level
+     */
+    int GetLevel(){return mCurrentLevel;}
+
+    /**
+     * Getter function for random number
+     * of this game
+     * @return
+     */
+    std::mt19937 &GetRandom() {return mRandom;};
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_GAME_H
