@@ -183,7 +183,10 @@ public:
      * of this game
      * @return
      */
-    std::mt19937 &GetRandom() {return mRandom;};
+    std::mt19937 &GetRandom() {return mRandom;}
+
+    double CheckSparyXLoc(double x, Background* background);
+    double CheckSparyYLoc(double y, Background* background);
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_GAME_H

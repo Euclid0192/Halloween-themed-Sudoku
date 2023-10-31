@@ -24,6 +24,9 @@ public:
     Background() = delete;
     Background(const Background &) = delete;
 
+    int GetBackgroundHeight() { return Item::GetHeight(); }
+    int GetBackgroundWidth() { return Item::GetWidth(); }
+
     void Draw(std::shared_ptr<wxGraphicsContext> graphics) override;
     /**
     * Accept a visitor

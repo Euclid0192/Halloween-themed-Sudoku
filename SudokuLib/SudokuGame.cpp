@@ -11,6 +11,7 @@
 #include "Digit.h"
 #include "Xray.h"
 #include "Background.h"
+#include "GetBackgroundVisitor.h"
 #include "Popup.h"
 
 
@@ -275,12 +276,12 @@ void SudokuGame::Clear()
 */
 void SudokuGame::OnLeftDown(double x, double y)
 {
-    ///If intro is on, do not handle mouse left press
-    if (IntroOn(introDuration))
+    if (mSparty == nullptr || IntroOn(introDuration))
         return;
 
-    if (mSparty == nullptr)
-        return;
+    GetBackgroundVisitor visitor;
+    Accept(&visitor);
+    auto background = visitor.GetBackground();
 
     ///Set the distance Sparty has traveled to 0
     mSparty->SetTraveled(0);
@@ -289,7 +290,8 @@ void SudokuGame::OnLeftDown(double x, double y)
     double oY = (y - mYOffset) / mScale;
 
     wxPoint2DDouble target(oX - mSparty->GetTargetX(), oY - mSparty->GetHeight() / 2 - mSparty->GetTargetY());
-    auto d = target - mSparty->GetLocation();
+    wxPoint2DDouble final_target(CheckSparyXLoc(target.m_x, background), CheckSparyYLoc(target.m_y, background));
+    auto d = final_target - mSparty->GetLocation();
     ///Calculate total distance we need to move
     double distance = d.GetVectorLength();
     mSparty->SetDistance(distance);
@@ -297,6 +299,65 @@ void SudokuGame::OnLeftDown(double x, double y)
     d.Normalize();
     mSparty->SetSpeed(d);
     mSparty->SetMoveState(true);
+
+
+//    if (mSparty == nullptr)
+//        return;
+//
+//    ///Set the distance Sparty has traveled to 0
+//    mSparty->SetTraveled(0);
+//
+//    double oX = (x - mXOffset) / mScale;
+//    double oY = (y - mYOffset) / mScale;
+//
+//    wxPoint2DDouble target(oX - mSparty->GetTargetX(), oY - mSparty->GetHeight() / 2 - mSparty->GetTargetY());
+//    auto d = target - mSparty->GetLocation();
+//    ///Calculate total distance we need to move
+//    double distance = d.GetVectorLength();
+//    mSparty->SetDistance(distance);
+//
+//    d.Normalize();
+//    mSparty->SetSpeed(d);
+//    mSparty->SetMoveState(true);
+}
+
+/**
+ * Checks if x position that we want to move to is in the background space
+ * @param x
+ * @param background
+ * @return double, position x to move too
+ */
+double SudokuGame::CheckSparyXLoc(double x, Background* background){
+    auto longend = (background->GetX() + background->GetWidth()) - mSparty->GetWidth();
+    if (x > background->GetX() && x < longend)
+    {
+        return x;
+    } else if (x < background->GetX())
+    {
+        return 0;
+    } else
+    {
+        return longend;
+    }
+}
+
+/**
+ * Checks if y position that we want to move to is in the background space
+ * @param y
+ * @param background
+ * @return double, position y to move too
+ */
+double SudokuGame::CheckSparyYLoc(double y, Background* background){
+    if (y < (background->GetY() - mSparty->GetHeight()/2) && y > (0 - mSparty->GetHeight()/2))
+    {
+        return y;
+    } else if (y > (background->GetY() - mSparty->GetHeight()/2))
+    {
+        return (background->GetY() - mSparty->GetHeight()/2);
+    } else
+    {
+        return (0 - mSparty->GetHeight()/2);
+    }
 }
 
 /**

@@ -59,7 +59,7 @@ void SudokuGameView::OnPaint(wxPaintEvent &event)
 
     wxAutoBufferedPaintDC dc(this);
 
-    wxBrush background(*wxWHITE);
+    wxBrush background(*wxBLACK);
     dc.SetBackground(background);
     dc.Clear();
 

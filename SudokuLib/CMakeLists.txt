@@ -41,6 +41,8 @@ set(SOURCE_FILES
         CompletionChecker.h
         GetDigitFromItem.h
         GetDigitFromItem.cpp
+        GetBackgroundVisitor.cpp
+        GetBackgroundVisitor.h
         Popup.cpp
         Popup.h
 )
