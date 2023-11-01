@@ -9,6 +9,7 @@
 #include "Digit.h"
 #include "SudokuGame.h"
 #include <random>
+#include "GetXrayVisitor.h"
 
 using namespace std;
 
@@ -122,6 +123,18 @@ void Digit::Update(double elapsed){
         mSpeedY = -mSpeedY;
     }
 
+    ///When a digit is coming to enter the xray
+
+    if (InXrayCol(newX, newY) && InXrayRow(x, y) && !InXrayCol(x, y))
+    {
+        mSpeedX = -mSpeedX;
+    }
+    if (InXrayRow(newX, newY) && InXrayCol(x, y) && !InXrayRow(x, y))
+    {
+        mSpeedY = -mSpeedY;
+    }
+
+
 
     //calculation for digits bounce back
     //when hit the frame edge
@@ -172,6 +185,21 @@ bool Digit::InBoardRow(double x, double y)
     return insideBoardRow;
 }
 
+bool Digit::InXrayRow(double x, double y)
+{
+    SudokuGame *game = GetGame();
+    GetXrayVisitor XrayVisitor;
+    game->Accept(&XrayVisitor);
+    Xray *xray = XrayVisitor.GetXray();
+
+    double topLeft = xray->GetRow() ;
+    double width = xray->GetWidth() / game->GetTileWidth();
+    double cur = y / game->GetTileWidth();
+    double insideXrayRow = cur >= topLeft - 1 && cur < topLeft + width;
+    return insideXrayRow;
+
+}
+
 bool Digit::InBoardCol(double x, double y)
 {
     SudokuGame *game = GetGame();
@@ -181,4 +209,19 @@ bool Digit::InBoardCol(double x, double y)
     double colCur =  x / game->GetTileHeight();
     double insideBoardCol = colCur >= colPlay - 1 && colCur < colPlay + 9;
     return insideBoardCol;
+}
+
+
+bool Digit::InXrayCol(double x, double y)
+{
+    SudokuGame *game = GetGame();
+    GetXrayVisitor XrayVisitor;
+    game->Accept(&XrayVisitor);
+    Xray *xray = XrayVisitor.GetXray();
+
+    double topLeft = xray->GetCol();
+    double height = xray->GetHeight() / game->GetTileHeight();
+    double cur = x / game->GetTileHeight();
+    double insideXrayCol = cur >= topLeft - 1 && cur < topLeft + height;
+    return insideXrayCol;
 }

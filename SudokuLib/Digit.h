@@ -79,6 +79,8 @@ public:
     void SetIsGhost(bool isGhost) {
         mIsGhost = isGhost;
     }
+    bool InXrayRow(double x, double y);
+    bool InXrayCol(double x, double y);
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_DIGIT_H
