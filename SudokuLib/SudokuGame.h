@@ -69,7 +69,6 @@ private:
 
     ///Store the current level for instruction page
     int mCurrentLevel = 0;
-    bool mSpartyFull = false;
 
     std::mt19937 mRandom;
 
@@ -168,11 +167,6 @@ public:
      * @param level
      */
     void SetCurrentLevel(int num){mCurrentLevel = num;}
-    /**
-     * Checks if the game is complete and gets the result
-     */
-    void CheckCorrect() { mChecker.CheckCompletion(); }
-    void SetFull(bool spartyfull) {mSpartyFull = spartyfull;}
 
     /**
      * Getter function for current level
@@ -188,7 +182,6 @@ public:
 
     double CheckSpartyXLoc(double x, Background* background);
     double CheckSpartyYLoc(double y, Background* background);
-    void DisplayImFull();
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_GAME_H

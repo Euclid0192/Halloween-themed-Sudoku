@@ -67,7 +67,7 @@ void Xray::AddDigit(Digit *digit)
     auto game = GetGame();
     if(mDigits.size() >= mCapacity)
     {
-        game->SetFull(true);
+        game->AddPopup(L"I'm Full");
         return;
     }
 
@@ -77,7 +77,6 @@ void Xray::AddDigit(Digit *digit)
     
     Relocate(digit);
     digit->SetEaten(true);
-    game->SetFull(false);
     mDigits.push_back(digit);
 
 }
@@ -143,7 +142,6 @@ void Xray::Spit(int row, int col, int value)
     digit->SetColRow(row, col);
     ///Make it edible again
     digit->SetEaten(false);
-    game ->SetFull(false);
 }
 
 /**
