@@ -116,7 +116,7 @@ void SudokuGame::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, 
 
 
     if (mCorrect && ResultDuration <= 3){
-        DrawResult(graphics, "Level Complete!");
+        DrawResult(graphics, L"Level Complete!");
         mScoreBoard.Stop();
 
     } else if (mCorrect && ResultDuration > 3){
@@ -136,7 +136,7 @@ void SudokuGame::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, 
     }
     if (mIncorrect && ResultDuration <= 3)
     {
-        DrawResult(graphics, "Incorrect");
+        DrawResult(graphics, L"Incorrect");
         mScoreBoard.Stop();
     } else if (mIncorrect && ResultDuration > 3){
         ostringstream oss;
@@ -492,7 +492,7 @@ void SudokuGame::DrawIntroPage(std::shared_ptr<wxGraphicsContext> graphics){
  * Draw the introduction page
  * @param graphics a wxGraphicsContext to draw
  */
-void SudokuGame::DrawResult(std::shared_ptr<wxGraphicsContext> graphics, string str){
+void SudokuGame::DrawResult(std::shared_ptr<wxGraphicsContext> graphics, wstring str){
 
     wxFont bigFont(wxSize(0, 80),
                    wxFONTFAMILY_SWISS,
@@ -500,9 +500,11 @@ void SudokuGame::DrawResult(std::shared_ptr<wxGraphicsContext> graphics, string 
                    wxFONTWEIGHT_BOLD);
     graphics->SetFont(bigFont, wxColour(0, 500, 0));
 
-    double wid = mTileWidth * mWidth;
-    double hit = mTileHeight * mHeight;
-//    graphics->GetTextExtent(L"Centered Text", &wid, &hit);
-    graphics->DrawText(str, wid/4 ,hit/2);
+    double gameWidth = mTileWidth * mWidth;
+    double gameHeight = mTileHeight * mHeight;
+    double textWidth, textHeight;
+    ///Get the corresponding width and height of the result
+    graphics->GetTextExtent(str, &textWidth, &textHeight);
+    graphics->DrawText(str, (gameWidth - textWidth) / 2 , (gameHeight - textHeight) /2);
 
 }

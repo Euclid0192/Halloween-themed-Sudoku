@@ -161,7 +161,7 @@ public:
 
     void SetCorrect(bool correct) { mCorrect= correct; }
     void SetIncorrect(bool incorrect) { mIncorrect= incorrect; }
-    void DrawResult(std::shared_ptr<wxGraphicsContext> graphics, std::string str);
+    void DrawResult(std::shared_ptr<wxGraphicsContext> graphics, std::wstring str);
     /**
      * When a level is completed or level is changed we update what level we are on
      * @param level

@@ -31,25 +31,27 @@ Popup::Popup(SudokuGame *game, wstring message) : mGame(game), mMessage(message)
  */
 void Popup::Draw(shared_ptr<wxGraphicsContext> graphics)
 {
+    ///We only cares about width and X-location since the popup
+    ///will start at bottom and fly to the top
     double wid = mGame->GetTileWidth() * mGame->GetWidth();
-    double hit = mGame->GetTileHeight() * mGame->GetHeight();
-    // Draw a filled rectangle
-    wxBrush rectBrush(*wxWHITE);
-    graphics->SetBrush(rectBrush);
-    graphics->SetPen(*wxBLACK_PEN);
-    graphics->DrawRectangle(mLocation.m_x, mLocation.m_y, wid / 2, PopupHeight);
-
+    double textWidth, textHeight;
     //Set the font for levels
     wxFont bigFont(wxSize(0, 30),
                    wxFONTFAMILY_SWISS,
                    wxFONTSTYLE_NORMAL,
                    wxFONTWEIGHT_BOLD);
     graphics->SetFont(bigFont, wxColour(500, 0, 0));
-    graphics->GetTextExtent(L"Centered Text", &wid, &hit);
-
-    //Draw different headings for different levels
-    graphics->SetPen(*wxBLUE);
-    graphics->DrawText(mMessage, mLocation.m_x + PopupHeight , mLocation.m_y + PopupHeight / 4);
+    graphics->GetTextExtent(mMessage, &textWidth, &textHeight);
+    ///This location is to maintain the center position of the popup
+    SetLocation((wid - textWidth - textHeight) / 2, mLocation.m_y);
+    // Draw a filled rectangle
+    wxBrush rectBrush(*wxWHITE);
+    graphics->SetBrush(rectBrush);
+    graphics->SetPen(*wxBLACK_PEN);
+    ///Add textHeight to textWidth and textHeight for some blank space around the text
+    graphics->DrawRectangle(mLocation.m_x, mLocation.m_y, textWidth + textHeight, textHeight * 2);
+    ///The location is for centering the text in the box
+    graphics->DrawText(mMessage, mLocation.m_x + textHeight / 2 , mLocation.m_y + textHeight / 2);
 }
 
 /**
