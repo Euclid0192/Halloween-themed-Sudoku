@@ -460,7 +460,7 @@ void SudokuGame::DrawIntroPage(std::shared_ptr<wxGraphicsContext> graphics){
                      wxFONTFAMILY_SWISS,
                      wxFONTSTYLE_NORMAL,
                      wxFONTWEIGHT_BOLD);
-    graphics->SetFont(smallFont, wxColour(0,0,500));
+    graphics->SetFont(smallFont, wxColour(0,0,0));
 
     graphics->GetTextExtent(L"Centered Text", &wid, &hit);
     graphics->DrawText(L"space: Eat", 320,300);
