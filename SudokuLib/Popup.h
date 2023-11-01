@@ -37,6 +37,7 @@ public:
 
     void Draw(std::shared_ptr<wxGraphicsContext> graphics);
     void Update(double elapsed);
+
 };
 
 #endif //TARTARUS_SUDOKULIB_POPUP_H

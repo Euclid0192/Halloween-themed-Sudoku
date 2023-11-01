@@ -1,6 +1,6 @@
 /**
  * @file SudokuGame.h
- * @author Nam Hai Nguyen
+ * @author Nam Hai Nguyen, Olivia Pal
  *
  * Class that implements a sudoku game
  */
@@ -188,6 +188,7 @@ public:
 
     double CheckSpartyXLoc(double x, Background* background);
     double CheckSpartyYLoc(double y, Background* background);
+    void DisplayImFull();
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_GAME_H

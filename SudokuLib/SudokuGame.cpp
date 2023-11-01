@@ -1,6 +1,6 @@
 /**
  * @file SudokuGame.cpp
- * @author Nam Hai Nguyen
+ * @author Nam Hai Nguyen ,Olivia Pal
  *
  * Implementation of SudokuGame
  */
@@ -145,7 +145,8 @@ void SudokuGame::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, 
         mLevel->Load(oss.str());
     }
     if(mSpartyFull){
-        DrawResult(graphics, "I'm Full!");
+        AddPopup(L"I'm Full!");
+        mSpartyFull = false;
     }
 
 
@@ -511,3 +512,13 @@ void SudokuGame::DrawResult(std::shared_ptr<wxGraphicsContext> graphics, string 
     graphics->DrawText(str, wid/2 ,hit/2);
 
 }
+
+//void SudokuGame::DisplayImFull()
+//{
+//    auto popup = make_shared<Popup>(this);
+//    popup->SetMessage(L"I'm full");
+//    popup->SetAppearState(true);
+//
+//    // Add the popup to the list of popups
+//    mPopups.push_back(popup);
+//}
