@@ -73,6 +73,8 @@ public:
     void Accept(ItemVisitor *visitor) override { visitor->VisitDigit(this); };
     bool HitTest(double x, double y) override;
     void Update(double elapsed) override;
+    bool InBoardRow(double x, double y);
+    bool InBoardCol(double x, double y);
     void Floating(double elapsed, double speedX, double speedY);
 };
 

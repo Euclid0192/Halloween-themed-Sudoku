@@ -71,8 +71,8 @@ private:
     int mCurrentLevel = 0;
 
     std::mt19937 mRandom;
-
-
+    ///Determine when the digits should floating around
+    bool mFloatingDigits = false;
 public:
     SudokuGame();
     /**
@@ -182,6 +182,8 @@ public:
 
     double CheckSpartyXLoc(double x, Background* background);
     double CheckSpartyYLoc(double y, Background* background);
+    bool GetFloatingDigitsState() { return mFloatingDigits; };
+    void SetFloatingDigitsState(bool state) { mFloatingDigits = state; };
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_GAME_H

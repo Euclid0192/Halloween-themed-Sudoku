@@ -309,26 +309,6 @@ void SudokuGame::OnLeftDown(double x, double y)
     d.Normalize();
     mSparty->SetSpeed(d);
     mSparty->SetMoveState(true);
-
-
-//    if (mSparty == nullptr)
-//        return;
-//
-//    ///Set the distance Sparty has traveled to 0
-//    mSparty->SetTraveled(0);
-//
-//    double oX = (x - mXOffset) / mScale;
-//    double oY = (y - mYOffset) / mScale;
-//
-//    wxPoint2DDouble target(oX - mSparty->GetTargetX(), oY - mSparty->GetHeight() / 2 - mSparty->GetTargetY());
-//    auto d = target - mSparty->GetLocation();
-//    ///Calculate total distance we need to move
-//    double distance = d.GetVectorLength();
-//    mSparty->SetDistance(distance);
-//
-//    d.Normalize();
-//    mSparty->SetSpeed(d);
-//    mSparty->SetMoveState(true);
 }
 
 /**

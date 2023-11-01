@@ -135,6 +135,7 @@ void SudokuGameView::LoadLevel3()
 {
     mGame.Clear();
     mLevel.Load(L"../levels/level3.xml");
+    mGame.SetFloatingDigitsState(true);
 }
 /**
  * Solve game handler
