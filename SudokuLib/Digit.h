@@ -76,6 +76,9 @@ public:
     bool InBoardRow(double x, double y);
     bool InBoardCol(double x, double y);
     void Floating(double elapsed, double speedX, double speedY);
+    void SetIsGhost(bool isGhost) {
+        mIsGhost = isGhost;
+    }
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_DIGIT_H

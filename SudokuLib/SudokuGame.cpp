@@ -411,6 +411,7 @@ void SudokuGame::OnKeyDown(wxKeyEvent &event)
         mSparty->StartMouthTimer();
         mSparty->SetKeyCode(keyCode);
     }
+
     event.Skip();
 }
 

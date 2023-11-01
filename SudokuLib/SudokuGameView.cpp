@@ -80,6 +80,15 @@ void SudokuGameView::OnPaint(wxPaintEvent &event)
  */
 void SudokuGameView::OnLeftDown(wxMouseEvent &event)
 {
+
+    int currentLevel = mGame.GetLevel();
+
+    // If it's level 3, stop the floating digits with a click
+    if (currentLevel == 3)
+    {
+        mGame.SetFloatingDigitsState(false);
+    }
+
     mGame.OnLeftDown(event.GetX(), event.GetY());
 }
 

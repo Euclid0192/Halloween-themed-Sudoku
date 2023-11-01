@@ -73,6 +73,7 @@ private:
     std::mt19937 mRandom;
     ///Determine when the digits should floating around
     bool mFloatingDigits = false;
+    bool mDigitsMoving = false;
 public:
     SudokuGame();
     /**
@@ -184,6 +185,7 @@ public:
     double CheckSpartyYLoc(double y, Background* background);
     bool GetFloatingDigitsState() { return mFloatingDigits; };
     void SetFloatingDigitsState(bool state) { mFloatingDigits = state; };
+    void EnableDigitMovement() { mDigitsMoving = true; }
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_GAME_H
