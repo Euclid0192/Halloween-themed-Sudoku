@@ -2,7 +2,7 @@
  * @file CompletionChecker.h
  * @author Lewi Anamo
  *
- *
+ * Checks that the game is completed
  */
 
 #ifndef TARTARUS_SUDOKULIB_COMPLETIONCHECKER_H
@@ -12,6 +12,9 @@
 
 class SudokuGame;
 
+/**
+ * Checks that the game is completed
+ */
 class CompletionChecker
 {
 private:

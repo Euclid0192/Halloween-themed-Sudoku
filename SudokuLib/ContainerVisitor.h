@@ -17,11 +17,20 @@
 class ContainerVisitor : public ItemVisitor
 {
 private:
+	/// holds the containers in the game
 	std::vector<Container*> mContainers;
 
 public:
+	/**
+	 * Grabs the Containers in the game
+	 * @return mContainers: vector of the containers
+	 */
 	std::vector<Container*> GetContainers() { return mContainers; }
 
+	/**
+	 * visits the Container class
+	 * @param container : pointer to Container object
+	 */
 	void VisitContainer(Container *container) override
 	{
 		mContainers.push_back(container);

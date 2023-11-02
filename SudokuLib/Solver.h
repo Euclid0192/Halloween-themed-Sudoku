@@ -3,6 +3,7 @@
  * @author yaxuan
  * @author nam nguyen
  *
+ * Class for solving the game
  */
 
 #ifndef TARTARUS_SUDOKULIB_SOLVER_H
@@ -11,6 +12,9 @@
 #include<string>
 #include<vector>
 
+/**
+ * Class for solving the game
+ */
 class Solver
 {
 private:

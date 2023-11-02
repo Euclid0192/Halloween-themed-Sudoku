@@ -13,6 +13,9 @@
 #include "Level.h"
 #include "CompletionChecker.h"
 
+/**
+ * Class that implements the child window our program draws in.
+ */
 class SudokuGameView : public wxWindow
 {
 private:

@@ -11,6 +11,9 @@
 #include <random>
 #include "Item.h"
 
+/**
+ * The class for containers
+ */
 class Container : public Item
 {
 private:
@@ -46,7 +49,14 @@ public:
 	 */
 	std::mt19937 &GetRandom() {return mRandom;}
 
+	/**
+	 * Empties the Container of its Digits
+	 */
 	void Empty();
+
+	/**
+	 * Clears the vector of Digits
+	 */
 	void Clear();
 
     /**

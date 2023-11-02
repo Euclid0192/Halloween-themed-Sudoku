@@ -2,7 +2,7 @@
  * @file GetBackgroundVisitor.h
  * @author anamo
  *
- *
+ * Visitor for the Background class
  */
 
 #ifndef TARTARUS_SUDOKULIB_GETBACKGROUNDVISITOR_H
@@ -11,6 +11,9 @@
 #include "ItemVisitor.h"
 #include "Background.h"
 
+/**
+ * Visitor for the Background class
+ */
 class GetBackgroundVisitor : public ItemVisitor
 {
 private:

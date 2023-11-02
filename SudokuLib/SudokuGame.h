@@ -24,7 +24,9 @@
 #include<vector>
 #include <random>
 
-
+/**
+ * Class that implements a sudoku game
+ */
 class SudokuGame
 {
 private:

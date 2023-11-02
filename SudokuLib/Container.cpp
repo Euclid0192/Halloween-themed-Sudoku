@@ -18,14 +18,15 @@ using namespace std;
 
 /// Get container pumpkin image
 const wstring Pumpkin = L"images/pumpkin.png";
+/// Get container pumpkin image
 const wstring PumpkinFront = L"images/pumpkin-front.png";
 
 /// Get container cauldron image
 const wstring cauldron = L"images/cauldron.png";
-//const wstring cauldron-2 = L"images/cauldron-2.png";
 
 /**
  * Constructor
+ * @param game: pointer to game
  */
 Container::Container(SudokuGame *game) : Item(game)
 {
@@ -78,6 +79,7 @@ void Container::Draw(shared_ptr<wxGraphicsContext> graphics)
                          wid,
                          hit);
 }
+
 /**
  * Override of loading declarations
  * @param node : node we are loading
@@ -112,6 +114,12 @@ void Container::XmlLoadItem(wxXmlNode *node)
     }
 }
 
+/**
+ * HitTest of Container items
+ * @param x : x value
+ * @param y : y value
+ * @return bool : if we hit the Container
+ */
 bool Container::HitTest(double x, double y)
 {
 	// Container's coordinates and dimensions
@@ -136,6 +144,9 @@ bool Container::HitTest(double x, double y)
 	return true; // Overlap detected
 }
 
+/**
+ * Empties the Container of its Digits
+ */
 void Container::Empty()
 {
 	double scatterDistanceX = 100.0; // maximum scatter distance in x direction
@@ -165,6 +176,9 @@ void Container::Empty()
 
 }
 
+/**
+ * Clears the vector of Digits
+ */
 void Container::Clear()
 {
 	mDigits.clear();

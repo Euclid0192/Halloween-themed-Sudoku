@@ -78,11 +78,6 @@ void ScoreBoard::Restart()
  */
 void ScoreBoard::Draw(std::shared_ptr<wxGraphicsContext> graphics)
 {
-//    if (mTime == 0)
-//    {
-//        return;
-//    }
-
     int minutes = (int)mTime/60;
     int seconds = (int)mTime%60;
     auto font = graphics->CreateFont(ScoreboardTextSize,L"Arial",wxFONTFLAG_BOLD, *wxWHITE);

@@ -2,7 +2,7 @@
  * @file DigitVisitor.h
  * @author Lewi Anamo
  *
- *
+ * Visitor for the Digit class
  */
 
 #ifndef TARTARUS_SUDOKULIB_DIGITVISITOR_H
@@ -12,7 +12,9 @@
 #include "Digit.h"
 #include "Xray.h"
 
-
+/**
+ * Visitor for the Digit class
+ */
 class DigitVisitor : public ItemVisitor
 {
 private:
