@@ -143,6 +143,7 @@ void Xray::Spit(int row, int col, int value)
     digit->SetColRow(row, col);
     ///Make it edible again
     digit->SetEaten(false);
+    digit->SetIsGhost(false);
 }
 
 /**

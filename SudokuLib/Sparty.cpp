@@ -216,6 +216,7 @@ void Sparty::EatAction(double elapsed)
 {
     ///Handling real eating
     auto game = GetGame();
+
     auto item = game->HitTest(GetX(), GetY());
     if (item == nullptr)
         return;
@@ -223,7 +224,8 @@ void Sparty::EatAction(double elapsed)
     GetDigitFromItem visitor;
     item->Accept(&visitor);
     auto digit = visitor.GetDigit();
-    mXray->AddDigit(digit);
+    if (!digit->GetIsGhost() || !game->GetFloatingDigitsState())
+        mXray->AddDigit(digit);
 }
 
 /**

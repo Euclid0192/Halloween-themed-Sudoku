@@ -80,15 +80,6 @@ void SudokuGameView::OnPaint(wxPaintEvent &event)
  */
 void SudokuGameView::OnLeftDown(wxMouseEvent &event)
 {
-
-    int currentLevel = mGame.GetLevel();
-
-    // If it's level 3, stop the floating digits with a click
-    if (currentLevel == 3)
-    {
-        mGame.SetFloatingDigitsState(false);
-    }
-
     mGame.OnLeftDown(event.GetX(), event.GetY());
 }
 
@@ -117,6 +108,7 @@ void SudokuGameView::LoadLevel0()
 {
     mGame.Clear();
    mLevel.Load(L"../levels/level0.xml");
+   mGame.SetFloatingDigitsState(false);
 }
 /**
  * Level load handler for level 1
@@ -126,6 +118,7 @@ void SudokuGameView::LoadLevel1()
 {
     mGame.Clear();
     mLevel.Load(L"../levels/level1.xml");
+    mGame.SetFloatingDigitsState(false);
 }
 /**
  * Level load handler for level 2
@@ -135,6 +128,7 @@ void SudokuGameView::LoadLevel2()
 {
     mGame.Clear();
     mLevel.Load(L"../levels/level2.xml");
+    mGame.SetFloatingDigitsState(false);
 }
 /**
  * Level load handler for level 3

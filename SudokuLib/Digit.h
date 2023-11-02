@@ -58,16 +58,6 @@ public:
     void SetEaten(bool state) { mEaten = state; }
 
     /**
-    * Get the row location of the digit
-    * @return row location of the digit in the game
-    */
-     int GetRow() { return Item::GetRow(); }
-    /**
-    * Get the col location of the digit
-    * @return col location of the digit in the game
-    */
-     int GetCol() { return Item::GetCol(); }
-    /**
      * Accept a visitor
      */
     void Accept(ItemVisitor *visitor) override { visitor->VisitDigit(this); };
@@ -75,7 +65,16 @@ public:
     void Update(double elapsed) override;
     bool InBoardRow(double x, double y);
     bool InBoardCol(double x, double y);
-    void Floating(double elapsed, double speedX, double speedY);
+
+    /**
+     * Get moving state
+     * @return moving state
+     */
+    bool GetIsGhost() { return mIsGhost; };
+    /**
+     * Set the state of moving
+     * @param isGhost : state to set
+     */
     void SetIsGhost(bool isGhost) {
         mIsGhost = isGhost;
     }

@@ -26,7 +26,10 @@ const double MinSpeedX = 20;
  */
 Digit::Digit(SudokuGame *game): Item(game)
 {
-
+    std::uniform_real_distribution<> distribution(MinSpeedX, MaxSpeedX);
+    mSpeedX = distribution(game->GetRandom());
+    mSpeedY = distribution(game->GetRandom());
+    mIsGhost = true;
 }
 
 /**
@@ -37,10 +40,7 @@ Digit::Digit(const Digit &digit) : Item(digit)
     SudokuGame *game = GetGame();
     mValue = digit.mValue;
     mGiven = digit.mGiven;
-
-    std::uniform_real_distribution<> distribution(MinSpeedX, MaxSpeedX);
-    mSpeedX = distribution(game->GetRandom());
-    mSpeedY = distribution(game->GetRandom());
+    mIsGhost = digit.mIsGhost;
 }
 
 /**
@@ -98,7 +98,7 @@ bool Digit::HitTest(double x, double y)
 void Digit::Update(double elapsed){
     SudokuGame *game = GetGame();
     ///If digit has been eaten, or digit is given, do nothing
-    if (!game->GetFloatingDigitsState() || mEaten || mGiven)
+    if (!game->GetFloatingDigitsState() || mEaten || mGiven || !mIsGhost)
         return;
     ///Else, handling the moving
     double gameWidth = game->GetTileWidth() * game->GetWidth();
@@ -153,24 +153,6 @@ void Digit::Update(double elapsed){
     if (mSpeedY < 0 && newY <= 0)
     {
         mSpeedY = -mSpeedY;
-    }
-}
-
-/**
- * Set new location for ghost digits
- * @param elapsed : the time elapsed
- * @param speedX : the speed on along x-axis
- * @param speedY : the speed on along y-axis
- */
-void Digit::Floating(double elapsed, double speedX, double speedY){
-    // store new position for ghost digits
-    double newX;
-    double newY;
-
-    if (mIsGhost){
-        newX = GetX() + mSpeedX * elapsed;
-        newY = GetY() + mSpeedY * elapsed;
-        SetLocation(newX,newY);
     }
 }
 

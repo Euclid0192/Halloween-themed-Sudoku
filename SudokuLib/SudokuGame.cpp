@@ -279,7 +279,7 @@ void SudokuGame::Clear()
     mScoreBoard.RefreshTime();
 }
 
-///Whoever works on this class can continue this to handle mouse click
+
 /**
 * Handle a mouse click
 * @param x X location clicked on
@@ -289,6 +289,12 @@ void SudokuGame::OnLeftDown(double x, double y)
 {
     if (mSparty == nullptr || IntroOn(IntroDuration))
         return;
+
+//    if (mFloatingDigits)
+//    {
+//        SetFloatingDigitsState(false);
+//        return;
+//    }
 
     GetBackgroundVisitor visitor;
     Accept(&visitor);
@@ -412,6 +418,11 @@ void SudokuGame::OnKeyDown(wxKeyEvent &event)
         mSparty->StartMouthTimer();
         mSparty->SetKeyCode(keyCode);
     }
+    ///Stop moving/Start moving for level 3
+    else if (mCurrentLevel == 3 && (keyCode == 'm' || keyCode == 'M'))
+    {
+        SetFloatingDigitsState(!mFloatingDigits);
+    }
 
     event.Skip();
 }
@@ -478,11 +489,38 @@ void SudokuGame::DrawIntroPage(std::shared_ptr<wxGraphicsContext> graphics){
                      wxFONTSTYLE_NORMAL,
                      wxFONTWEIGHT_BOLD);
     graphics->SetFont(smallFont, wxColour(0,0,0));
+    ///For each following text, calculate the Y location as the previous Y location plus
+    ///the height of text just drawn
 
-    graphics->GetTextExtent(L"Centered Text", &wid, &hit);
-    graphics->DrawText(L"space: Eat", 320,300);
-    graphics->DrawText(L"0-8: Regurgitate", 320,375);
-    graphics->DrawText(L"B: Headbutt", 320,450);
+    ////Eat
+    textY = textY + textHeight + introHeight / 20;
+    graphics->GetTextExtent(L"space: Eat", &textWidth, &textHeight);
+    textX = IntroX + (introWidth - textWidth) / 2;
+    graphics->DrawText(L"space: Eat", textX, textY);
+    ///Regurgitate
+    textY = textY + textHeight + introHeight / 20;
+    graphics->GetTextExtent(L"0-8: Regurgitate", &textWidth, &textHeight);
+    textX = IntroX + (introWidth - textWidth) / 2;
+    graphics->DrawText(L"0-8: Regurgitate", textX, textY);
+    ///Headbutt
+    textY = textY + textHeight + introHeight / 20;
+    graphics->GetTextExtent(L"B: Headbutt", &textWidth, &textHeight);
+    textX = IntroX + (introWidth - textWidth) / 2;
+    graphics->DrawText(L"B: Headbutt", textX, textY);
+
+    ///Start/Stop moving for level 3
+    if (mCurrentLevel == 3)
+    {
+        textY = textY + textHeight + introHeight / 20;
+        graphics->GetTextExtent(L"M: Start/Stop Moving", &textWidth, &textHeight);
+        textX = IntroX + (introWidth - textWidth) / 2;
+        graphics->DrawText(L"M: Start/Stop Moving", textX, textY);
+    }
+
+//    graphics->DrawText(L"Level " + to_wstring(mCurrentLevel) + L" Begin", textX, textY);
+//    graphics->DrawText(L"space: Eat", 320,300);
+//    graphics->DrawText(L"0-8: Regurgitate", 320,375);
+//    graphics->DrawText(L"B: Headbutt", 320,450);
 }
 
 
