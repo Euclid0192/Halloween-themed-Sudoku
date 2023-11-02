@@ -8,6 +8,7 @@
 #ifndef TARTARUS_SUDOKULIB_CONTAINER_H
 #define TARTARUS_SUDOKULIB_CONTAINER_H
 
+#include <random>
 #include "Item.h"
 
 class Container : public Item
@@ -19,6 +20,10 @@ private:
     wxGraphicsBitmap mFrontBitmap;
     ///Digits in the container
     std::vector<std::shared_ptr<Item>> mDigits;
+	/// Random number generator
+	std::mt19937 mRandom;
+
+
 public:
     ///Default constructor (disabled)
     Container() = delete;
@@ -33,18 +38,16 @@ public:
     void XmlLoadDeclaration(wxXmlNode *node) override;
     void XmlLoadItem(wxXmlNode *node) override;
     void Draw(std::shared_ptr<wxGraphicsContext> graphics) override;
+	bool HitTest(double x, double y) override;
 
 	/**
-	* Get the row location of the container
-	* @return row location of the container in the game
-	*/
-	double GetRow() override { return Item::GetRow(); }
+	 * Get the random number generator
+	 * @return Pointer to the random number generator
+	 */
+	std::mt19937 &GetRandom() {return mRandom;}
 
-	/**
-	* Get the col location of the container
-	* @return col location of the container in the game
-	*/
-	double GetCol() override { return Item::GetCol(); }
+	void Empty();
+	void Clear();
 
     /**
      * Get all the digits in the container
@@ -55,7 +58,7 @@ public:
     /**
     * Accept a visitor
     */
-    void Accept(ItemVisitor *visitor) override { visitor->VisitContainer(this); };
+    void Accept(ItemVisitor *visitor) override { visitor->VisitContainer(this); }
 };
 
 #endif //TARTARUS_SUDOKULIB_CONTAINER_H

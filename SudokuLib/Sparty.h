@@ -54,6 +54,8 @@ private:
     double mTraveled = 0;
     ///Determine when to move
     bool mMove = false;
+	/// Headbutt distance
+	double mHeadButtDistance = 0;
 
     ///Determine when to open mouth for eating
     bool mEat = false;
@@ -114,6 +116,19 @@ public:
      * @param y : distance in Y direction
      */
     void SetDistance(double distance) { mDistance = distance; };
+
+//	/**
+//	 * Set the distance of the headbutt
+//	 * @param distance : distance using speed and location
+//	 */
+//	void SetHeadButtDistance(double distance) { mHeadButtDistance = distance; }
+
+	/**
+	 * Get the distance of the headbutt
+	 * @return double : distance using speed and location
+	 */
+	double GetHeadButtDistance() const { return mHeadButtDistance; }
+
     /**
      * Set the distance we have travelled
      * @param traveled : distance we have traveled

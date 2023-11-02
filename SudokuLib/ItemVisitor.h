@@ -1,6 +1,7 @@
 /**
  * @file ItemVisitor.h
  * @author Nam Hai Nguyen
+ * @author Joanna Rodriguez Zamarron
  *
  * Base visitor
  */
@@ -15,7 +16,7 @@ class Background;
 class Container;
 
 /**
- * Base visitor
+ * Base visitor class
  */
 class ItemVisitor
 {

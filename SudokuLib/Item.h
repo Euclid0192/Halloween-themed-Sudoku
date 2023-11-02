@@ -11,6 +11,7 @@
 #include "ItemVisitor.h"
 #include<string>
 #include<memory>
+#include <wx/graphics.h>
 #include <wx/xml/xml.h>
 
 
@@ -42,6 +43,7 @@ private:
     /// The item bitmap
     wxGraphicsBitmap mBitmap;
 
+
 public:
     Item(SudokuGame *game);
     Item() = delete;
@@ -63,23 +65,22 @@ public:
      * @return height of item
      */
     int GetHeight() { return mHeight;};
-    /**
-     * Get the X location of the item
-     * @return X location of the item in the game
-     */
+	/**
+	 * Getter for row
+	 * @return row of item
+	 */
+	double GetRow() { return mRow; };
+	/**
+	 * Getter for column
+	 * @return column of item
+	 */
+	double GetCol() { return mCol; };
 
-	 /**
-     * Getter for row
-     * @return row of item
-     */
-	 virtual double GetRow() { return mRow; };
-
-	 /**
-     * Getter for column
-     * @return column of item
-     */
-	 virtual double GetCol() { return mCol; };
-    double GetX() { return mLocation.m_x;};
+	/**
+	 * Get the X location of the item
+	 * @return X location of the item in the game
+	 */
+	double GetX() { return mLocation.m_x;};
     /**
      * Get the Y location of the item
      * @return Y location of the item in the game
@@ -137,6 +138,7 @@ public:
      * @return image of the item
      */
     std::shared_ptr<wxImage> GetImage() { return mImage; }
+
     /**
      * Getter for the game this item belongs to
      * @return pointer to the game

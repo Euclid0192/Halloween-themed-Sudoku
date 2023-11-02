@@ -412,3 +412,4 @@ void SudokuGame::DrawResult(std::shared_ptr<wxGraphicsContext> graphics, string 
     graphics->DrawText(str, wid/2 ,hit/2);
 
 }
+

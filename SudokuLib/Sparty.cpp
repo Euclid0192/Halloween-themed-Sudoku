@@ -13,6 +13,7 @@
 #include "GetDigitFromItem.h"
 #include "Solver.h"
 #include "GetGridItemVisitor.h"
+#include "ContainerVisitor.h"
 
 #include<string>
 #include<cmath>
@@ -313,6 +314,8 @@ void Sparty::StartHeadButtTimer()
  */
 void Sparty::HeadButtAction(double elapsed)
 {
+	mHeadButtDistance = MaxSpeed * HeadbuttTime;
+
 	// if the headbutt timer has started
 	if (mHeadButtTimeUpdate > 0)
 	{
@@ -335,8 +338,16 @@ void Sparty::HeadButtAction(double elapsed)
 			// lets change the angle so we can go back to normal state
 			mHeadAngleUpdate = mHeadAngle *  (1 - ((percentage - 0.5) / 0.5));
 
-			//check to see if we hit a container, get the grid location of sparty
+			ContainerVisitor ContainerVisitor;
+			GetGame()->Accept(&ContainerVisitor);
 
+			for(auto container : ContainerVisitor.GetContainers())
+			{
+				if(container->HitTest(GetX(), GetY()))
+				{
+					container->Empty();
+				}
+			}
 		}
 
 		// once the timer of the headbutt ends
@@ -348,10 +359,6 @@ void Sparty::HeadButtAction(double elapsed)
 			mHeadAngleUpdate = 0;
 		}
 
-//		// if the timer hasnt ended yet
-//		else
-//		{
-//		}
 	}
 }
 

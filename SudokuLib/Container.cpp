@@ -12,6 +12,7 @@
 #include "Item.h"
 #include "SudokuGame.h"
 #include "GetDigitFromItem.h"
+#include "GetSpartyVisitor.h"
 
 using namespace std;
 
@@ -28,7 +29,9 @@ const wstring cauldron = L"images/cauldron.png";
  */
 Container::Container(SudokuGame *game) : Item(game)
 {
-
+	// Seed the random number generator
+	std::random_device rd;
+	mRandom.seed(rd());
 }
 
 /**
@@ -107,5 +110,63 @@ void Container::XmlLoadItem(wxXmlNode *node)
         item->SetLocation(item->GetX(), item->GetY() - game->GetTileHeight());
         mDigits.push_back(item);
     }
+}
+
+bool Container::HitTest(double x, double y)
+{
+	// Container's coordinates and dimensions
+	double containerX = GetX();
+	double containerY = GetY() - GetHeight(); // Adjusting for the bottom-left origin
+	double containerWidth = GetWidth();
+	double containerHeight = GetHeight();
+
+	GetSpartyVisitor GetSpartyVisitor;
+	GetGame()->Accept(&GetSpartyVisitor);
+	Sparty *sparty = GetSpartyVisitor.GetSparty();
+
+	// Check if there is no overlap between Sparty and the Container
+	if (x > containerX + containerWidth || // Sparty is to the right of the container
+		x + sparty->GetWidth() < containerX ||    // Sparty is to the left of the container
+		y > containerY + containerHeight || // Sparty is above the container
+		y + sparty->GetHeight() < containerY)      // Sparty is below the container
+	{
+		return false; // No overlap detected
+	}
+
+	return true; // Overlap detected
+}
+
+void Container::Empty()
+{
+	double scatterDistanceX = 100.0; // maximum scatter distance in x direction
+	double scatterDistanceY = 100.0; // maximum scatter distance in y direction
+
+	// Uniform distributions for x and y offsets
+	std::uniform_real_distribution<double> distributionX(-scatterDistanceX, scatterDistanceX);
+	std::uniform_real_distribution<double> distributionY(0, scatterDistanceY);
+
+	for(auto& digit : mDigits)
+	{
+		// Generate random offsets
+		double offsetX = distributionX(mRandom);
+		double offsetY = distributionY(mRandom);
+
+		// Get the current location of the digit
+		double digitX = digit->GetX();
+		double digitY = digit->GetY();
+
+		// Set the new location of the digit scattered above the container
+		digit->SetLocation(digitX - offsetX, digitY - offsetY);
+
+		GetGame()->AddItem(digit);
+	}
+
+	Clear();
+
+}
+
+void Container::Clear()
+{
+	mDigits.clear();
 }
 
