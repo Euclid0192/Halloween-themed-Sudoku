@@ -441,22 +441,38 @@ void SudokuGame::DrawIntroPage(std::shared_ptr<wxGraphicsContext> graphics){
     wxBrush rectBrush(*wxWHITE);
     graphics->SetBrush(rectBrush);
     graphics->SetPen(*wxBLACK);
-    graphics->DrawRectangle(150, 170, 600, 350);
+    //////
+    double wid = mTileWidth * mWidth;
+    double hit = mTileHeight * mHeight;
+    double introWidth = wid * 2 / 3;
+    double introHeight = hit * 2 / 3;
+    ///Calculate x and y location of the intro page based on the width and height
+    ///so that it is centered
+    double IntroX = (wid - introWidth) / 2;
+    double IntroY = (hit - introHeight) / 2;
+    //////
+    graphics->DrawRectangle(IntroX, IntroY, introWidth, introHeight);
 
     //Set the font for levels
-    wxFont bigFont(wxSize(0, 80),
+    wxFont bigFont(wxSize(0, introHeight / 5),
                    wxFONTFAMILY_SWISS,
                    wxFONTSTYLE_NORMAL,
                    wxFONTWEIGHT_BOLD);
     graphics->SetFont(bigFont, wxColour(0, 500, 0));
-    double wid = mTileWidth * mWidth;
-    double hit = mTileHeight * mHeight;
-    graphics->GetTextExtent(L"Centered Text", &wid, &hit);
+
+    ///Variables to store text width and height for calculations
+    double textWidth, textHeight;
+    ///Location to draw text to make it in the center
+    double textX, textY;
 
     //Draw different headings for different levels
-    graphics->DrawText(L"Level " + to_wstring(mCurrentLevel) + " Begin", 200, 200);
+    wstring levelIntro = L"Level " + to_wstring(mCurrentLevel) + L" Begin";
+    graphics->GetTextExtent(levelIntro, &textWidth, &textHeight);
+    textX = IntroX + (introWidth - textWidth) / 2;
+    textY = IntroY + introWidth / 10;
+    graphics->DrawText(L"Level " + to_wstring(mCurrentLevel) + L" Begin", textX, textY);
     //set front and draw instructions
-    wxFont smallFont(wxSize(0, 40),
+    wxFont smallFont(wxSize(0, introHeight / 10),
                      wxFONTFAMILY_SWISS,
                      wxFONTSTYLE_NORMAL,
                      wxFONTWEIGHT_BOLD);
