@@ -19,7 +19,6 @@ class Solver
 {
 private:
     /// Vector that holds the solution
-    //std::vector<std::vector<std::wstring>> mSolution;
     std::vector<std::vector<int>> mSolution;
     /// Holds the col in tiles
     int mCol;
@@ -47,6 +46,9 @@ public:
      */
     int GetVectorValue(int opos, int ipos) { return mSolution.at(opos).at(ipos); }
 
+    /**
+     * Clear the solution
+     */
     void Clear() { mSolution.clear();}
 };
 

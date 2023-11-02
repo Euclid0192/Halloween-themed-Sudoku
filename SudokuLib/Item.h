@@ -28,14 +28,18 @@ private:
     ///id of Declaration
     std::wstring mId;
 
-    ///Width and Height
-    int mWidth, mHeight;
+    ///Width of item
+    int mWidth;
+    ///Height of item
+    int mHeight;
 
     ///Location in the mainframe
     wxPoint2DDouble mLocation;
 
-    ///Row and column in the game
-    double mRow, mCol;
+    ///Row of item in the game
+    double mRow;
+    ///Column of item in the game
+    double mCol;
 
     /// The image for this Item
     std::shared_ptr<wxImage> mImage;
@@ -99,8 +103,8 @@ public:
     void SetLocation(double x, double y) { mLocation.m_x = x; mLocation.m_y = y; };
     /**
     * Set the row and col location of the item
-    * @param x : x coordinate
-    * @param y : y coordinate
+    * @param row : row to be set
+    * @param col : column to be set
     */
     void SetColRow(double row, double col) { mRow = row; mCol = col; }
     std::wstring GetImagesDirectory();
@@ -139,8 +143,8 @@ public:
      */
     virtual std::shared_ptr<Item> Clone() { return nullptr; };
     /**
-     * Accept a visitor
-     * @param visitor
+     * A pure virtual function to accept a visitor
+     * @param visitor : visitor to be accepted
      */
     virtual void Accept(ItemVisitor *visitor) = 0;
 

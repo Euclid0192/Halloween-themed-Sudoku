@@ -26,22 +26,27 @@ public:
     virtual ~ItemVisitor() {}
     /**
      * Visit Digit
+     * @param digit: digit we are visiting
      */
     virtual void VisitDigit(Digit *digit) {}
     /**
      * Visit Sparty
+     * @param sparty: sparty we are visiting
      */
     virtual void VisitSparty(Sparty *sparty) {}
     /**
      * Visit Xray
+     * @param xray: xray we are visiting
      */
     virtual void VisitXray(Xray *xray) {}
     /**
      * Visit Background
+     * @param background: background we are visiting
     */
     virtual void VisitBackground(Background *background) {}
     /**
      * Visit Container
+     * @param container: container we are visiting
     */
     virtual void VisitContainer(Container *container) {}
 

@@ -35,6 +35,7 @@ public:
 
     /**
      * Getter for mTime
+     * @return : the current time in decimal seconds
      */
      double GetTime(){
          return mTime;

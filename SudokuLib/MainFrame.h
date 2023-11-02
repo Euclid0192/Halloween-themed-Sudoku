@@ -20,6 +20,7 @@
 class MainFrame : public wxFrame
 {
 private:
+    /// The pointer to the game view of this game
     SudokuGameView *mGameView = nullptr;
 public:
     void Initialize();

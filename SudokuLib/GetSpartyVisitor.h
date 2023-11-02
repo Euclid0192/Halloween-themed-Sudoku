@@ -17,9 +17,19 @@
 class GetSpartyVisitor : public ItemVisitor
 {
 private:
+    ///Pointer to the Sparty we are looking for
     Sparty *mSparty = nullptr;
 public:
+    /**
+     * Get the pointer to the sparty
+     * @return pointer to the sparty
+     */
     Sparty *GetSparty() { return mSparty; }
+
+    /**
+     * Override function to visit the sparty and get its pointer
+     * @param sparty : the sparty we are visiting
+     */
     void VisitSparty(Sparty *sparty) override
     {
         mSparty = sparty;

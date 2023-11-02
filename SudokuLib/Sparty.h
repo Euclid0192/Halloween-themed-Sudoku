@@ -20,10 +20,15 @@
 class Sparty : public Item
 {
 private:
-    ///Images of Sparty
-    std::unique_ptr<wxImage> mImage1, mImage2;
-    ///Bitmaps of Sparty
-    wxGraphicsBitmap mBitmap1, mBitmap2;
+    /// First image of Sparty
+    std::unique_ptr<wxImage> mImage1;
+    /// Second image of Sparty
+    std::unique_ptr<wxImage> mImage2;
+    /// First of Sparty
+    wxGraphicsBitmap mBitmap1;
+    /// Second bitmap of Sparty
+    wxGraphicsBitmap mBitmap2;
+
     ///Speed
     wxPoint2DDouble mSpeed;
     ///Determine which one is drawn first
@@ -112,16 +117,9 @@ public:
     void SetSpeed(wxPoint2DDouble speed) { mSpeed = speed;};
     /**
      * Set the distance left needed to move
-     * @param x : distance in X direction
-     * @param y : distance in Y direction
+     * @param distance: the distance we are setting
      */
     void SetDistance(double distance) { mDistance = distance; };
-
-//	/**
-//	 * Set the distance of the headbutt
-//	 * @param distance : distance using speed and location
-//	 */
-//	void SetHeadButtDistance(double distance) { mHeadButtDistance = distance; }
 
 	/**
 	 * Get the distance of the headbutt
@@ -154,6 +152,7 @@ public:
 
     /**
      * Accept a visitor
+     * @param visitor: a visitor to be accepted
      */
     void Accept(ItemVisitor *visitor) override { visitor->VisitSparty(this); };
     /**

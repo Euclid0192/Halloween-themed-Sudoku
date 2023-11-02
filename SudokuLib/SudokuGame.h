@@ -49,11 +49,14 @@ private:
     double mYOffset = 0;
     ///Sparty
     Sparty *mSparty;
-    ///Tile width and height
+
+    ///Tile width
     int mTileWidth;
+    ///Tile height
     int mTileHeight;
-    ///width and height of the game
+    ///Width of the game in tiles
     int mWidth;
+    ///Height of the game in tiles
     int mHeight;
     ///Solver class
     Solver mSolution;
@@ -71,11 +74,10 @@ private:
 
     ///Store the current level for instruction page
     int mCurrentLevel = 0;
-
+    /// random number generator
     std::mt19937 mRandom;
     ///Determine when the digits should floating around
     bool mFloatingDigits = false;
-    bool mDigitsMoving = false;
 public:
     SudokuGame();
     /**
@@ -107,15 +109,26 @@ public:
     const std::wstring &GetImagesDirectory() const { return mImagesDirectory; }
     void SetImagesDirectory(const std::wstring &dir);
     void Accept(ItemVisitor *visitor);
+    /**
+     * Get the declaration by id
+     * @param id : id we are considering
+     * @return shared pointer to the corresponding declaration
+     */
     std::shared_ptr<Item> GetDeclaration(std::wstring id) { return mDeclarations[id]; }
+    /**
+     * Set the sparty of this game
+     * @param sparty : sparty to be set
+     */
     void SetSparty(Sparty *sparty) { mSparty = sparty; }
 
     /**
      * Get the tile Width
+     * @return the tile width
      */
     int GetTileWidth() { return mTileWidth; }
     /**
      * Get the tile height
+     * @return the tile height
      */
     int GetTileHeight() { return mTileHeight; }
     /**
@@ -158,36 +171,51 @@ public:
     void Solve() { mChecker.Solve(); }
     /**
      * Set our Level member function to the level object we made
-     * @param level
+     * @param level : level to be set
      */
     void SetLevel(Level* level) { mLevel = level; }
-
+    /**
+     * Set the correct state of the game
+     * @param correct : correction state of the game
+     */
     void SetCorrect(bool correct) { mCorrect= correct; }
+    /**
+     * Set the incorrect state of the game
+     * @param incorrect : incorrection state of the game
+     */
     void SetIncorrect(bool incorrect) { mIncorrect= incorrect; }
     void DrawResult(std::shared_ptr<wxGraphicsContext> graphics, std::wstring str);
     /**
      * When a level is completed or level is changed we update what level we are on
-     * @param level
+     * @param level : level to be set
      */
-    void SetCurrentLevel(int num){mCurrentLevel = num;}
+    void SetCurrentLevel(int level){mCurrentLevel = level;}
 
     /**
      * Getter function for current level
+     * @return the current level of the game
      */
     int GetLevel(){return mCurrentLevel;}
 
     /**
      * Getter function for random number
      * of this game
-     * @return
+     * @return a random number
      */
     std::mt19937 &GetRandom() {return mRandom;}
 
     double CheckSpartyXLoc(double x, Background* background);
     double CheckSpartyYLoc(double y, Background* background);
+    /**
+     * Get the state of the game, whether the digits are floating
+     * @return state of the game indicating floating of digits
+     */
     bool GetFloatingDigitsState() { return mFloatingDigits; };
+    /**
+     * Set the state of the game, whether the digits are floating
+     * @param state : state to be set
+     */
     void SetFloatingDigitsState(bool state) { mFloatingDigits = state; };
-    void EnableDigitMovement() { mDigitsMoving = true; }
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_GAME_H

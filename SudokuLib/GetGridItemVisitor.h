@@ -25,15 +25,18 @@ private:
 
     /// Tells us whether the Sudoku square is empty or not
     bool mGridTake = false;
+    /// The pointer to the digit we need to set
     Digit* mDigit = nullptr;
-	Container* mContainer = nullptr;
-
 public:
     /**
      * Tells us whether we found a digit that is at the location
      * @return bool
      */
     bool GetResult() { return mGridTake; }
+    /**
+     * Get the digit
+     * @return pointer to the digit we are looking for
+     */
     Digit* GetDigit() { return mDigit; }
 
     /**
@@ -43,6 +46,10 @@ public:
      */
     void SetLocation(int col, int row) { mWantedCol = col; mWantedRow = row; }
 
+    /**
+     * Override to visit digits
+     * @param digit : digit we are visiting
+     */
     void VisitDigit(Digit *digit) override
 	{
         if (digit->GetCol() == mWantedCol && digit->GetRow() == mWantedRow)

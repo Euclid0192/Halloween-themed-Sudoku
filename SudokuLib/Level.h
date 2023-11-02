@@ -42,7 +42,10 @@ public:
     void Load(const wxString &filename);
     void XmlDeclaration(wxXmlNode *node);
     void XmlItem(wxXmlNode *node);
-
+    /**
+     * Set the game that this level belongs to
+     * @param game : game that owns this level
+     */
     void SetGame(SudokuGame* game) { mGame = game; }
 
     void Save(const wxString &filename);

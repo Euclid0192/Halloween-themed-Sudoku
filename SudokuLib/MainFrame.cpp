@@ -92,18 +92,33 @@ void MainFrame::OnClose(wxCloseEvent& event)
     mGameView->Stop();
     Destroy();
 }
+
+/**
+ * Handle choosing level 0 event
+ * @param event
+ */
 void MainFrame::OnLevelZero(wxCommandEvent& event)
 {
 
     mGameView->LoadLevel0();
     mGameView->SetGameLevel(0);
 }
+
+/**
+ * Handle choosing level 1 event
+ * @param event
+ */
 void MainFrame::OnLevelOne(wxCommandEvent& event)
 {
 
     mGameView->LoadLevel1();
     mGameView->SetGameLevel(1);
 }
+
+/**
+ * Handle choosing level 2 event
+ * @param event
+ */
 void MainFrame::OnLevelTwo(wxCommandEvent& event)
 {
 
@@ -111,12 +126,20 @@ void MainFrame::OnLevelTwo(wxCommandEvent& event)
     mGameView->SetGameLevel(2);
 }
 
+/**
+ * Handle choosing level 3 event
+ * @param event
+ */
 void MainFrame::OnLevelThree(wxCommandEvent& event)
 {
     mGameView->LoadLevel3();
     mGameView->SetGameLevel(3);
 }
 
+/**
+ * Handle the File>Solve
+ * @param event
+ */
 void MainFrame::OnSolve(wxCommandEvent &event)
 {
     mGameView->Solve();

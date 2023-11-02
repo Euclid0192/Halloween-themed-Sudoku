@@ -17,6 +17,7 @@
 class GetDigitFromItem : public ItemVisitor
 {
 private:
+    ///Pointer to the digit we are looking for
     Digit *mDigit = nullptr;
 public:
     /**
@@ -24,7 +25,10 @@ public:
      * @return digit
      */
     Digit *GetDigit() { return mDigit; };
-
+    /**
+     * Override to visit digits
+     * @param digit : digit we are visiting
+     */
     void VisitDigit(Digit *digit)
     {
         mDigit = digit;

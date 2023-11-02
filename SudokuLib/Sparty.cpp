@@ -31,6 +31,7 @@ const double HeadbuttTime = 0.5;
 
 /**
  * Constructor of Sparty
+ * @param game: the game owning this Sparty
  */
 Sparty::Sparty(SudokuGame *game): Item(game)
 {
@@ -41,7 +42,7 @@ Sparty::Sparty(SudokuGame *game): Item(game)
 /**
  * Draw the Sparty
  * Override version of Draw inherited from Item
- * @param dc: device context to draw
+ * @param graphics: graphics context to draw
  */
 void Sparty::Draw(shared_ptr<wxGraphicsContext> graphics)
 {
@@ -302,7 +303,6 @@ void Sparty::MouthUpdate(double elapsed, wstring action)
 
 /**
  * Update the time of Sparty HeadButt
- * @param time : time of the event initializing
  */
 void Sparty::StartHeadButtTimer()
 {
@@ -337,7 +337,7 @@ void Sparty::HeadButtAction(double elapsed)
 		// otherwise we are at the halfway point
 		else
 		{
-			// lets change the angle so we can go back to normal state
+			// let's change the angle, so we can go back to normal state
 			mHeadAngleUpdate = mHeadAngle *  (1 - ((percentage - 0.5) / 0.5));
 
 			ContainerVisitor ContainerVisitor;
