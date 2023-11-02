@@ -17,6 +17,7 @@ using namespace std;
 const int ScoreboardTextSize = 64;
 
 /// Top left corner of the scoreboard in virtual pixels
+/// @return wxPoint for the position of the scoreboard
 const wxPoint ScoreboardTopLeft(10, 10);
 
 ///Store boolean to see if timer is running
