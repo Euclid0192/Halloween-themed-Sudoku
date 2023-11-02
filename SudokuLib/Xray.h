@@ -21,11 +21,12 @@ private:
     int mCapacity = 0;
     ///Container for digits in Xray
     std::vector<Digit*> mDigits;
+
     ///Logic to make digit not overlapping
-    int mCurX = 0, mCurY = 0;
-
-//    SudokuGame mGame;
-
+    /// Current X location in xray
+    int mCurX = 0;
+    /// Current Y location in xray
+    int mCurY = 0;
 public:
     Xray(SudokuGame *game);
     Xray() = delete;
@@ -33,6 +34,10 @@ public:
 
     void XmlLoadDeclaration(wxXmlNode *node) override;
 
+    /**
+     * Accept a visitor
+     * @param visitor : visitor to be accepted
+     */
     void Accept(ItemVisitor *visitor) override { visitor->VisitXray(this); };
     void Draw(std::shared_ptr<wxGraphicsContext> graphics);
 

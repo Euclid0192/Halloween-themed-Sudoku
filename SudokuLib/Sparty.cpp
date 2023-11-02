@@ -225,6 +225,9 @@ void Sparty::EatAction(double elapsed)
     GetDigitFromItem visitor;
     item->Accept(&visitor);
     auto digit = visitor.GetDigit();
+    if (digit == nullptr)
+        return;
+
     if (!digit->GetIsGhost() || !game->GetFloatingDigitsState())
         mXray->AddDigit(digit);
 }

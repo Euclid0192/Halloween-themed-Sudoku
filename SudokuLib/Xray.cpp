@@ -18,6 +18,7 @@ const int MaxDigitCol = 4;
 
 /**
  * Constructor
+ * @param game: the game which owns this xray
  */
 Xray::Xray(SudokuGame *game): Item(game)
 {
@@ -36,11 +37,15 @@ void Xray::XmlLoadDeclaration(wxXmlNode *node)
     mCapacity = (int) capacity;
 }
 
+/**
+ * Override draw function for xray due to offset position
+ * @param graphics : graphics context used to draw
+ */
 void Xray::Draw(shared_ptr<wxGraphicsContext> graphics)
 {
     ///Get the bitmap and image of the background
-    auto bitmap = Item::GetBitmap();
-    auto image = Item::GetImage();
+    auto bitmap = GetBitmap();
+    auto image = GetImage();
 
     ///Check if the bitmap is null
     if(bitmap.IsNull())
@@ -113,7 +118,12 @@ void Xray::Relocate(Digit *digit)
     }
 }
 
-
+/**
+ * Handler for regurgitating digits from stomach (xray)
+ * @param row : row of digit after regurgitation
+ * @param col : column of digit after regurgitation
+ * @param value : value of the regurgitated digit to look for in stomach
+ */
 void Xray::Spit(int row, int col, int value)
 {
     /// Use this for full
@@ -148,6 +158,7 @@ void Xray::Spit(int row, int col, int value)
 
 /**
 * Remove a digit from the Xray
+* @param digit pointer to the digit we need to remove
 */
 void Xray::Remove(Digit *digit)
 {

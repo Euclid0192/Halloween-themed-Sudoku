@@ -9,14 +9,16 @@
 #include "Popup.h"
 #include "SudokuGame.h"
 
+#include <string>
+
 using namespace std;
 ///Speed of popup
 const int PopupSpeed = 400;
-///Height of popup
-const int PopupHeight = 50;
 
 /**
  * Constructor
+ * @param game: the game which owns this popup
+ * @param message: the content of the popup in wstring
  */
 Popup::Popup(SudokuGame *game, wstring message) : mGame(game), mMessage(message)
 {
@@ -40,7 +42,7 @@ void Popup::Draw(shared_ptr<wxGraphicsContext> graphics)
                    wxFONTFAMILY_SWISS,
                    wxFONTSTYLE_NORMAL,
                    wxFONTWEIGHT_BOLD);
-    graphics->SetFont(bigFont, wxColour(500, 0, 0));
+    graphics->SetFont(bigFont, wxColour(244, 0, 0));
     graphics->GetTextExtent(mMessage, &textWidth, &textHeight);
     ///This location is to maintain the center position of the popup
     SetLocation((wid - textWidth - textHeight) / 2, mLocation.m_y);

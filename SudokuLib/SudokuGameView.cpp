@@ -102,7 +102,6 @@ void SudokuGameView::OnKeyDown(wxKeyEvent &event)
 }
 /**
  * Level load handler for level 0
- * @param event
  */
 void SudokuGameView::LoadLevel0()
 {
@@ -112,7 +111,6 @@ void SudokuGameView::LoadLevel0()
 }
 /**
  * Level load handler for level 1
- * @param event
  */
 void SudokuGameView::LoadLevel1()
 {
@@ -122,7 +120,6 @@ void SudokuGameView::LoadLevel1()
 }
 /**
  * Level load handler for level 2
- * @param event
  */
 void SudokuGameView::LoadLevel2()
 {
@@ -132,7 +129,6 @@ void SudokuGameView::LoadLevel2()
 }
 /**
  * Level load handler for level 3
- * @param event
  */
 void SudokuGameView::LoadLevel3()
 {
@@ -142,7 +138,6 @@ void SudokuGameView::LoadLevel3()
 }
 /**
  * Solve game handler
- * @param event
  */
 void SudokuGameView::Solve()
 {
@@ -151,7 +146,7 @@ void SudokuGameView::Solve()
 
 /**
 * Set the level for introduction page
- * @param level, the current level
+* @param level: the current level
 */
 void SudokuGameView::SetGameLevel(int level){
     mGame.SetCurrentLevel(level);

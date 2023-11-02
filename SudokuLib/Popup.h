@@ -25,8 +25,7 @@ private:
     wxPoint2DDouble mLocation;
 public:
     Popup(SudokuGame *game, std::wstring message);
-    Popup() = delete;
-    Popup(const Popup &) = delete;
+
 
     /**
      * Set the location of the item
