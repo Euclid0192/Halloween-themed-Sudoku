@@ -146,7 +146,7 @@ void SudokuGameView::Solve()
 
 /**
 * Set the level for introduction page
-* @param level: the current level
+ * @param level the current level
 */
 void SudokuGameView::SetGameLevel(int level){
     mGame.SetCurrentLevel(level);

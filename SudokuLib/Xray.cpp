@@ -18,7 +18,7 @@ const int MaxDigitCol = 4;
 
 /**
  * Constructor
- * @param game: the game which owns this xray
+ * @param game game we will be drawing on and connecting to
  */
 Xray::Xray(SudokuGame *game): Item(game)
 {
@@ -119,10 +119,10 @@ void Xray::Relocate(Digit *digit)
 }
 
 /**
- * Handler for regurgitating digits from stomach (xray)
- * @param row : row of digit after regurgitation
- * @param col : column of digit after regurgitation
- * @param value : value of the regurgitated digit to look for in stomach
+ * Performs the spitting action of the numbers from sparty's stomach
+ * @param row row location of where to spit
+ * @param col column location of where to spit
+ * @param value the value of the digit we are looking for
  */
 void Xray::Spit(int row, int col, int value)
 {
