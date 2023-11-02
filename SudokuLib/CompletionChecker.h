@@ -2,7 +2,7 @@
  * @file CompletionChecker.h
  * @author Lewi Anamo
  *
- * Checks that the game is completed
+ *  Class that checks if the game is complete and if the answers are correct
  */
 
 #ifndef TARTARUS_SUDOKULIB_COMPLETIONCHECKER_H
@@ -10,20 +10,19 @@
 
 #include "Solver.h"
 
+
 class SudokuGame;
 
 /**
- * Checks that the game is completed
- */
+*  Class that checks if the game is complete and if the answers are correct
+*/
 class CompletionChecker
 {
 private:
-    /// The game that owns this completion checker
+    ///Holds our game object which we will check
     SudokuGame* mGame;
-    /// The solution of the game
+    ///Hold the object which has our solutions
     Solver* mSolution;
-    /// Determine whether the game is completed or not
-    bool mComplete;
 
 public:
     void SetGame(SudokuGame* game);

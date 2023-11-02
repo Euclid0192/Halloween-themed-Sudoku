@@ -2,7 +2,7 @@
  * @file DigitVisitor.h
  * @author Lewi Anamo
  *
- * Visitor for the Digit class
+ *  Visits all digits and gets the digits that are outside of sudoku board
  */
 
 #ifndef TARTARUS_SUDOKULIB_DIGITVISITOR_H
@@ -11,10 +11,11 @@
 #include "ItemVisitor.h"
 #include "Digit.h"
 #include "Xray.h"
+#include "Container.h"
 
 /**
- * Visitor for the Digit class
- */
+*  Visits all digits and gets the digits that are outside of sudoku board
+*/
 class DigitVisitor : public ItemVisitor
 {
 private:

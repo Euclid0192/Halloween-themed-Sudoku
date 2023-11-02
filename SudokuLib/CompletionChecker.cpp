@@ -1,6 +1,6 @@
 /**
  * @file CompletionChecker.cpp
- * @author anamo
+ * @author Lewi Anamo
  */
 
 #include "pch.h"
@@ -70,7 +70,9 @@ void CompletionChecker::Solve()
                 digit->SetIsGhost(false);
             }
 
-
+/**
+ * Set out game object to the one we need
+ */
             ind2++;
         }
         ind1++;

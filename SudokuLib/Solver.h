@@ -3,7 +3,7 @@
  * @author yaxuan
  * @author nam nguyen
  *
- * Class for solving the game
+ * Class that holds the solutions
  */
 
 #ifndef TARTARUS_SUDOKULIB_SOLVER_H
@@ -13,12 +13,13 @@
 #include<vector>
 
 /**
- * Class for solving the game
- */
+* Class that holds the solutions
+*/
 class Solver
 {
 private:
     /// Vector that holds the solution
+    //std::vector<std::vector<std::wstring>> mSolution;
     std::vector<std::vector<int>> mSolution;
     /// Holds the col in tiles
     int mCol;
@@ -45,9 +46,8 @@ public:
      * @return in value at solution[opos][ipos]
      */
     int GetVectorValue(int opos, int ipos) { return mSolution.at(opos).at(ipos); }
-
     /**
-     * Clear the solution
+     * Clears our solution vector
      */
     void Clear() { mSolution.clear();}
 };

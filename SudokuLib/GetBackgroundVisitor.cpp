@@ -1,6 +1,6 @@
 /**
  * @file GetBackgroundVisitor.cpp
- * @author anamo
+ * @author Lewi Anamo
  */
 
 #include "pch.h"

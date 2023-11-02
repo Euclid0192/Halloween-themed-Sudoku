@@ -215,7 +215,8 @@ public:
      * Set the state of the game, whether the digits are floating
      * @param state : state to be set
      */
-    void SetFloatingDigitsState(bool state) { mFloatingDigits = state; };
+    void SetFloatingDigitsState(bool state) { mFloatingDigits = state; }
+
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_GAME_H

@@ -2,7 +2,7 @@
  * @file GetBackgroundVisitor.h
  * @author anamo
  *
- * Visitor for the Background class
+ *
  */
 
 #ifndef TARTARUS_SUDOKULIB_GETBACKGROUNDVISITOR_H
@@ -12,26 +12,26 @@
 #include "Background.h"
 
 /**
- * Visitor for the Background class
- */
+*  Visitor to get background
+*/
 class GetBackgroundVisitor : public ItemVisitor
 {
 private:
-    ///Background we need to find
+    /// Background we are looking for
     Background* mBackground = nullptr;
-    ///Height of background
+    /// Height we weill compare to get the biggest background
     int mHeight = 0;
-    ///Width of background
+    /// Width we weill compare to get the biggest background
     int mWidth = 0;
 public:
     /**
-     * Get the background
-     * @return pointer to this background
-     */
+    * Gets us the background we just found
+    * @return background
+    */
     Background* GetBackground() { return mBackground; }
     /**
-     * Override function to visit the background
-     * @param background : background we are visiting
+     * Checks if we are getting the background that is larger
+     * @param background
      */
     void VisitBackground(Background *background) override {
         if (background->GetBackgroundHeight() > mHeight && background->GetBackgroundWidth() > mWidth){
