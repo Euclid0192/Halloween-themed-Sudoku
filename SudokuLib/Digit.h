@@ -23,10 +23,11 @@ private:
     ///Whether this has been eaten or not
     bool mEaten = false;
 
-    ///The speed for ghost digit
+    ///Speed in X direction
     double mSpeedX = 25;
+    ///Speed in Y direction
     double mSpeedY = 25;
-
+    /// Determine if this digit is a ghost digit (for level 3 only)
     bool mIsGhost = false;
 
 public:
@@ -59,6 +60,7 @@ public:
 
     /**
      * Accept a visitor
+     * @param visitor: visitor to be accepted
      */
     void Accept(ItemVisitor *visitor) override { visitor->VisitDigit(this); };
     bool HitTest(double x, double y) override;

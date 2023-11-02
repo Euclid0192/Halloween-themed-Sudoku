@@ -10,7 +10,10 @@
 #include "SudokuGame.h"
 #include "GetXrayVisitor.h"
 
-
+/**
+ * Set the game that owns this completion checker
+ * @param game : pointer to the game that needs setting
+ */
 void CompletionChecker::SetGame(SudokuGame* game)
 {
     mGame = game;
@@ -64,6 +67,7 @@ void CompletionChecker::Solve()
             {
                 digit->SetLocation(x,y);
                 digit->SetColRow(i, j);
+                digit->SetIsGhost(false);
             }
 
 

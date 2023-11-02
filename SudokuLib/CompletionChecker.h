@@ -18,10 +18,11 @@ class SudokuGame;
 class CompletionChecker
 {
 private:
+    /// The game that owns this completion checker
     SudokuGame* mGame;
-
+    /// The solution of the game
     Solver* mSolution;
-
+    /// Determine whether the game is completed or not
     bool mComplete;
 
 public:

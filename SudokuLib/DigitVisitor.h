@@ -40,15 +40,19 @@ public:
 
     /**
      * Set the values we will campare with the digit values
-     * @param val
+     * @param val : value to be set
+     * @param xray : the xray of the game
+     * @param row : row we are going to set the value
+     * @param col : column we are going to set the value
+     * @param tileheight : the tile height of the game
      */
-    void SetCMPVals(int val, Xray *xray, int row, int col, int tilehieght)
+    void SetCMPVals(int val, Xray *xray, int row, int col, int tileheight)
     {
         mWantedVal = val;
         mXray = xray;
         mCheckingRow = row;
         mCheckingCol = col;
-        mTileHeight = tilehieght;
+        mTileHeight = tileheight;
     }
 
     /**

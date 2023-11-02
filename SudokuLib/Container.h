@@ -67,6 +67,7 @@ public:
 
     /**
     * Accept a visitor
+    * @param visitor: a visitor to be accepted
     */
     void Accept(ItemVisitor *visitor) override { visitor->VisitContainer(this); }
 };

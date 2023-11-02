@@ -23,7 +23,7 @@ const wxPoint ScoreboardTopLeft(10, 10);
 bool IsRunning = TRUE;
 
 /**
- * Constrcutor
+ * Constructor
  */
 ScoreBoard::ScoreBoard() {
 

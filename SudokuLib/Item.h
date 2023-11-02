@@ -114,13 +114,29 @@ public:
     virtual bool HitTest(double x, double y) { return false; };
     virtual void Draw(std::shared_ptr<wxGraphicsContext> graphics);
 
+    /**
+     * Virtual function to update items on screen
+     * @param elapsed : time since last call
+     */
     virtual void Update(double elapsed) {};
 
+    /**
+     * Save the declaration of item. Override by each specific items
+     * @param node : node we are loading from
+     */
     virtual void SaveDeclaration(wxXmlNode *node) {};
+    /**
+     * Save the item of item. Override by each specific items
+     * @param node : node we are loading from
+     */
     virtual void SaveItem(wxXmlNode *node) {};
     virtual void XmlLoadDeclaration(wxXmlNode *node);
     virtual void XmlLoadItem(wxXmlNode *node);
 
+    /**
+     * Make a clone of this item, override by each specific items
+     * @return a shared pointer to the clone of item
+     */
     virtual std::shared_ptr<Item> Clone() { return nullptr; };
     /**
      * Accept a visitor

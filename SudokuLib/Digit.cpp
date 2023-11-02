@@ -23,6 +23,7 @@ const double MinSpeedX = 20;
 
 /**
  * Constructor
+ * @param game: the game owning this digit
  */
 Digit::Digit(SudokuGame *game): Item(game)
 {
@@ -34,6 +35,7 @@ Digit::Digit(SudokuGame *game): Item(game)
 
 /**
  * Copy constructor
+ * @param digit: the digit to be cloned
  */
 Digit::Digit(const Digit &digit) : Item(digit)
 {

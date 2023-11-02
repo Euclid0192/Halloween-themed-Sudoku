@@ -10,6 +10,7 @@ using namespace std;
 
 /**
  * Constructor
+ * @param game: the game this background belongs to
  */
 Background::Background(SudokuGame *game): Item(game)
 {
@@ -23,8 +24,8 @@ Background::Background(SudokuGame *game): Item(game)
 void Background::Draw(std::shared_ptr<wxGraphicsContext> graphics)
 {
     ///Get the bitmap and image of the background
-    auto bitmap = Item::GetBitmap();
-    auto image = Item::GetImage();
+    auto bitmap = GetBitmap();
+    auto image = GetImage();
 
     ///Check if the bitmap is null
     if(bitmap.IsNull())
