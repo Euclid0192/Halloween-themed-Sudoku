@@ -174,6 +174,12 @@ void Digit::Floating(double elapsed, double speedX, double speedY){
     }
 }
 
+/**
+ * Determine if a location is in the board row range to handle bouncing at board's edges
+ * @param x : X location on screen
+ * @param y : Y location on screen
+ * @return true if in board row range, false otherwise
+ */
 bool Digit::InBoardRow(double x, double y)
 {
     SudokuGame *game = GetGame();
@@ -185,6 +191,12 @@ bool Digit::InBoardRow(double x, double y)
     return insideBoardRow;
 }
 
+/**
+ * Determine if a location is in the xray row range to handle bouncing at xray's edges
+ * @param x : X location on screen
+ * @param y : Y location on screen
+ * @return true if in board row range, false otherwise
+ */
 bool Digit::InXrayRow(double x, double y)
 {
     SudokuGame *game = GetGame();
@@ -192,14 +204,20 @@ bool Digit::InXrayRow(double x, double y)
     game->Accept(&XrayVisitor);
     Xray *xray = XrayVisitor.GetXray();
 
-    double topLeft = xray->GetRow() ;
-    double width = xray->GetWidth() / game->GetTileWidth();
-    double cur = y / game->GetTileWidth();
-    double insideXrayRow = cur >= topLeft - 1 && cur < topLeft + width;
+    double topLeftRow = (GetY() - GetHeight() * 2 / 3) / game->GetTileHeight();;
+    double curRow = y / game->GetTileHeight();
+
+    double insideXrayRow = curRow >= topLeftRow && curRow <= topLeftRow + xray->GetHeight() / game->GetTileHeight();
     return insideXrayRow;
 
 }
 
+/**
+ * Determine if a location is in the board col range to handle bouncing at board's edges
+ * @param x : X location on screen
+ * @param y : Y location on screen
+ * @return true if in board col range, false otherwise
+ */
 bool Digit::InBoardCol(double x, double y)
 {
     SudokuGame *game = GetGame();
@@ -211,7 +229,12 @@ bool Digit::InBoardCol(double x, double y)
     return insideBoardCol;
 }
 
-
+/**
+ * Determine if a location is in the xray col range for handling bouncing at xray's edges
+ * @param x : X location on screen
+ * @param y : Y location on screen
+ * @return true if in board col range, false otherwise
+ */
 bool Digit::InXrayCol(double x, double y)
 {
     SudokuGame *game = GetGame();
@@ -219,9 +242,9 @@ bool Digit::InXrayCol(double x, double y)
     game->Accept(&XrayVisitor);
     Xray *xray = XrayVisitor.GetXray();
 
-    double topLeft = xray->GetCol();
-    double height = xray->GetHeight() / game->GetTileHeight();
-    double cur = x / game->GetTileHeight();
-    double insideXrayCol = cur >= topLeft - 1 && cur < topLeft + height;
+    double topLeftCol = xray->GetCol();
+    double curCol = x / game->GetTileHeight();
+
+    double insideXrayCol = curCol >= topLeftCol && curCol <= topLeftCol + xray->GetWidth() / game->GetTileWidth();
     return insideXrayCol;
 }

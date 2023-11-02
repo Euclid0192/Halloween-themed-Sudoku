@@ -49,6 +49,7 @@ void Xray::Draw(shared_ptr<wxGraphicsContext> graphics)
     }
 
     ///Draw the background
+    ///Has to minus offset because of location from xml out of background
     graphics->DrawBitmap(bitmap,
                          GetX(),
                          GetY() - GetHeight() * 2 / 3,
