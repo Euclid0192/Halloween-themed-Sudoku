@@ -18,6 +18,7 @@ const int MaxDigitCol = 4;
 
 /**
  * Constructor
+ * @param game game we will be drawing on and connecting to
  */
 Xray::Xray(SudokuGame *game): Item(game)
 {
@@ -36,6 +37,10 @@ void Xray::XmlLoadDeclaration(wxXmlNode *node)
     mCapacity = (int) capacity;
 }
 
+/**
+ * Draws the Xray on the screen
+ * @param graphics
+ */
 void Xray::Draw(shared_ptr<wxGraphicsContext> graphics)
 {
     ///Get the bitmap and image of the background
@@ -113,7 +118,12 @@ void Xray::Relocate(Digit *digit)
     }
 }
 
-
+/**
+ * Performs the spitting action of the numbers from sparty's stomach
+ * @param row row location of where to spit
+ * @param col column location of where to spit
+ * @param value the value of the digit we are looking for
+ */
 void Xray::Spit(int row, int col, int value)
 {
     /// Use this for full
@@ -148,6 +158,7 @@ void Xray::Spit(int row, int col, int value)
 
 /**
 * Remove a digit from the Xray
+ * @param digit
 */
 void Xray::Remove(Digit *digit)
 {

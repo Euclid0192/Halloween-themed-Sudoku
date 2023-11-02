@@ -54,6 +54,8 @@ void SudokuGame::SetImagesDirectory(const wstring &dir) {
 
 /**  Draw the game
 * @param graphics The GDI+ graphics context to draw on
+* @param width the width of the screen we will be drawing
+* @param height the height of the screen we will be drawing
 */
 void SudokuGame::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int height)
 {
@@ -150,7 +152,7 @@ void SudokuGame::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, 
 }
 
 /**  Add an item to the game collections of declarations
-* @param item: new item to add
+* @param declaration : new item to add
 */
 void SudokuGame::AddDeclaration(shared_ptr<Item> declaration)
 {
@@ -527,6 +529,7 @@ void SudokuGame::DrawIntroPage(std::shared_ptr<wxGraphicsContext> graphics){
 /**
  * Draw the introduction page
  * @param graphics a wxGraphicsContext to draw
+ * @param str the string we will display
  */
 void SudokuGame::DrawResult(std::shared_ptr<wxGraphicsContext> graphics, wstring str){
 
