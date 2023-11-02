@@ -21,7 +21,7 @@ private:
     Background* mBackground = nullptr;
     /// Height we weill compare to get the biggest background
     int mHeight = 0;
-    /// Width we weill compare to get the biggest background
+    /// Width we will compare to get the biggest background
     int mWidth = 0;
 public:
     /**

@@ -26,7 +26,6 @@ private:
 public:
     Popup(SudokuGame *game, std::wstring message);
 
-
     /**
      * Set the location of the item
      * @param x : x coordinate

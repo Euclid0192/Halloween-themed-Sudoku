@@ -19,12 +19,11 @@
 class ScoreBoard
 {
 private:
-
     /// The last stopwatch time
     double mTime = 0;
 
 public:
-    ///
+    /// Constructor
     ScoreBoard();
 
     void UpdateTime(double last);
