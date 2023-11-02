@@ -43,6 +43,10 @@ set(SOURCE_FILES
         GetDigitFromItem.cpp
         ContainerVisitor.cpp
         ContainerVisitor.h
+        GetBackgroundVisitor.cpp
+        GetBackgroundVisitor.h
+        Popup.cpp
+        Popup.h
 )
 
 set(wxBUILD_PRECOMP OFF)

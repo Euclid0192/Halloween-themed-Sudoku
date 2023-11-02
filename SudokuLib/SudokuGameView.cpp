@@ -59,7 +59,7 @@ void SudokuGameView::OnPaint(wxPaintEvent &event)
 
     wxAutoBufferedPaintDC dc(this);
 
-    wxBrush background(*wxWHITE);
+    wxBrush background(*wxBLACK);
     dc.SetBackground(background);
     dc.Clear();
 
@@ -80,6 +80,15 @@ void SudokuGameView::OnPaint(wxPaintEvent &event)
  */
 void SudokuGameView::OnLeftDown(wxMouseEvent &event)
 {
+
+    int currentLevel = mGame.GetLevel();
+
+    // If it's level 3, stop the floating digits with a click
+    if (currentLevel == 3)
+    {
+        mGame.SetFloatingDigitsState(false);
+    }
+
     mGame.OnLeftDown(event.GetX(), event.GetY());
 }
 
@@ -135,6 +144,7 @@ void SudokuGameView::LoadLevel3()
 {
     mGame.Clear();
     mLevel.Load(L"../levels/level3.xml");
+    mGame.SetFloatingDigitsState(true);
 }
 /**
  * Solve game handler

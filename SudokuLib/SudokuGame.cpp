@@ -1,6 +1,6 @@
 /**
  * @file SudokuGame.cpp
- * @author Nam Hai Nguyen
+ * @author Nam Hai Nguyen ,Olivia Pal
  *
  * Implementation of SudokuGame
  */
@@ -11,6 +11,8 @@
 #include "Digit.h"
 #include "Xray.h"
 #include "Background.h"
+#include "GetBackgroundVisitor.h"
+#include "Popup.h"
 #include "GetSpartyVisitor.h"
 
 
@@ -25,9 +27,9 @@ using namespace std;
 const wstring ImagesDirectory = L"/images";
 
 ///Keep on track the duration of introduction page
-double introDuration = 0;
+double IntroDuration = 0;
 ///Keep on track the duration of introduction page
-double resultDuration = 0;
+double ResultDuration = 0;
 
 /**
  * Constructor
@@ -97,23 +99,28 @@ void SudokuGame::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, 
         item->Draw(graphics);
     }
 
+    for (auto popup: mPopups)
+    {
+        popup->Draw(graphics);
+    }
+
     //Draw the introduction page
     //and scoreboard
-    if (IntroOn(introDuration)){
+    if (IntroOn(IntroDuration)){
         DrawIntroPage(graphics);
     }
 
-    if (!IntroOn(introDuration)){
+    if (!IntroOn(IntroDuration)){
         mScoreBoard.Restart();
         mScoreBoard.Draw(graphics);
     }
 
 
-    if (mCorrect && resultDuration <= 3){
-        DrawResult(graphics, "Level Complete!");
+    if (mCorrect && ResultDuration <= 3){
+        DrawResult(graphics, L"Level Complete!");
         mScoreBoard.Stop();
 
-    } else if (mCorrect && resultDuration > 3){
+    } else if (mCorrect && ResultDuration > 3){
         if (mCurrentLevel < 3)
         {
             mCurrentLevel += 1;
@@ -128,21 +135,16 @@ void SudokuGame::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, 
 
         /// Uss oss strings to make the path to the file and load that in
     }
-    if (mIncorrect && resultDuration <= 3)
+    if (mIncorrect && ResultDuration <= 3)
     {
-        DrawResult(graphics, "Incorrect");
+        DrawResult(graphics, L"Incorrect");
         mScoreBoard.Stop();
-    } else if (mIncorrect && resultDuration > 3){
+    } else if (mIncorrect && ResultDuration > 3){
         ostringstream oss;
         oss << "../levels/level" << mCurrentLevel << ".xml";
         Clear();
         mLevel->Load(oss.str());
     }
-    if(mSpartyFull){
-        DrawResult(graphics, "I'm Full!");
-    }
-
-
 
     graphics->PopState();
 }
@@ -165,6 +167,28 @@ void SudokuGame::AddDeclaration(shared_ptr<Item> declaration)
 void SudokuGame::AddItem(shared_ptr<Item> item)
 {
     mItems.push_back(item);
+}
+
+/**
+ * Add popup to the list of popups
+ * @param message : message that we need appear on the popup
+ */
+void SudokuGame::AddPopup(wstring message)
+{
+    auto newPopup =  new Popup(this, message);
+    mPopups.push_back(newPopup);
+}
+
+/**
+ * Remove a popup from the list of popups
+ * @param popup : a pointer to popup we need to remove
+ */
+void SudokuGame::RemovePopup(Popup *popup)
+{
+    auto loc = find(mPopups.begin(), mPopups.end(), popup);
+    if (loc != mPopups.end())
+        mPopups.erase(loc);
+    delete popup;
 }
 
 /**  Test an x,y click location to see if it clicked
@@ -210,25 +234,28 @@ void SudokuGame::MoveToFront(std::shared_ptr<Item> item)
 void SudokuGame::Update(double elapsed)
 {
     ///update time for instruction page
-    introDuration += elapsed;
+    IntroDuration += elapsed;
 
     if (mCorrect || mIncorrect)
     {
-        resultDuration += elapsed;
+        ResultDuration += elapsed;
     }
 
     ///update time for scoreboard after
     /// instruction page disappear
-    if (!IntroOn(introDuration)){
+    if (!IntroOn(IntroDuration)){
         mScoreBoard.UpdateTime(elapsed);
     }
 
-    ///update time for instruction page
-    introDuration += elapsed;
 
     for (auto item : mItems)
     {
         item->Update(elapsed);
+    }
+
+    for (auto p: mPopups)
+    {
+        p->Update(elapsed);
     }
     ///Check the status of the game after each update
     mChecker.CheckCompletion();
@@ -247,8 +274,8 @@ void SudokuGame::Clear()
     mSolution.Clear();
     mCorrect = false;
     mIncorrect = false;
-    introDuration = 0;
-    resultDuration = 0;
+    IntroDuration = 0;
+    ResultDuration = 0;
     mScoreBoard.RefreshTime();
 }
 
@@ -260,8 +287,12 @@ void SudokuGame::Clear()
 */
 void SudokuGame::OnLeftDown(double x, double y)
 {
-    if (mSparty == nullptr)
+    if (mSparty == nullptr || IntroOn(IntroDuration))
         return;
+
+    GetBackgroundVisitor visitor;
+    Accept(&visitor);
+    auto background = visitor.GetBackground();
 
     ///Set the distance Sparty has traveled to 0
     mSparty->SetTraveled(0);
@@ -270,7 +301,8 @@ void SudokuGame::OnLeftDown(double x, double y)
     double oY = (y - mYOffset) / mScale;
 
     wxPoint2DDouble target(oX - mSparty->GetTargetX(), oY - mSparty->GetHeight() / 2 - mSparty->GetTargetY());
-    auto d = target - mSparty->GetLocation();
+    wxPoint2DDouble final_target(CheckSpartyXLoc(target.m_x, background), CheckSpartyYLoc(target.m_y, background));
+    auto d = final_target - mSparty->GetLocation();
     ///Calculate total distance we need to move
     double distance = d.GetVectorLength();
     mSparty->SetDistance(distance);
@@ -278,6 +310,45 @@ void SudokuGame::OnLeftDown(double x, double y)
     d.Normalize();
     mSparty->SetSpeed(d);
     mSparty->SetMoveState(true);
+}
+
+/**
+ * Checks if x position that we want to move to is in the background space
+ * @param x
+ * @param background
+ * @return double, position x to move too
+ */
+double SudokuGame::CheckSpartyXLoc(double x, Background* background){
+    auto longEnd = (background->GetX() + background->GetWidth()) - mSparty->GetWidth();
+    if (x > background->GetX() && x < longEnd)
+    {
+        return x;
+    } else if (x < background->GetX())
+    {
+        return 0;
+    } else
+    {
+        return longEnd;
+    }
+}
+
+/**
+ * Checks if y position that we want to move to is in the background space
+ * @param y
+ * @param background
+ * @return double, position y to move too
+ */
+double SudokuGame::CheckSpartyYLoc(double y, Background* background){
+    if (y < (background->GetY() - mSparty->GetHeight()/2) && y > (0 - mSparty->GetHeight()/2))
+    {
+        return y;
+    } else if (y > (background->GetY() - mSparty->GetHeight()/2))
+    {
+        return (background->GetY() - mSparty->GetHeight()/2);
+    } else
+    {
+        return (0 - mSparty->GetHeight()/2);
+    }
 }
 
 /**
@@ -317,6 +388,10 @@ void SudokuGame::Accept(ItemVisitor *visitor)
  */
 void SudokuGame::OnKeyDown(wxKeyEvent &event)
 {
+    ///If intro is on, do not handle any key press
+    if (IntroOn(IntroDuration))
+        return;
+
     auto keyCode = event.GetKeyCode();
     ///Eating digits
     if (keyCode == WXK_SPACE)
@@ -337,6 +412,7 @@ void SudokuGame::OnKeyDown(wxKeyEvent &event)
         mSparty->StartMouthTimer();
         mSparty->SetKeyCode(keyCode);
     }
+
     event.Skip();
 }
 
@@ -366,26 +442,42 @@ void SudokuGame::DrawIntroPage(std::shared_ptr<wxGraphicsContext> graphics){
     wxBrush rectBrush(*wxWHITE);
     graphics->SetBrush(rectBrush);
     graphics->SetPen(*wxBLACK);
-    graphics->DrawRectangle(150, 170, 600, 350);
+    //////
+    double wid = mTileWidth * mWidth;
+    double hit = mTileHeight * mHeight;
+    double introWidth = wid * 2 / 3;
+    double introHeight = hit * 2 / 3;
+    ///Calculate x and y location of the intro page based on the width and height
+    ///so that it is centered
+    double IntroX = (wid - introWidth) / 2;
+    double IntroY = (hit - introHeight) / 2;
+    //////
+    graphics->DrawRectangle(IntroX, IntroY, introWidth, introHeight);
 
     //Set the font for levels
-    wxFont bigFont(wxSize(0, 80),
+    wxFont bigFont(wxSize(0, introHeight / 5),
                    wxFONTFAMILY_SWISS,
                    wxFONTSTYLE_NORMAL,
                    wxFONTWEIGHT_BOLD);
     graphics->SetFont(bigFont, wxColour(0, 500, 0));
-    double wid = mTileWidth * mWidth;
-    double hit = mTileHeight * mHeight;
-    graphics->GetTextExtent(L"Centered Text", &wid, &hit);
+
+    ///Variables to store text width and height for calculations
+    double textWidth, textHeight;
+    ///Location to draw text to make it in the center
+    double textX, textY;
 
     //Draw different headings for different levels
-    graphics->DrawText(L"Level " + to_wstring(mCurrentLevel) + " Begin", 200, 200);
+    wstring levelIntro = L"Level " + to_wstring(mCurrentLevel) + L" Begin";
+    graphics->GetTextExtent(levelIntro, &textWidth, &textHeight);
+    textX = IntroX + (introWidth - textWidth) / 2;
+    textY = IntroY + introWidth / 10;
+    graphics->DrawText(L"Level " + to_wstring(mCurrentLevel) + L" Begin", textX, textY);
     //set front and draw instructions
-    wxFont smallFont(wxSize(0, 40),
+    wxFont smallFont(wxSize(0, introHeight / 10),
                      wxFONTFAMILY_SWISS,
                      wxFONTSTYLE_NORMAL,
                      wxFONTWEIGHT_BOLD);
-    graphics->SetFont(smallFont, wxColour(0,0,500));
+    graphics->SetFont(smallFont, wxColour(0,0,0));
 
     graphics->GetTextExtent(L"Centered Text", &wid, &hit);
     graphics->DrawText(L"space: Eat", 320,300);
@@ -398,7 +490,7 @@ void SudokuGame::DrawIntroPage(std::shared_ptr<wxGraphicsContext> graphics){
  * Draw the introduction page
  * @param graphics a wxGraphicsContext to draw
  */
-void SudokuGame::DrawResult(std::shared_ptr<wxGraphicsContext> graphics, string str){
+void SudokuGame::DrawResult(std::shared_ptr<wxGraphicsContext> graphics, wstring str){
 
     wxFont bigFont(wxSize(0, 80),
                    wxFONTFAMILY_SWISS,
@@ -406,10 +498,11 @@ void SudokuGame::DrawResult(std::shared_ptr<wxGraphicsContext> graphics, string 
                    wxFONTWEIGHT_BOLD);
     graphics->SetFont(bigFont, wxColour(0, 500, 0));
 
-    double wid = mTileWidth * mWidth;
-    double hit = mTileHeight * mHeight;
-//    graphics->GetTextExtent(L"Centered Text", &wid, &hit);
-    graphics->DrawText(str, wid/2 ,hit/2);
+    double gameWidth = mTileWidth * mWidth;
+    double gameHeight = mTileHeight * mHeight;
+    double textWidth, textHeight;
+    ///Get the corresponding width and height of the result
+    graphics->GetTextExtent(str, &textWidth, &textHeight);
+    graphics->DrawText(str, (gameWidth - textWidth) / 2 , (gameHeight - textHeight) /2);
 
 }
-

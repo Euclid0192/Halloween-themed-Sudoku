@@ -9,6 +9,7 @@
 #include "Digit.h"
 #include "SudokuGame.h"
 #include <random>
+#include "GetXrayVisitor.h"
 
 using namespace std;
 
@@ -40,7 +41,6 @@ Digit::Digit(const Digit &digit) : Item(digit)
     std::uniform_real_distribution<> distribution(MinSpeedX, MaxSpeedX);
     mSpeedX = distribution(game->GetRandom());
     mSpeedY = distribution(game->GetRandom());
-
 }
 
 /**
@@ -85,6 +85,7 @@ bool Digit::HitTest(double x, double y)
 
     int distX = (int)(GetX() - x);
     int distY = (int)(GetY() - tileHeight  - y);
+    ///Just add some offset so that the Sparty can eat digits little far from it
     if (distX >= tileWidth / 2 && distX <= tileWidth * 3 / 2 && abs(distY) < tileHeight / 4)
         return true;
     return false;
@@ -96,39 +97,63 @@ bool Digit::HitTest(double x, double y)
  */
 void Digit::Update(double elapsed){
     SudokuGame *game = GetGame();
+    ///If digit has been eaten, or digit is given, do nothing
+    if (!game->GetFloatingDigitsState() || mEaten || mGiven)
+        return;
+    ///Else, handling the moving
+    double gameWidth = game->GetTileWidth() * game->GetWidth();
+    double gameHeight = game->GetTileHeight() * game->GetHeight();
 
     //get the x and y position of digits
-    double x = Item::GetX();
-    double y = Item::GetY();
+    double x = GetX();
+    double y = GetY();
+    ///New Location
+    double newX = GetX() + mSpeedX * elapsed;
+    double newY = GetY() + mSpeedY * elapsed;
+    SetLocation(newX,newY);
+
+    ///When a digit is coming to enter the board
+
+    if (InBoardCol(newX, newY) && InBoardRow(x, y) && !InBoardCol(x, y))
+    {
+        mSpeedX = -mSpeedX;
+    }
+    if (InBoardRow(newX, newY) && InBoardCol(x, y) && !InBoardRow(x, y))
+    {
+        mSpeedY = -mSpeedY;
+    }
+
+    ///When a digit is coming to enter the xray
+
+    if (InXrayCol(newX, newY) && InXrayRow(x, y) && !InXrayCol(x, y))
+    {
+        mSpeedX = -mSpeedX;
+    }
+    if (InXrayRow(newX, newY) && InXrayCol(x, y) && !InXrayRow(x, y))
+    {
+        mSpeedY = -mSpeedY;
+    }
+
+
 
     //calculation for digits bounce back
     //when hit the frame edge
-    if(mSpeedX > 0 && x >= 900)
+    if (mSpeedX > 0 && newX >= gameWidth - GetWidth())
     {
         mSpeedX = -mSpeedX;
     }
-
-    else if (mSpeedX < 0 && x <= 0)
+    else if (mSpeedX < 0 && newX <= 0)
     {
         mSpeedX = -mSpeedX;
     }
-
-    if(mSpeedY > 0 && y >= 700)
+    if (mSpeedY > 0 && newY >= gameHeight - GetHeight())
     {
         mSpeedY = -mSpeedY;
     }
-
-    else if(mSpeedY < 0 && y <= 0)
+    if (mSpeedY < 0 && newY <= 0)
     {
         mSpeedY = -mSpeedY;
     }
-
-    //check if in level3 and is digits
-    if (game->GetLevel() == 3 && !mGiven){
-        mIsGhost = TRUE;
-        Floating(elapsed, mSpeedX, mSpeedY);
-    }
-
 }
 
 /**
@@ -138,7 +163,6 @@ void Digit::Update(double elapsed){
  * @param speedY : the speed on along y-axis
  */
 void Digit::Floating(double elapsed, double speedX, double speedY){
-
     // store new position for ghost digits
     double newX;
     double newY;
@@ -146,9 +170,81 @@ void Digit::Floating(double elapsed, double speedX, double speedY){
     if (mIsGhost){
         newX = GetX() + mSpeedX * elapsed;
         newY = GetY() + mSpeedY * elapsed;
+        SetLocation(newX,newY);
     }
+}
 
-    Item::SetLocation(newX,newY);
+/**
+ * Determine if a location is in the board row range to handle bouncing at board's edges
+ * @param x : X location on screen
+ * @param y : Y location on screen
+ * @return true if in board row range, false otherwise
+ */
+bool Digit::InBoardRow(double x, double y)
+{
+    SudokuGame *game = GetGame();
+    auto solution = game->GetSolution();
+
+    int rowPlay = solution->GetRow();
+    double rowCur =  y / game->GetTileWidth();
+    double insideBoardRow = rowCur >= rowPlay - 1 && rowCur < rowPlay + 9;
+    return insideBoardRow;
+}
+
+/**
+ * Determine if a location is in the xray row range to handle bouncing at xray's edges
+ * @param x : X location on screen
+ * @param y : Y location on screen
+ * @return true if in board row range, false otherwise
+ */
+bool Digit::InXrayRow(double x, double y)
+{
+    SudokuGame *game = GetGame();
+    GetXrayVisitor XrayVisitor;
+    game->Accept(&XrayVisitor);
+    Xray *xray = XrayVisitor.GetXray();
+
+    double topLeftRow = (GetY() - GetHeight() * 2 / 3) / game->GetTileHeight();;
+    double curRow = y / game->GetTileHeight();
+
+    double insideXrayRow = curRow >= topLeftRow && curRow <= topLeftRow + xray->GetHeight() / game->GetTileHeight();
+    return insideXrayRow;
 
 }
 
+/**
+ * Determine if a location is in the board col range to handle bouncing at board's edges
+ * @param x : X location on screen
+ * @param y : Y location on screen
+ * @return true if in board col range, false otherwise
+ */
+bool Digit::InBoardCol(double x, double y)
+{
+    SudokuGame *game = GetGame();
+    auto solution = game->GetSolution();
+
+    int colPlay = solution->GetCol();
+    double colCur =  x / game->GetTileHeight();
+    double insideBoardCol = colCur >= colPlay - 1 && colCur < colPlay + 9;
+    return insideBoardCol;
+}
+
+/**
+ * Determine if a location is in the xray col range for handling bouncing at xray's edges
+ * @param x : X location on screen
+ * @param y : Y location on screen
+ * @return true if in board col range, false otherwise
+ */
+bool Digit::InXrayCol(double x, double y)
+{
+    SudokuGame *game = GetGame();
+    GetXrayVisitor XrayVisitor;
+    game->Accept(&XrayVisitor);
+    Xray *xray = XrayVisitor.GetXray();
+
+    double topLeftCol = xray->GetCol();
+    double curCol = x / game->GetTileHeight();
+
+    double insideXrayCol = curCol >= topLeftCol && curCol <= topLeftCol + xray->GetWidth() / game->GetTileWidth();
+    return insideXrayCol;
+}

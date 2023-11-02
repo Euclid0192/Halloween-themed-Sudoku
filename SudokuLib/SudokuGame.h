@@ -1,6 +1,6 @@
 /**
  * @file SudokuGame.h
- * @author Nam Hai Nguyen
+ * @author Nam Hai Nguyen, Olivia Pal
  *
  * Class that implements a sudoku game
  */
@@ -15,6 +15,8 @@
 #include "Solver.h"
 #include "ScoreBoard.h"
 #include "CompletionChecker.h"
+
+#include "Popup.h"
 
 #include<string>
 #include<map>
@@ -32,6 +34,10 @@ private:
     std::vector<std::shared_ptr<Item>> mItems;
     /// Directory containing the system images
     std::wstring mImagesDirectory;
+
+
+    ///All popups
+    std::vector<Popup*> mPopups;
 
     ///Scale for virtual pixel
     double mScale = 0;
@@ -63,11 +69,11 @@ private:
 
     ///Store the current level for instruction page
     int mCurrentLevel = 0;
-    bool mSpartyFull = false;
 
     std::mt19937 mRandom;
-
-
+    ///Determine when the digits should floating around
+    bool mFloatingDigits = false;
+    bool mDigitsMoving = false;
 public:
     SudokuGame();
     /**
@@ -86,6 +92,11 @@ public:
     void Clear();
 
     void Update(double elapsed);
+
+    ///
+    void AddPopup(std::wstring message);
+    void RemovePopup(Popup *popup);
+    ///
 
     /**
      * Get the directory the images are stored in
@@ -151,17 +162,12 @@ public:
 
     void SetCorrect(bool correct) { mCorrect= correct; }
     void SetIncorrect(bool incorrect) { mIncorrect= incorrect; }
-    void DrawResult(std::shared_ptr<wxGraphicsContext> graphics, std::string str);
+    void DrawResult(std::shared_ptr<wxGraphicsContext> graphics, std::wstring str);
     /**
      * When a level is completed or level is changed we update what level we are on
      * @param level
      */
     void SetCurrentLevel(int num){mCurrentLevel = num;}
-    /**
-     * Checks if the game is complete and gets the result
-     */
-    void CheckCorrect() { mChecker.CheckCompletion(); }
-    void SetFull(bool spartyfull) {mSpartyFull = spartyfull;}
 
     /**
      * Getter function for current level
@@ -173,7 +179,13 @@ public:
      * of this game
      * @return
      */
-    std::mt19937 &GetRandom() {return mRandom;};
+    std::mt19937 &GetRandom() {return mRandom;}
+
+    double CheckSpartyXLoc(double x, Background* background);
+    double CheckSpartyYLoc(double y, Background* background);
+    bool GetFloatingDigitsState() { return mFloatingDigits; };
+    void SetFloatingDigitsState(bool state) { mFloatingDigits = state; };
+    void EnableDigitMovement() { mDigitsMoving = true; }
 };
 
 #endif //ACTIONSUDOKU_SUDOKULIB_GAME_H
