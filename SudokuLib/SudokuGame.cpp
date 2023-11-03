@@ -493,7 +493,7 @@ void SudokuGame::DrawIntroPage(std::shared_ptr<wxGraphicsContext> graphics){
                      wxFONTWEIGHT_BOLD);
     graphics->SetFont(smallFont, wxColour(0,0,0));
     ///For each following text, calculate the Y location as the previous Y location plus
-    ///the height of text just drawn
+    ///the height of text just drawn plus some blank space
 
     ////Eat
     textY = textY + textHeight + introHeight / 20;
@@ -519,11 +519,6 @@ void SudokuGame::DrawIntroPage(std::shared_ptr<wxGraphicsContext> graphics){
         textX = IntroX + (introWidth - textWidth) / 2;
         graphics->DrawText(L"M: Start/Stop Moving", textX, textY);
     }
-
-//    graphics->DrawText(L"Level " + to_wstring(mCurrentLevel) + L" Begin", textX, textY);
-//    graphics->DrawText(L"space: Eat", 320,300);
-//    graphics->DrawText(L"0-8: Regurgitate", 320,375);
-//    graphics->DrawText(L"B: Headbutt", 320,450);
 }
 
 

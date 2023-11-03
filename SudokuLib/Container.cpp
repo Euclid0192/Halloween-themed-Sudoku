@@ -16,14 +16,6 @@
 
 using namespace std;
 
-/// Get container pumpkin image
-const wstring Pumpkin = L"images/pumpkin.png";
-/// Get container pumpkin image
-const wstring PumpkinFront = L"images/pumpkin-front.png";
-
-/// Get container cauldron image
-const wstring cauldron = L"images/cauldron.png";
-
 /**
  * Constructor
  * @param game: pointer to game
@@ -43,8 +35,8 @@ void Container::Draw(shared_ptr<wxGraphicsContext> graphics)
 {
     auto wid = GetWidth(), hit = GetHeight();
     ///Get the bitmap and image of the background
-    auto bitmap = Item::GetBitmap();
-    auto image = Item::GetImage();
+    auto bitmap = GetBitmap();
+    auto image = GetImage();
 
     ///Check if the bitmap is null
     if(bitmap.IsNull())
