@@ -38,10 +38,10 @@ target_precompile_headers(${PROJECT_NAME} PRIVATE pch.h)
 # Copy images into output directory
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/images/ DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/images/)
 
-#if(APPLE)
-#    # When building for MacOS, also copy files into the bundle resources
-#    set(RESOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/City.app/Contents/Resources)
-#    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/images/ DESTINATION ${RESOURCE_DIR}/images/)
-#endif()
+if(APPLE)
+    # When building for MacOS, also copy files into the bundle resources
+    set(RESOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/City.app/Contents/Resources)
+    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/images/ DESTINATION ${RESOURCE_DIR}/images/)
+endif()
 
 add_subdirectory(Tests)
